@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 14%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 14%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 199 89% 48%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 271 81% 56%;
+    --secondary-foreground: 210 40% 98%;
+    --accent: 142 76% 36%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 330 81% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --border: 217 33% 20%;
+    --input: 217 33% 20%;
+    --ring: 199 89% 48%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground antialiased; font-family: 'Inter', sans-serif; }
+  code, pre { font-family: 'JetBrains Mono', monospace; }
+  h1, h2, h3, h4, h5, h6 { @apply font-bold tracking-tight; }
+}
+
+@layer components {
+  .gradient-text { @apply bg-clip-text text-transparent; background-image: linear-gradient(135deg, hsl(199 89% 48%), hsl(271 81% 56%)); }
+  .card-hover { transition: all 0.3s ease; }
+  .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 40px -10px hsl(0 0% 0% / 0.5); }
+  .xp-bar { @apply relative h-3 w-full overflow-hidden rounded-full bg-muted; }
+  .xp-bar-fill { @apply h-full rounded-full transition-all duration-500; background: linear-gradient(135deg, hsl(142 76% 36%), hsl(199 89% 48%)); }
+  .level-badge { @apply inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm font-bold; background: linear-gradient(135deg, hsl(199 89% 48%), hsl(271 81% 56%)); }
+}
+
+@layer utilities {
+  .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+  @keyframes pulse-glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+  .animate-float { animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+}
