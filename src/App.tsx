@@ -9,6 +9,7 @@ import Language from "./pages/Language";
 import Profile from "./pages/Profile";
 import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
+import Level from "@/pages/Level.tsx";
 import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/language/:id" element={<Language />} />
+            <Route path="/language/:id/level/:levelId" element={<Level />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="*" element={<NotFound />} />
