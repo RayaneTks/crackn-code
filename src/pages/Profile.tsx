@@ -1,37 +1,34 @@
 import { AppLayout } from "@/components/layout/AppLayout";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
-import { mockUser } from "@/data/mockUser";
 import { Card } from "@/components/ui/card";
 import { Award, TrendingUp, Calendar } from "lucide-react";
 import { useState } from "react";
 import { AvatarCustomizer, AvatarOptions } from "@/components/profile/AvatarCustomizer";
 import { Dialog, DialogTrigger, DialogContent, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 
 const Profile = () => {
   const [avatarOptions, setAvatarOptions] = useState<AvatarOptions | null>(null);
   const [open, setOpen] = useState(false);
 
+  const { user } = useAuth();
   return (
     <AppLayout>
       <div className="space-y-6">
-        <ProfileHeader user={{ ...mockUser, avatarOptions }} />
-        
-        <div className="mt-6">
-          <h2 className="text-lg font-bold mb-2">Personnaliser mon avatar</h2>
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button variant="outline" className="mt-2">Modifier mon avatar</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <h2 className="text-lg font-bold mb-4">Personnaliser mon avatar</h2>
-              <AvatarCustomizer onChange={setAvatarOptions} />
-              <DialogClose asChild>
-                <Button className="mt-4 w-full">Fermer</Button>
-              </DialogClose>
-            </DialogContent>
-          </Dialog>
-        </div>
+        {user ? (
+          <ProfileHeader user={user} />
+        ) : (
+          <Card className="p-6 bg-card border-border">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-foreground">Connectez-vous</h2>
+                <p className="text-sm text-muted-foreground">Accédez à votre profil, niveau et XP.</p>
+              </div>
+              <Button onClick={() => (window.location.href = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000") + "/auth/google")}>Se connecter</Button>
+            </div>
+          </Card>
+        )}
         
         {/* Achievements Section */}
         <Card className="p-6 bg-card border-border">

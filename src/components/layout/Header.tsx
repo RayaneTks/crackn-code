@@ -3,11 +3,13 @@ import { Home, User, Trophy, Code2, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useTheme } from "@/hooks/use-theme";
+import { useAuth } from "@/context/AuthContext";
 
 export const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { user, logout } = useAuth();
   
   const isActive = (path: string) => location.pathname === path;
   
@@ -69,6 +71,20 @@ export const Header = () => {
               <User className="w-4 h-4" />
               <span className="hidden sm:inline">Profil</span>
             </Button>
+            {user ? (
+              <Button variant="ghost" size="sm" onClick={logout} className="gap-2">
+                Se déconnecter
+              </Button>
+            ) : (
+              <Button
+                variant={isActive("/login") ? "default" : "ghost"}
+                size="sm"
+                onClick={() => navigate("/login")}
+                className="gap-2"
+              >
+                Se connecter
+              </Button>
+            )}
           </nav>
         </div>
       </div>
