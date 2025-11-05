@@ -14,7 +14,7 @@ const Home = () => {
   const navigate = useNavigate();
   const { user, loginWithGoogle } = useAuth();
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
-  
+
   return (
     <AppLayout>
       <div className="space-y-8">
@@ -38,11 +38,12 @@ const Home = () => {
           <div className="flex-1 flex justify-end items-center">
             <img src="/logo.png" alt="Logo Crack'n Code" className="w-48 h-48 object-contain drop-shadow-xl" />
           </div>
+
           {/* Decorative elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-float" />
           <div className="absolute bottom-0 left-1/4 w-48 h-48 bg-secondary/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }} />
         </div>
-        
+
         {/* User Profile */}
         {user ? (
           <ProfileHeader user={user} />
@@ -57,7 +58,7 @@ const Home = () => {
             </div>
           </Card>
         )}
-        
+
         {/* Languages Section */}
         <div>
           <div className="flex items-center gap-2 mb-6">
@@ -66,7 +67,7 @@ const Home = () => {
               Choisis ton langage
             </h2>
           </div>
-          
+
           <div className="grid gap-4 md:grid-cols-2">
             {languages.map((language) => (
               <LanguageCard
@@ -90,3 +91,4 @@ const Home = () => {
 };
 
 export default Home;
+
