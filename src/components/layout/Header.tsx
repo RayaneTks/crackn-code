@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, User, Trophy, Code2, Sun, Moon } from "lucide-react";
+import {Home, User, Trophy, Code2, Sun, Moon, LogOut, LogIn} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useTheme } from "@/hooks/use-theme";
@@ -73,6 +73,7 @@ export const Header = () => {
             </Button>
             {user ? (
               <Button variant="ghost" size="sm" onClick={logout} className="gap-2">
+                <LogOut />
                 Se déconnecter
               </Button>
             ) : (
@@ -82,6 +83,7 @@ export const Header = () => {
                 onClick={() => navigate("/login")}
                 className="gap-2"
               >
+                <LogIn />
                 Se connecter
               </Button>
             )}
