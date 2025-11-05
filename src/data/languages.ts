@@ -3,6 +3,17 @@ import {levels} from "@/data/levels.ts";
 
 export const languages: Language[] = [
   {
+    id: "html",
+    name: "HTML",
+    icon: "🧱",
+    color: "hsl(14 85% 57%)",
+    description: "Structure tes pages web en jouant",
+    currentLevel: 1,
+    completedLevels: 0,
+    totalXP: 3000,
+    earnedXP: 0,
+  },
+  {
     id: "python",
     name: "Python",
     icon: "🐍",

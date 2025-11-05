@@ -59,10 +59,8 @@ const Language = () => {
       setShowLoginPrompt(true);
       return;
     }
-    toast.info("Mini-jeu à implémenter", {
-      description: `Le niveau "${selectedLevel?.title}" sera disponible prochainement !`,
-    });
-    setSelectedLevel(null);
+    if (!selectedLevel) return;
+    navigate(`/language/${id}/level/${selectedLevel.id}`)
   };
 
   return (
