@@ -28,8 +28,8 @@ export * from "./enums.js"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more USERS
- * const uSERS = await prisma.uSER.findMany()
+ * // Fetch zero or more Languages
+ * const languages = await prisma.language.findMany()
  * ```
  * 
  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
@@ -44,17 +44,27 @@ path.join(__dirname, "query_engine-windows.dll.node")
 path.join(process.cwd(), "generated/prisma/query_engine-windows.dll.node")
 
 /**
- * Model USER
+ * Model language
  * 
  */
-export type USER = Prisma.USERModel
+export type language = Prisma.languageModel
 /**
- * Model PERSONALISATION
+ * Model personalisation
  * 
  */
-export type PERSONALISATION = Prisma.PERSONALISATIONModel
+export type personalisation = Prisma.personalisationModel
 /**
- * Model POSITION
+ * Model position
  * 
  */
-export type POSITION = Prisma.POSITIONModel
+export type position = Prisma.positionModel
+/**
+ * Model succes
+ * 
+ */
+export type succes = Prisma.succesModel
+/**
+ * Model user
+ * 
+ */
+export type user = Prisma.userModel

@@ -1,7 +1,7 @@
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Card } from "@/components/ui/card";
 import { Award, TrendingUp, Calendar, User, Trophy, Target, Pencil, Code2, Zap, BookOpen } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AvatarCustomizer, AvatarOptions } from "@/components/profile/AvatarCustomizer";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -16,16 +16,61 @@ const Profile = () => {
 
   const { user } = useAuth();
 
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
+
   const handleOpenDialog = () => {
     setTempAvatarOptions(avatarOptions);
     setOpen(true);
   };
 
+  // Charger la personnalisation au login
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/personalisation`, { credentials: "include" });
+        if (!res.ok) return;
+        const json = await res.json();
+        const db = json.personalisation || {};
+        const mapped: AvatarOptions = {
+          avatarStyle: "Circle",
+          topType: db.hair ?? "ShortHairShortFlat",
+          accessoriesType: db.accessories ?? "Blank",
+          hatColor: db.hat_colors ?? "Black",
+          hairColor: db.hair_colors ?? "Brown",
+          facialHairType: db.facial_hair_types ?? "Blank",
+          facialHairColor: db.facial_hair_colors ?? "Brown",
+          clotheType: db.clothes ?? "Hoodie",
+          clotheColor: db.clothes_colors ?? "Blue03",
+          graphicType: db.graphics ?? "Bat",
+          eyeType: db.eyes ?? "Default",
+          eyebrowType: db.eyebrows ?? "Default",
+          mouthType: db.mouth_types ?? "Smile",
+          skinColor: db.skin_colors ?? "Light",
+        };
+        setAvatarOptions(mapped);
+      } catch (err) {
+        // Ignorer silencieusement en mode dev
+      }
+    })();
+  }, [user]);
+
   const handleSaveAvatar = () => {
     if (tempAvatarOptions) {
       setAvatarOptions(tempAvatarOptions);
-      // Ici vous pouvez ajouter un appel API pour sauvegarder l'avatar
-      // await saveAvatarToServer(tempAvatarOptions);
+      // Sauvegarde en DB via API
+      (async () => {
+        try {
+          await fetch(`${API_BASE}/api/personalisation`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify(tempAvatarOptions),
+          });
+        } catch (_) {
+          // Ignorer en mode dev
+        }
+      })();
     }
     setOpen(false);
   };

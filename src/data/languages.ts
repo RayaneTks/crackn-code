@@ -45,7 +45,7 @@ export const languages: Language[] = [
     icon: "🧮",
     color: "hsl(199 89% 48%)",
     description: "Interroger et manipuler des données",
-    currentLevel: 1,
+    currentLevel: 2,
     completedLevels: 0,
     totalXP: 5000,
     earnedXP: 0,

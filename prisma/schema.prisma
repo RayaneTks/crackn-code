@@ -1,12 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -14,43 +7,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model USER {
-  id_google   String   @id
-  nom         String
-  prenom      String
-  xp_global   Int
-
-  // Relations 1-à-1
-  personnalisation PERSONALISATION?
-  position         POSITION?
-
-
+model language {
+  id       String     @id
+  position position[]
 }
 
-model PERSONALISATION {
-  id_user          String   @id
-  accessories      String?
-  hat_colors       String?
-  hair_colors      String?
-  facial_hair_types String?
+model personalisation {
+  id_user            String  @id
+  accessories        String?
+  hat_colors         String?
+  hair_colors        String?
+  facial_hair_types  String?
   facial_hair_colors String?
-  clothes          String?
-  clothes_colors   String?
-  graphics         String?
-  eyes             String?
-  eyebrows         String?
-  skin_colors      String?
-
-  // Relation vers USER
-  user USER @relation(fields: [id_user], references: [id_google], onDelete: Cascade)
-
+  clothes            String?
+  clothes_colors     String?
+  graphics           String?
+  eyes               String?
+  eyebrows           String?
+  skin_colors        String?
+  mouth_types        String?
+  hair               String?
+  user               user    @relation(fields: [id_user], references: [id_google], onDelete: Cascade, map: "PERSONALISATION_id_user_fkey")
 }
 
-model POSITION {
-  id_user        String   @id
-  id_dernier_lvl Int
+model position {
+  id              Int      @id @default(autoincrement())
+  id_user         String
+  id_level        String
+  completed_level Int      @default(0)
+  language        language @relation(fields: [id_level], references: [id], onDelete: Cascade, map: "position_ibfk_1")
+  user            user     @relation(fields: [id_user], references: [id_google], onDelete: Cascade, map: "position_ibfk_2")
 
-  // Relation vers USER
-  user USER @relation(fields: [id_user], references: [id_google], onDelete: Cascade)
+  @@index([id_level], map: "id_level")
+  @@index([id_user], map: "id_user")
+}
 
+model succes {
+  id      Int    @id @default(autoincrement())
+  image   String @db.VarChar(255)
+  id_user String
+  user    user   @relation(fields: [id_user], references: [id_google], onDelete: Cascade, map: "succes_ibfk_1")
+
+  @@index([id_user], map: "id_user")
+}
+
+model user {
+  id_google       String           @id
+  nom             String
+  prenom          String
+  xp_global       Int
+  personalisation personalisation?
+  position        position[]
+  succes          succes[]
 }

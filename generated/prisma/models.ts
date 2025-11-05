@@ -7,7 +7,9 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/USER.js'
-export type * from './models/PERSONALISATION.js'
-export type * from './models/POSITION.js'
+export type * from './models/language.js'
+export type * from './models/personalisation.js'
+export type * from './models/position.js'
+export type * from './models/succes.js'
+export type * from './models/user.js'
 export type * from './commonInputTypes.js'

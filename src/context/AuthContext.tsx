@@ -25,7 +25,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 				if (res.ok) {
 					const data = await res.json();
 					if (data?.authenticated && data?.user) {
-						setUser(data.user as UserProfile);
+						// Mapper xp_global en champs d'XP attendus par l'UI
+						const baseUser = data.user as any;
+						const xpGlobal = typeof baseUser.xp_global === "number" ? baseUser.xp_global : 0;
+						const LEVEL_SIZE = 1000; // XP requis par niveau (simple palier constant)
+						const level = Math.floor(xpGlobal / LEVEL_SIZE) + 1;
+						const currentXP = xpGlobal % LEVEL_SIZE;
+						const xpToNextLevel = LEVEL_SIZE;
+						const totalXP = xpGlobal;
+
+						const mapped: UserProfile = {
+							id: baseUser.id,
+							username: baseUser.username,
+							level,
+							currentXP,
+							xpToNextLevel,
+							totalXP,
+							completedChallenges: baseUser.completedChallenges ?? 0,
+							achievements: baseUser.achievements ?? [],
+						};
+						// Propager les options d'avatar si présentes côté serveur
+						const withAvatar = { ...(mapped as any), avatarOptions: baseUser.avatarOptions };
+						setUser(withAvatar as UserProfile);
 					} else {
 						setUser(null);
 					}

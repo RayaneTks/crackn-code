@@ -6,15 +6,34 @@ import passport from "passport";
 import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { randomUUID } from "crypto";
+import { PrismaClient } from "@prisma/client";
 
 dotenv.config();
 
 const app = express();
 const DEFAULT_PORT = Number(process.env.PORT) || 4000;
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "http://localhost:8080";
+const prisma = new PrismaClient();
 
 // In-memory user store (squelette). À remplacer par une vraie base plus tard
 const usersByGoogleId = new Map();
+
+// Valeurs par défaut de la personnalisation, alignées avec l'avatar initial du front
+const DEFAULT_PERSONALISATION_DB = {
+    accessories: "Blank",
+    hat_colors: null,
+    hair_colors: "Brown",
+    facial_hair_types: "Blank",
+    facial_hair_colors: null,
+    clothes: "Hoodie",
+    clothes_colors: "Blue03",
+    graphics: null,
+    eyes: "Default",
+    eyebrows: "Default",
+    mouth_types: "Smile",
+    skin_colors: "Light",
+    hair: null,
+};
 
 app.use(
 	cors({
@@ -63,6 +82,29 @@ if (hasGoogleCreds) {
             async (accessToken, refreshToken, profile, done) => {
                 try {
                     const googleId = profile.id;
+
+                    // Assure la présence d'un utilisateur en base: crée à la première connexion
+                    await prisma.user.upsert({
+                        where: { id_google: googleId },
+                        create: {
+                            id_google: googleId,
+                            nom: profile.name?.familyName || profile.displayName || "Inconnu",
+                            prenom: profile.name?.givenName || profile.displayName || "Utilisateur",
+                            xp_global: 0,
+                        },
+                        update: {},
+                    });
+
+                    // Crée la personnalisation par défaut si elle n'existe pas encore
+                    await prisma.personalisation.upsert({
+                        where: { id_user: googleId },
+                        create: {
+                            id_user: googleId,
+                            ...DEFAULT_PERSONALISATION_DB,
+                        },
+                        update: {},
+                    });
+
                     let user = usersByGoogleId.get(googleId);
                     if (!user) {
                         user = {
@@ -122,11 +164,34 @@ app.post("/api/logout", (req, res) => {
 });
 
 // API utilisateur
-app.get("/api/me", (req, res) => {
-	if (!req.user) {
-		return res.status(401).json({ authenticated: false });
-	}
-	return res.json({ authenticated: true, user: req.user });
+app.get("/api/me", async (req, res) => {
+    if (!req.user) {
+        return res.status(401).json({ authenticated: false });
+    }
+
+    try {
+        // Récupère xp_global depuis la base via Prisma en se basant sur l'id Google
+        const dbUser = await prisma.user.findUnique({
+            where: { id_google: req.user.googleId },
+            select: { xp_global: true },
+        });
+
+        // Récupère la personnalisation en base et la mappe vers les options d'avatar du front
+        const pers = await prisma.personalisation.findUnique({
+            where: { id_user: req.user.googleId },
+        });
+        let avatarOptions = toAvatarOptionsFromDb(pers);
+        if (!avatarOptions) {
+            avatarOptions = toAvatarOptionsFromDb(DEFAULT_PERSONALISATION_DB);
+        }
+
+        const userWithXp = { ...req.user, xp_global: dbUser?.xp_global ?? 0, avatarOptions };
+        return res.json({ authenticated: true, user: userWithXp });
+    } catch (err) {
+        console.error("/api/me prisma error:", err);
+        // En cas d'erreur DB, renvoyer quand même l'utilisateur en mémoire, xp_global=0 par défaut
+        return res.json({ authenticated: true, user: { ...req.user, xp_global: 0, avatarOptions: toAvatarOptionsFromDb(DEFAULT_PERSONALISATION_DB) } });
+    }
 });
 
 app.put("/api/user", (req, res) => {
@@ -139,6 +204,96 @@ app.put("/api/user", (req, res) => {
 		return res.json({ user });
 	}
 	return res.status(400).json({ error: "Nom d'utilisateur invalide" });
+});
+
+// Utilitaires de mapping entre DB et options d'avatar (front)
+function toAvatarOptionsFromDb(db) {
+    if (!db) return null;
+    return {
+        avatarStyle: "Circle",
+        topType: db.hair || "ShortHairShortFlat", // hair stocke le topType en DB
+        accessoriesType: db.accessories || "Blank",
+        hatColor: db.hat_colors || "Black",
+        hairColor: db.hair_colors || "Brown",
+        facialHairType: db.facial_hair_types || "Blank",
+        facialHairColor: db.facial_hair_colors || "Brown",
+        clotheType: db.clothes || "Hoodie",
+        clotheColor: db.clothes_colors || "Blue03",
+        graphicType: db.graphics || "Bat",
+        eyeType: db.eyes || "Default",
+        eyebrowType: db.eyebrows || "Default",
+        mouthType: db.mouth_types || "Smile",
+        skinColor: db.skin_colors || "Light",
+    };
+}
+
+function toDbFromAvatarOptions(opts) {
+    if (!opts) return {};
+    return {
+        accessories: opts.accessoriesType ?? null,
+        hat_colors: opts.hatColor ?? null,
+        hair_colors: opts.hairColor ?? null,
+        facial_hair_types: opts.facialHairType ?? null,
+        facial_hair_colors: opts.facialHairColor ?? null,
+        clothes: opts.clotheType ?? null,
+        clothes_colors: opts.clotheColor ?? null,
+        graphics: opts.graphicType ?? null,
+        eyes: opts.eyeType ?? null,
+        eyebrows: opts.eyebrowType ?? null,
+        mouth_types: opts.mouthType ?? null,
+        skin_colors: opts.skinColor ?? null,
+        hair: opts.topType ?? null,
+    };
+}
+
+// Routes de personnalisation
+app.get("/api/personalisation", async (req, res) => {
+    if (!req.user) return res.status(401).json({ error: "Unauthorized" });
+    try {
+        const db = await prisma.personalisation.findUnique({
+            where: { id_user: req.user.googleId },
+        });
+        if (!db) {
+            // Retourne des valeurs par défaut si aucune personnalisation en DB
+            return res.json({ personalisation: DEFAULT_PERSONALISATION_DB });
+        }
+        return res.json({ personalisation: db });
+    } catch (err) {
+        console.error("GET /api/personalisation error:", err);
+        return res.status(500).json({ error: "Server error" });
+    }
+});
+
+app.post("/api/personalisation", async (req, res) => {
+    if (!req.user) return res.status(401).json({ error: "Unauthorized" });
+    try {
+        const data = toDbFromAvatarOptions(req.body || {});
+        const saved = await prisma.personalisation.upsert({
+            where: { id_user: req.user.googleId },
+            create: { id_user: req.user.googleId, ...data },
+            update: data,
+        });
+        return res.json({ personalisation: saved });
+    } catch (err) {
+        console.error("POST /api/personalisation error:", err);
+        return res.status(500).json({ error: "Server error" });
+    }
+});
+
+app.put("/api/personalisation", async (req, res) => {
+    if (!req.user) return res.status(401).json({ error: "Unauthorized" });
+    try {
+        const data = toDbFromAvatarOptions(req.body || {});
+        const saved = await prisma.personalisation.upsert({
+            where: { id_user: req.user.googleId },
+            create: { id_user: req.user.googleId, ...data },
+            update: data,
+        });
+        return res.json({ personalisation: saved });
+    } catch (err) {
+        console.error("PUT /api/personalisation error:", err);
+        return res.status(500).json({ error: "Server error" });
+    }
 });
 
 app.get("/health", (_req, res) => {
