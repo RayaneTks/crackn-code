@@ -38,6 +38,8 @@ export function HtmlBuilderRunner({
   levelTitle?: string;
 }) {
   const [code, setCode] = useState<string>(game.starter);
+  const [hintCount, setHintCount] = useState<number>(0);
+  const MAX_HINTS = 3; // Limite de 3 indices
 
   const goalChecks = useMemo(() => {
     try {
@@ -62,29 +64,54 @@ export function HtmlBuilderRunner({
   const srcDoc = code;
 
   const insertTemplate = () => {
-    const tmpl = `<!DOCTYPE html>\n<html>\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Mon premier document</title>\n  </head>\n  <body>\n    <h1>Mon titre</h1>\n    <p>Ceci est un paragraphe d'exemple.</p>\n    <a href=\"https://developer.mozilla.org/\">Découvrir MDN</a>\n  </body>\n</html>`;
-    setCode(tmpl);
+    try {
+      const tmpl = `<!DOCTYPE html>\n<html>\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Mon premier document</title>\n  </head>\n  <body>\n    <h1>Mon titre</h1>\n    <p>Ceci est un paragraphe d'exemple.</p>\n    <a href=\"https://developer.mozilla.org/\">Découvrir MDN</a>\n  </body>\n</html>`;
+      // Vérifie que le template est valide avant de l'insérer
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(tmpl, "text/html");
+      if (doc.querySelector("parsererror")) {
+        toast.error("Erreur lors de l'insertion du modèle");
+        return;
+      }
+      setCode(tmpl);
+      toast.success("Modèle complet inséré avec succès");
+    } catch (err) {
+      console.error("Erreur lors de l'insertion du modèle:", err);
+      toast.error("Erreur lors de l'insertion du modèle");
+    }
   };
 
   const insertHintForCurrent = () => {
-    if (!currentGoal) return;
+    if (!currentGoal || hintCount >= MAX_HINTS) {
+      if (hintCount >= MAX_HINTS) {
+        toast.error(`Vous avez atteint la limite de ${MAX_HINTS} indices !`);
+      }
+      return;
+    }
+    
+    let inserted = false;
     if (currentGoal.selector === "h1") {
       if (!/\<h1[\s\S]*?\<\/h1\>/.test(code)) {
         setCode(code.replace("</body>", "    <h1>Mon titre</h1>\n  </body>"));
-        return;
+        inserted = true;
       }
-    }
-    if (currentGoal.selector === "p") {
+    } else if (currentGoal.selector === "p") {
       if (!/\<p[\s\S]*?\<\/p\>/.test(code)) {
         setCode(code.replace("</body>", "    <p>Un paragraphe d'exemple</p>\n  </body>"));
-        return;
+        inserted = true;
       }
-    }
-    if (currentGoal.selector === "a[href]") {
+    } else if (currentGoal.selector === "a[href]") {
       if (!/\<a[^>]*href=/.test(code)) {
         setCode(code.replace("</body>", "    <a href=\"https://example.com\">Un lien</a>\n  </body>"));
-        return;
+        inserted = true;
       }
+    }
+    
+    if (inserted) {
+      setHintCount(prev => prev + 1);
+      toast.info(`Indice ${hintCount + 1}/${MAX_HINTS} utilisé`);
+    } else {
+      toast.info("Cet élément est déjà présent dans votre code");
     }
   };
 
@@ -190,8 +217,18 @@ export function HtmlBuilderRunner({
                   <span>Tous les objectifs sont validés, tu peux valider le niveau.</span>
                 )}
               </div>
-              <div className="mt-2">
-                <Button size="sm" variant="secondary" onClick={insertHintForCurrent} disabled={!currentGoal}>Insérer un indice</Button>
+              <div className="mt-2 flex items-center gap-2">
+                <Button 
+                  size="sm" 
+                  variant="secondary" 
+                  onClick={insertHintForCurrent} 
+                  disabled={!currentGoal || hintCount >= MAX_HINTS}
+                >
+                  Insérer un indice ({hintCount}/{MAX_HINTS})
+                </Button>
+                {hintCount >= MAX_HINTS && (
+                  <span className="text-xs text-muted-foreground">Limite atteinte</span>
+                )}
               </div>
             </Card>
           </TabsContent>

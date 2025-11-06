@@ -48,7 +48,12 @@ app.use(
 		secret: process.env.SESSION_SECRET || "devlingo-secret",
 		resave: false,
 		saveUninitialized: false,
-		cookie: { secure: false },
+		cookie: { 
+			secure: process.env.NODE_ENV === "production", // HTTPS en production
+			httpOnly: true, // Empêche l'accès JavaScript au cookie
+			maxAge: 30 * 24 * 60 * 60 * 1000, // 30 jours en millisecondes
+			sameSite: "lax", // Protection CSRF
+		},
 	})
 );
 
@@ -348,8 +353,11 @@ app.post("/api/languages/:languageId/complete", async (req, res) => {
 			},
 		});
 		
-		// Met à jour l'XP global de l'utilisateur
-		if (typeof xpReward === "number" && xpReward > 0) {
+		// Met à jour l'XP global de l'utilisateur UNIQUEMENT si le niveau n'a pas déjà été complété
+		// Vérifie si ce niveau a déjà été complété avant
+		const wasAlreadyCompleted = existingPosition && existingPosition.completed_level >= levelNumber;
+		
+		if (typeof xpReward === "number" && xpReward > 0 && !wasAlreadyCompleted) {
 			await prisma.user.update({
 				where: { id_google: req.user.googleId },
 				data: {
@@ -411,15 +419,39 @@ app.get("/api/leaderboard", async (req, res) => {
 			},
 		});
 		
+		// Récupère les personnalisations pour les avatars
+		const userIds = topUsers.map(u => u.id_google);
+		const personalisations = await prisma.personalisation.findMany({
+			where: { id_user: { in: userIds } },
+		});
+		const persMap = new Map(personalisations.map(p => [p.id_user, p]));
+		
 		const LEVEL_SIZE = 1000;
 		const leaderboard = topUsers.map((user, index) => {
 			const level = Math.floor(user.xp_global / LEVEL_SIZE) + 1;
+			const pers = persMap.get(user.id_google);
 			return {
 				rank: index + 1,
 				id: user.id_google,
 				username: `${user.prenom} ${user.nom}`,
 				level,
 				xp: user.xp_global,
+				avatarOptions: pers ? {
+					avatarStyle: "Circle",
+					topType: pers.hair || "ShortHairShortFlat",
+					accessoriesType: pers.accessories || "Blank",
+					hatColor: pers.hat_colors || "Black",
+					hairColor: pers.hair_colors || "Brown",
+					facialHairType: pers.facial_hair_types || "Blank",
+					facialHairColor: pers.facial_hair_colors || "Brown",
+					clotheType: pers.clothes || "Hoodie",
+					clotheColor: pers.clothes_colors || "Blue03",
+					graphicType: pers.graphics || "Bat",
+					eyeType: pers.eyes || "Default",
+					eyebrowType: pers.eyebrows || "Default",
+					mouthType: pers.mouth_types || "Smile",
+					skinColor: pers.skin_colors || "Light",
+				} : null,
 			};
 		});
 		

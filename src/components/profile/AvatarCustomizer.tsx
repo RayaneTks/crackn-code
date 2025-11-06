@@ -403,6 +403,7 @@ export function AvatarCustomizer({
                 </SelectContent>
               </Select>
             </div>
+            {/* Toujours afficher la couleur des vêtements, même pour les blazers */}
             <div>
               <label className="block mb-1 text-sm font-medium">Couleur vêtements</label>
               <Select value={options.clotheColor} onValueChange={v => handleChange("clotheColor", v)}>

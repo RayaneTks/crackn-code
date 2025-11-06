@@ -1,7 +1,7 @@
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Card } from "@/components/ui/card";
 import { Award, TrendingUp, Calendar, User, Trophy, Target, Pencil, Code2, Zap, BookOpen } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AvatarCustomizer, AvatarOptions } from "@/components/profile/AvatarCustomizer";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -9,22 +9,21 @@ import { useAuth } from "@/context/AuthContext";
 import { PirateAnchor } from "@/components/ui/pirate/PirateAnchor";
 import { Avataaars } from "@/components/ui/Avataaars";
 import { toast } from "sonner";
+import { usePersonalisation } from "@/hooks/usePersonalisation";
+import { useActivities } from "@/hooks/useActivities";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Profile = () => {
-  const [avatarOptions, setAvatarOptions] = useState<AvatarOptions | null>(null);
   const [open, setOpen] = useState(false);
   const [tempAvatarOptions, setTempAvatarOptions] = useState<AvatarOptions | null>(null);
-  const [activities, setActivities] = useState<Array<{
-    id: number;
-    language_id: string;
-    level_title: string;
-    xp_earned: number;
-    created_at: string;
-  }>>([]);
 
   const { user } = useAuth();
-
+  const queryClient = useQueryClient();
   const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
+
+  // Utilise les hooks React Query pour récupérer les données avec actualisation automatique
+  const { data: avatarOptions = null } = usePersonalisation(!!user);
+  const { data: activities = [] } = useActivities(!!user);
 
   // Fonction pour formater le temps écoulé
   const getTimeAgo = (date: Date): string => {
@@ -43,66 +42,23 @@ const Profile = () => {
     setOpen(true);
   };
 
-  // Charger la personnalisation au login
-  useEffect(() => {
-    if (!user) return;
-    (async () => {
-      try {
-        const res = await fetch(`${API_BASE}/api/personalisation`, { credentials: "include" });
-        if (!res.ok) return;
-        const json = await res.json();
-        const db = json.personalisation || {};
-        const mapped: AvatarOptions = {
-          avatarStyle: "Circle",
-          topType: db.hair ?? "ShortHairShortFlat",
-          accessoriesType: db.accessories ?? "Blank",
-          hatColor: db.hat_colors ?? "Black",
-          hairColor: db.hair_colors ?? "Brown",
-          facialHairType: db.facial_hair_types ?? "Blank",
-          facialHairColor: db.facial_hair_colors ?? "Brown",
-          clotheType: db.clothes ?? "Hoodie",
-          clotheColor: db.clothes_colors ?? "Blue03",
-          graphicType: db.graphics ?? "Bat",
-          eyeType: db.eyes ?? "Default",
-          eyebrowType: db.eyebrows ?? "Default",
-          mouthType: db.mouth_types ?? "Smile",
-          skinColor: db.skin_colors ?? "Light",
-        };
-        setAvatarOptions(mapped);
-      } catch (err) {
-        // Ignorer silencieusement en mode dev
-      }
-    })();
-  }, [user]);
-
-  // Charger les activités récentes
-  useEffect(() => {
-    if (!user) return;
-    (async () => {
-      try {
-        const res = await fetch(`${API_BASE}/api/activities`, { credentials: "include" });
-        if (res.ok) {
-          const data = await res.json();
-          setActivities(data.activities || []);
-        }
-      } catch (err) {
-        console.error("Erreur lors du chargement des activités:", err);
-      }
-    })();
-  }, [user]);
-
   const handleSaveAvatar = () => {
     if (tempAvatarOptions) {
-      setAvatarOptions(tempAvatarOptions);
       // Sauvegarde en DB via API
       (async () => {
         try {
-          await fetch(`${API_BASE}/api/personalisation`, {
+          const res = await fetch(`${API_BASE}/api/personalisation`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             body: JSON.stringify(tempAvatarOptions),
           });
+          if (res.ok) {
+            // Invalide les queries pour forcer l'actualisation
+            queryClient.invalidateQueries({ queryKey: ["personalisation"] });
+            queryClient.invalidateQueries({ queryKey: ["user"] }); // L'avatar est aussi dans les données utilisateur
+            toast.success("Avatar sauvegardé avec succès !");
+          }
         } catch (_) {
           // Ignorer en mode dev
         }
@@ -133,7 +89,7 @@ const Profile = () => {
   }
 
   const xpPercentage = (user.currentXP / user.xpToNextLevel) * 100;
-  const avatarProps = avatarOptions || user.avatarOptions || {
+  const avatarProps = avatarOptions || (user as any).avatarOptions || {
     avatarStyle: "Circle",
     topType: "ShortHairShortFlat",
     accessoriesType: "Blank",
@@ -253,7 +209,7 @@ const Profile = () => {
                   <div className="text-4xl mb-3">{achievement || "🏆"}</div>
                   <h3 className="font-bold text-foreground mb-2">Succès débloqué</h3>
                   <p className="text-sm text-muted-foreground">Félicitations pour cet accomplissement !</p>
-                </div>
+            </div>
               ))}
             </div>
           ) : (
@@ -278,15 +234,15 @@ const Profile = () => {
                     <div className="p-2 rounded-full bg-primary/20">
                       <Calendar className="w-5 h-5 text-primary" />
                     </div>
-                    <div className="flex-1">
+              <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <Code2 className="w-4 h-4 text-muted-foreground" />
                         <p className="text-sm font-medium text-foreground">{activity.level_title}</p>
                       </div>
                       <p className="text-xs text-muted-foreground">Complété {timeAgo}</p>
-                    </div>
+              </div>
                     <span className="text-accent font-bold text-lg">+{activity.xp_earned} XP</span>
-                  </div>
+            </div>
                 );
               })
             ) : (
