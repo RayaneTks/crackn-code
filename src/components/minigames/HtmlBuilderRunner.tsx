@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CheckCircle2, XCircle, Lightbulb } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
 
 type HtmlGoal = {
   id: string;
@@ -19,8 +22,24 @@ type HtmlBuilderGame = {
   goals: HtmlGoal[];
 };
 
-export function HtmlBuilderRunner({ game, onExit }: { game: HtmlBuilderGame; onExit?: () => void }) {
+export function HtmlBuilderRunner({ 
+  game, 
+  onExit,
+  languageId,
+  levelNumber,
+  xpReward,
+  levelTitle,
+}: { 
+  game: HtmlBuilderGame; 
+  onExit?: () => void;
+  languageId?: string;
+  levelNumber?: number;
+  xpReward?: number;
+  levelTitle?: string;
+}) {
   const [code, setCode] = useState<string>(game.starter);
+  const [hintCount, setHintCount] = useState<number>(0);
+  const MAX_HINTS = 3; // Limite de 3 indices
 
   const goalChecks = useMemo(() => {
     try {
@@ -45,29 +64,97 @@ export function HtmlBuilderRunner({ game, onExit }: { game: HtmlBuilderGame; onE
   const srcDoc = code;
 
   const insertTemplate = () => {
-    const tmpl = `<!DOCTYPE html>\n<html>\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Mon premier document</title>\n  </head>\n  <body>\n    <h1>Mon titre</h1>\n    <p>Ceci est un paragraphe d'exemple.</p>\n    <a href=\"https://developer.mozilla.org/\">Découvrir MDN</a>\n  </body>\n</html>`;
-    setCode(tmpl);
+    try {
+      const tmpl = `<!DOCTYPE html>\n<html>\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Mon premier document</title>\n  </head>\n  <body>\n    <h1>Mon titre</h1>\n    <p>Ceci est un paragraphe d'exemple.</p>\n    <a href=\"https://developer.mozilla.org/\">Découvrir MDN</a>\n  </body>\n</html>`;
+      // Vérifie que le template est valide avant de l'insérer
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(tmpl, "text/html");
+      if (doc.querySelector("parsererror")) {
+        toast.error("Erreur lors de l'insertion du modèle");
+        return;
+      }
+      setCode(tmpl);
+      toast.success("Modèle complet inséré avec succès");
+    } catch (err) {
+      console.error("Erreur lors de l'insertion du modèle:", err);
+      toast.error("Erreur lors de l'insertion du modèle");
+    }
   };
 
   const insertHintForCurrent = () => {
-    if (!currentGoal) return;
+    if (!currentGoal || hintCount >= MAX_HINTS) {
+      if (hintCount >= MAX_HINTS) {
+        toast.error(`Vous avez atteint la limite de ${MAX_HINTS} indices !`);
+      }
+      return;
+    }
+    
+    let inserted = false;
     if (currentGoal.selector === "h1") {
       if (!/\<h1[\s\S]*?\<\/h1\>/.test(code)) {
         setCode(code.replace("</body>", "    <h1>Mon titre</h1>\n  </body>"));
-        return;
+        inserted = true;
       }
-    }
-    if (currentGoal.selector === "p") {
+    } else if (currentGoal.selector === "p") {
       if (!/\<p[\s\S]*?\<\/p\>/.test(code)) {
         setCode(code.replace("</body>", "    <p>Un paragraphe d'exemple</p>\n  </body>"));
-        return;
+        inserted = true;
       }
-    }
-    if (currentGoal.selector === "a[href]") {
+    } else if (currentGoal.selector === "a[href]") {
       if (!/\<a[^>]*href=/.test(code)) {
         setCode(code.replace("</body>", "    <a href=\"https://example.com\">Un lien</a>\n  </body>"));
-        return;
+        inserted = true;
       }
+    }
+    
+    if (inserted) {
+      setHintCount(prev => prev + 1);
+      toast.info(`Indice ${hintCount + 1}/${MAX_HINTS} utilisé`);
+    } else {
+      toast.info("Cet élément est déjà présent dans votre code");
+    }
+  };
+
+  const handleCompleteLevel = async () => {
+    if (!allOk || !languageId || !levelNumber) {
+      toast.error("Impossible de valider le niveau");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/api/languages/${languageId}/complete`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          levelNumber,
+          xpReward: xpReward || 0,
+          levelTitle: levelTitle || `${languageId?.charAt(0).toUpperCase() + languageId?.slice(1)} - Niveau ${levelNumber}`,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        toast.success(`Niveau complété ! +${xpReward || 0} XP`);
+        
+        // Affiche les nouveaux succès débloqués
+        if (data.newAchievements && data.newAchievements.length > 0) {
+          setTimeout(() => {
+            data.newAchievements.forEach((achievement: string) => {
+              toast.success(`🎉 Nouveau succès débloqué ! ${achievement}`);
+            });
+          }, 500);
+        }
+        
+        if (onExit) {
+          setTimeout(() => onExit(), 1500);
+        }
+      } else {
+        toast.error("Erreur lors de la validation du niveau");
+      }
+    } catch (err) {
+      console.error("Erreur lors de la complétion du niveau:", err);
+      toast.error("Erreur lors de la validation du niveau");
     }
   };
 
@@ -130,8 +217,18 @@ export function HtmlBuilderRunner({ game, onExit }: { game: HtmlBuilderGame; onE
                   <span>Tous les objectifs sont validés, tu peux valider le niveau.</span>
                 )}
               </div>
-              <div className="mt-2">
-                <Button size="sm" variant="secondary" onClick={insertHintForCurrent} disabled={!currentGoal}>Insérer un indice</Button>
+              <div className="mt-2 flex items-center gap-2">
+                <Button 
+                  size="sm" 
+                  variant="secondary" 
+                  onClick={insertHintForCurrent} 
+                  disabled={!currentGoal || hintCount >= MAX_HINTS}
+                >
+                  Insérer un indice ({hintCount}/{MAX_HINTS})
+                </Button>
+                {hintCount >= MAX_HINTS && (
+                  <span className="text-xs text-muted-foreground">Limite atteinte</span>
+                )}
               </div>
             </Card>
           </TabsContent>
@@ -144,13 +241,13 @@ export function HtmlBuilderRunner({ game, onExit }: { game: HtmlBuilderGame; onE
             value={code}
             onChange={(e) => setCode(e.target.value)}
           />
-          <div className="flex justify-between items-center p-3 border-t border-border">
-            <div className="text-sm text-muted-foreground">{allOk ? "Tous les objectifs sont validés ✅" : "Complète les objectifs pour valider"}</div>
-            <div className="flex gap-2">
-              {onExit && <Button variant="ghost" onClick={onExit}>Quitter</Button>}
-              <Button disabled={!allOk} onClick={onExit}>Valider le niveau</Button>
+            <div className="flex justify-between items-center p-3 border-t border-border">
+              <div className="text-sm text-muted-foreground">{allOk ? "Tous les objectifs sont validés ✅" : "Complète les objectifs pour valider"}</div>
+              <div className="flex gap-2">
+                {onExit && <Button variant="ghost" onClick={onExit}>Quitter</Button>}
+                <Button disabled={!allOk} onClick={handleCompleteLevel}>Valider le niveau</Button>
+              </div>
             </div>
-          </div>
         </Card>
       </div>
 

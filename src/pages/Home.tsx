@@ -1,19 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
-import { LanguageCard } from "@/components/language/LanguageCard";
-import { languages } from "@/data/languages";
+import { LanguageCarousel } from "@/components/language/LanguageCarousel";
 import { Code2, Sparkles } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { LoginPrompt } from "@/components/auth/LoginPrompt";
+import { useLanguagesData } from "@/hooks/useLanguagesData";
 
 const Home = () => {
   const navigate = useNavigate();
   const { user, loginWithGoogle } = useAuth();
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  
+  // Utilise le hook React Query pour récupérer les langages avec actualisation automatique
+  const { data: languages = [] } = useLanguagesData(!!user);
 
   return (
     <AppLayout>
@@ -68,21 +71,16 @@ const Home = () => {
             </h2>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            {languages.map((language) => (
-              <LanguageCard
-                key={language.id}
-                language={language}
-                onClick={() => {
-                  if (!user) {
-                    setShowLoginPrompt(true);
-                    return;
-                  }
-                  navigate(`/language/${language.id}`);
-                }}
-              />
-            ))}
-          </div>
+          <LanguageCarousel
+            languages={languages}
+            onLanguageSelect={(language) => {
+              if (!user) {
+                setShowLoginPrompt(true);
+                return;
+              }
+              navigate(`/language/${language.id}`);
+            }}
+          />
         </div>
       </div>
       <LoginPrompt open={showLoginPrompt} onOpenChange={setShowLoginPrompt} />

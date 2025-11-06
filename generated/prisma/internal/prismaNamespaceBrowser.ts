@@ -48,9 +48,11 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
-  USER: 'USER',
-  PERSONALISATION: 'PERSONALISATION',
-  POSITION: 'POSITION'
+  language: 'language',
+  personalisation: 'personalisation',
+  position: 'position',
+  succes: 'succes',
+  user: 'user'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -69,17 +71,14 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const USERScalarFieldEnum = {
-  id_google: 'id_google',
-  nom: 'nom',
-  prenom: 'prenom',
-  xp_global: 'xp_global'
+export const LanguageScalarFieldEnum = {
+  id: 'id'
 } as const
 
-export type USERScalarFieldEnum = (typeof USERScalarFieldEnum)[keyof typeof USERScalarFieldEnum]
+export type LanguageScalarFieldEnum = (typeof LanguageScalarFieldEnum)[keyof typeof LanguageScalarFieldEnum]
 
 
-export const PERSONALISATIONScalarFieldEnum = {
+export const PersonalisationScalarFieldEnum = {
   id_user: 'id_user',
   accessories: 'accessories',
   hat_colors: 'hat_colors',
@@ -94,15 +93,36 @@ export const PERSONALISATIONScalarFieldEnum = {
   skin_colors: 'skin_colors'
 } as const
 
-export type PERSONALISATIONScalarFieldEnum = (typeof PERSONALISATIONScalarFieldEnum)[keyof typeof PERSONALISATIONScalarFieldEnum]
+export type PersonalisationScalarFieldEnum = (typeof PersonalisationScalarFieldEnum)[keyof typeof PersonalisationScalarFieldEnum]
 
 
-export const POSITIONScalarFieldEnum = {
+export const PositionScalarFieldEnum = {
+  id: 'id',
   id_user: 'id_user',
-  id_dernier_lvl: 'id_dernier_lvl'
+  id_level: 'id_level',
+  completed_level: 'completed_level'
 } as const
 
-export type POSITIONScalarFieldEnum = (typeof POSITIONScalarFieldEnum)[keyof typeof POSITIONScalarFieldEnum]
+export type PositionScalarFieldEnum = (typeof PositionScalarFieldEnum)[keyof typeof PositionScalarFieldEnum]
+
+
+export const SuccesScalarFieldEnum = {
+  id: 'id',
+  image: 'image',
+  id_user: 'id_user'
+} as const
+
+export type SuccesScalarFieldEnum = (typeof SuccesScalarFieldEnum)[keyof typeof SuccesScalarFieldEnum]
+
+
+export const UserScalarFieldEnum = {
+  id_google: 'id_google',
+  nom: 'nom',
+  prenom: 'prenom',
+  xp_global: 'xp_global'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -113,13 +133,11 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const USEROrderByRelevanceFieldEnum = {
-  id_google: 'id_google',
-  nom: 'nom',
-  prenom: 'prenom'
+export const languageOrderByRelevanceFieldEnum = {
+  id: 'id'
 } as const
 
-export type USEROrderByRelevanceFieldEnum = (typeof USEROrderByRelevanceFieldEnum)[keyof typeof USEROrderByRelevanceFieldEnum]
+export type languageOrderByRelevanceFieldEnum = (typeof languageOrderByRelevanceFieldEnum)[keyof typeof languageOrderByRelevanceFieldEnum]
 
 
 export const NullsOrder = {
@@ -130,7 +148,7 @@ export const NullsOrder = {
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
-export const PERSONALISATIONOrderByRelevanceFieldEnum = {
+export const personalisationOrderByRelevanceFieldEnum = {
   id_user: 'id_user',
   accessories: 'accessories',
   hat_colors: 'hat_colors',
@@ -145,12 +163,30 @@ export const PERSONALISATIONOrderByRelevanceFieldEnum = {
   skin_colors: 'skin_colors'
 } as const
 
-export type PERSONALISATIONOrderByRelevanceFieldEnum = (typeof PERSONALISATIONOrderByRelevanceFieldEnum)[keyof typeof PERSONALISATIONOrderByRelevanceFieldEnum]
+export type personalisationOrderByRelevanceFieldEnum = (typeof personalisationOrderByRelevanceFieldEnum)[keyof typeof personalisationOrderByRelevanceFieldEnum]
 
 
-export const POSITIONOrderByRelevanceFieldEnum = {
+export const positionOrderByRelevanceFieldEnum = {
+  id_user: 'id_user',
+  id_level: 'id_level'
+} as const
+
+export type positionOrderByRelevanceFieldEnum = (typeof positionOrderByRelevanceFieldEnum)[keyof typeof positionOrderByRelevanceFieldEnum]
+
+
+export const succesOrderByRelevanceFieldEnum = {
+  image: 'image',
   id_user: 'id_user'
 } as const
 
-export type POSITIONOrderByRelevanceFieldEnum = (typeof POSITIONOrderByRelevanceFieldEnum)[keyof typeof POSITIONOrderByRelevanceFieldEnum]
+export type succesOrderByRelevanceFieldEnum = (typeof succesOrderByRelevanceFieldEnum)[keyof typeof succesOrderByRelevanceFieldEnum]
+
+
+export const userOrderByRelevanceFieldEnum = {
+  id_google: 'id_google',
+  nom: 'nom',
+  prenom: 'prenom'
+} as const
+
+export type userOrderByRelevanceFieldEnum = (typeof userOrderByRelevanceFieldEnum)[keyof typeof userOrderByRelevanceFieldEnum]
 

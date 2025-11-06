@@ -242,6 +242,11 @@ export function AvatarCustomizer({
   useEffect(() => {
     if (initialOptions) {
       setOptions(initialOptions);
+      // Propager au parent pour garantir une valeur initiale non nulle
+      onChange(initialOptions);
+    } else {
+      // À défaut, propager les options par défaut au parent
+      onChange(options);
     }
   }, [initialOptions]);
 
@@ -398,6 +403,7 @@ export function AvatarCustomizer({
                 </SelectContent>
               </Select>
             </div>
+            {/* Toujours afficher la couleur des vêtements, même pour les blazers */}
             <div>
               <label className="block mb-1 text-sm font-medium">Couleur vêtements</label>
               <Select value={options.clotheColor} onValueChange={v => handleChange("clotheColor", v)}>

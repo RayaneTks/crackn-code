@@ -1,5 +1,9 @@
-import { createContext, useContext, useEffect, useMemo, useState, ReactNode } from "react";
+import { createContext, useContext, useMemo, ReactNode } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useUserData, useInvalidateUser } from "@/hooks/useUserData";
 import type { UserProfile } from "@/types";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
 
 type AuthState = {
 	user: UserProfile | null;
@@ -10,36 +14,10 @@ type AuthState = {
 
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
-
 export function AuthProvider({ children }: { children: ReactNode }) {
-	const [user, setUser] = useState<UserProfile | null>(null);
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		const fetchMe = async () => {
-			try {
-				const res = await fetch(`${API_BASE}/api/me`, {
-					credentials: "include",
-				});
-				if (res.ok) {
-					const data = await res.json();
-					if (data?.authenticated && data?.user) {
-						setUser(data.user as UserProfile);
-					} else {
-						setUser(null);
-					}
-				} else {
-					setUser(null);
-				}
-			} catch {
-				setUser(null);
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchMe();
-	}, []);
+	const { data: user, isLoading: loading } = useUserData();
+	const queryClient = useQueryClient();
+	const invalidateUser = useInvalidateUser();
 
 	const loginWithGoogle = () => {
 		window.location.href = `${API_BASE}/auth/google`;
@@ -47,11 +25,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 	const logout = async () => {
 		await fetch(`${API_BASE}/api/logout`, { method: "POST", credentials: "include" });
-		setUser(null);
+		// Invalide toutes les queries pour forcer la déconnexion
+		queryClient.clear();
+		invalidateUser();
 	};
 
 	const value = useMemo(
-		() => ({ user, loading, loginWithGoogle, logout }),
+		() => ({ user: user || null, loading, loginWithGoogle, logout }),
 		[user, loading]
 	);
 

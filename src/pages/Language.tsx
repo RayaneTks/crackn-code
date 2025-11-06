@@ -1,31 +1,33 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { LevelCard } from "@/components/language/LevelCard";
 import { LevelModal } from "@/components/language/LevelModal";
-import {getLanguageLevelsCount, languages} from "@/data/languages";
-import { levels } from "@/data/levels";
+import { getLanguageLevelsCount } from "@/data/languages";
 import { Level } from "@/types";
 import { ArrowLeft, Trophy, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
 import { LoginPrompt } from "@/components/auth/LoginPrompt";
+import { useLanguageProgress } from "@/hooks/useLanguageProgress";
 
 const Language = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [selectedLevel, setSelectedLevel] = useState<Level | null>(null);
-
   const { user } = useAuth();
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+
+  // Utilise le hook React Query pour récupérer la progression avec actualisation automatique
+  const { data: progressData } = useLanguageProgress(id, !!user);
+  const language = progressData?.language;
+  const languageLevels = progressData?.levels || [];
+  const completedLevel = progressData?.completedLevel || 0;
 
   useEffect(() => {
     if (!user) setShowLoginPrompt(true);
   }, [user]);
-
-  const language = languages.find((lang) => lang.id === id);
-  const languageLevels = levels[id || ""] || [];
 
   const total = language ? getLanguageLevelsCount(language.id) : 0;
   const raw = language && total ? (language.completedLevels / total) * 100 : 0;

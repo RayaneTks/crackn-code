@@ -14,7 +14,16 @@ import NotFound from "./pages/NotFound";
 import Level from "@/pages/Level.tsx";
 import Login from "./pages/Login";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: true,
+      refetchOnReconnect: true,
+      retry: 1,
+      staleTime: 0, // Les données sont toujours considérées comme périmées pour forcer l'actualisation
+    },
+  },
+});
 
 export const INTRO_SEEN_KEY = "crackncode_intro_seen";
 

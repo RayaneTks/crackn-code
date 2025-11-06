@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck 
 /*
- * This file exports the `PERSONALISATION` model and its related types.
+ * This file exports the `personalisation` model and its related types.
  *
  * 🟢 You can import this file directly.
  */
@@ -12,18 +12,18 @@ import type * as $Enums from "../enums.js"
 import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
- * Model PERSONALISATION
+ * Model personalisation
  * 
  */
-export type PERSONALISATIONModel = runtime.Types.Result.DefaultSelection<Prisma.$PERSONALISATIONPayload>
+export type personalisationModel = runtime.Types.Result.DefaultSelection<Prisma.$personalisationPayload>
 
-export type AggregatePERSONALISATION = {
-  _count: PERSONALISATIONCountAggregateOutputType | null
-  _min: PERSONALISATIONMinAggregateOutputType | null
-  _max: PERSONALISATIONMaxAggregateOutputType | null
+export type AggregatePersonalisation = {
+  _count: PersonalisationCountAggregateOutputType | null
+  _min: PersonalisationMinAggregateOutputType | null
+  _max: PersonalisationMaxAggregateOutputType | null
 }
 
-export type PERSONALISATIONMinAggregateOutputType = {
+export type PersonalisationMinAggregateOutputType = {
   id_user: string | null
   accessories: string | null
   hat_colors: string | null
@@ -38,7 +38,7 @@ export type PERSONALISATIONMinAggregateOutputType = {
   skin_colors: string | null
 }
 
-export type PERSONALISATIONMaxAggregateOutputType = {
+export type PersonalisationMaxAggregateOutputType = {
   id_user: string | null
   accessories: string | null
   hat_colors: string | null
@@ -53,7 +53,7 @@ export type PERSONALISATIONMaxAggregateOutputType = {
   skin_colors: string | null
 }
 
-export type PERSONALISATIONCountAggregateOutputType = {
+export type PersonalisationCountAggregateOutputType = {
   id_user: number
   accessories: number
   hat_colors: number
@@ -70,7 +70,7 @@ export type PERSONALISATIONCountAggregateOutputType = {
 }
 
 
-export type PERSONALISATIONMinAggregateInputType = {
+export type PersonalisationMinAggregateInputType = {
   id_user?: true
   accessories?: true
   hat_colors?: true
@@ -85,7 +85,7 @@ export type PERSONALISATIONMinAggregateInputType = {
   skin_colors?: true
 }
 
-export type PERSONALISATIONMaxAggregateInputType = {
+export type PersonalisationMaxAggregateInputType = {
   id_user?: true
   accessories?: true
   hat_colors?: true
@@ -100,7 +100,7 @@ export type PERSONALISATIONMaxAggregateInputType = {
   skin_colors?: true
 }
 
-export type PERSONALISATIONCountAggregateInputType = {
+export type PersonalisationCountAggregateInputType = {
   id_user?: true
   accessories?: true
   hat_colors?: true
@@ -116,79 +116,79 @@ export type PERSONALISATIONCountAggregateInputType = {
   _all?: true
 }
 
-export type PERSONALISATIONAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PersonalisationAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Filter which PERSONALISATION to aggregate.
+   * Filter which personalisation to aggregate.
    */
-  where?: Prisma.PERSONALISATIONWhereInput
+  where?: Prisma.personalisationWhereInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
    * 
-   * Determine the order of PERSONALISATIONS to fetch.
+   * Determine the order of personalisations to fetch.
    */
-  orderBy?: Prisma.PERSONALISATIONOrderByWithRelationInput | Prisma.PERSONALISATIONOrderByWithRelationInput[]
+  orderBy?: Prisma.personalisationOrderByWithRelationInput | Prisma.personalisationOrderByWithRelationInput[]
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    * 
    * Sets the start position
    */
-  cursor?: Prisma.PERSONALISATIONWhereUniqueInput
+  cursor?: Prisma.personalisationWhereUniqueInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` PERSONALISATIONS from the position of the cursor.
+   * Take `±n` personalisations from the position of the cursor.
    */
   take?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Skip the first `n` PERSONALISATIONS.
+   * Skip the first `n` personalisations.
    */
   skip?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Count returned PERSONALISATIONS
+   * Count returned personalisations
   **/
-  _count?: true | PERSONALISATIONCountAggregateInputType
+  _count?: true | PersonalisationCountAggregateInputType
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
    * Select which fields to find the minimum value
   **/
-  _min?: PERSONALISATIONMinAggregateInputType
+  _min?: PersonalisationMinAggregateInputType
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
    * Select which fields to find the maximum value
   **/
-  _max?: PERSONALISATIONMaxAggregateInputType
+  _max?: PersonalisationMaxAggregateInputType
 }
 
-export type GetPERSONALISATIONAggregateType<T extends PERSONALISATIONAggregateArgs> = {
-      [P in keyof T & keyof AggregatePERSONALISATION]: P extends '_count' | 'count'
+export type GetPersonalisationAggregateType<T extends PersonalisationAggregateArgs> = {
+      [P in keyof T & keyof AggregatePersonalisation]: P extends '_count' | 'count'
     ? T[P] extends true
       ? number
-      : Prisma.GetScalarType<T[P], AggregatePERSONALISATION[P]>
-    : Prisma.GetScalarType<T[P], AggregatePERSONALISATION[P]>
+      : Prisma.GetScalarType<T[P], AggregatePersonalisation[P]>
+    : Prisma.GetScalarType<T[P], AggregatePersonalisation[P]>
 }
 
 
 
 
-export type PERSONALISATIONGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PERSONALISATIONWhereInput
-  orderBy?: Prisma.PERSONALISATIONOrderByWithAggregationInput | Prisma.PERSONALISATIONOrderByWithAggregationInput[]
-  by: Prisma.PERSONALISATIONScalarFieldEnum[] | Prisma.PERSONALISATIONScalarFieldEnum
-  having?: Prisma.PERSONALISATIONScalarWhereWithAggregatesInput
+export type personalisationGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.personalisationWhereInput
+  orderBy?: Prisma.personalisationOrderByWithAggregationInput | Prisma.personalisationOrderByWithAggregationInput[]
+  by: Prisma.PersonalisationScalarFieldEnum[] | Prisma.PersonalisationScalarFieldEnum
+  having?: Prisma.personalisationScalarWhereWithAggregatesInput
   take?: number
   skip?: number
-  _count?: PERSONALISATIONCountAggregateInputType | true
-  _min?: PERSONALISATIONMinAggregateInputType
-  _max?: PERSONALISATIONMaxAggregateInputType
+  _count?: PersonalisationCountAggregateInputType | true
+  _min?: PersonalisationMinAggregateInputType
+  _max?: PersonalisationMaxAggregateInputType
 }
 
-export type PERSONALISATIONGroupByOutputType = {
+export type PersonalisationGroupByOutputType = {
   id_user: string
   accessories: string | null
   hat_colors: string | null
@@ -201,46 +201,46 @@ export type PERSONALISATIONGroupByOutputType = {
   eyes: string | null
   eyebrows: string | null
   skin_colors: string | null
-  _count: PERSONALISATIONCountAggregateOutputType | null
-  _min: PERSONALISATIONMinAggregateOutputType | null
-  _max: PERSONALISATIONMaxAggregateOutputType | null
+  _count: PersonalisationCountAggregateOutputType | null
+  _min: PersonalisationMinAggregateOutputType | null
+  _max: PersonalisationMaxAggregateOutputType | null
 }
 
-type GetPERSONALISATIONGroupByPayload<T extends PERSONALISATIONGroupByArgs> = Prisma.PrismaPromise<
+type GetPersonalisationGroupByPayload<T extends personalisationGroupByArgs> = Prisma.PrismaPromise<
   Array<
-    Prisma.PickEnumerable<PERSONALISATIONGroupByOutputType, T['by']> &
+    Prisma.PickEnumerable<PersonalisationGroupByOutputType, T['by']> &
       {
-        [P in ((keyof T) & (keyof PERSONALISATIONGroupByOutputType))]: P extends '_count'
+        [P in ((keyof T) & (keyof PersonalisationGroupByOutputType))]: P extends '_count'
           ? T[P] extends boolean
             ? number
-            : Prisma.GetScalarType<T[P], PERSONALISATIONGroupByOutputType[P]>
-          : Prisma.GetScalarType<T[P], PERSONALISATIONGroupByOutputType[P]>
+            : Prisma.GetScalarType<T[P], PersonalisationGroupByOutputType[P]>
+          : Prisma.GetScalarType<T[P], PersonalisationGroupByOutputType[P]>
       }
     >
   >
 
 
 
-export type PERSONALISATIONWhereInput = {
-  AND?: Prisma.PERSONALISATIONWhereInput | Prisma.PERSONALISATIONWhereInput[]
-  OR?: Prisma.PERSONALISATIONWhereInput[]
-  NOT?: Prisma.PERSONALISATIONWhereInput | Prisma.PERSONALISATIONWhereInput[]
-  id_user?: Prisma.StringFilter<"PERSONALISATION"> | string
-  accessories?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  hat_colors?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  hair_colors?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  facial_hair_types?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  facial_hair_colors?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  clothes?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  clothes_colors?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  graphics?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  eyes?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  eyebrows?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  skin_colors?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  user?: Prisma.XOR<Prisma.USERScalarRelationFilter, Prisma.USERWhereInput>
+export type personalisationWhereInput = {
+  AND?: Prisma.personalisationWhereInput | Prisma.personalisationWhereInput[]
+  OR?: Prisma.personalisationWhereInput[]
+  NOT?: Prisma.personalisationWhereInput | Prisma.personalisationWhereInput[]
+  id_user?: Prisma.StringFilter<"personalisation"> | string
+  accessories?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  hat_colors?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  hair_colors?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  facial_hair_types?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  facial_hair_colors?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  clothes?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  clothes_colors?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  graphics?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  eyes?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  eyebrows?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  skin_colors?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
 }
 
-export type PERSONALISATIONOrderByWithRelationInput = {
+export type personalisationOrderByWithRelationInput = {
   id_user?: Prisma.SortOrder
   accessories?: Prisma.SortOrderInput | Prisma.SortOrder
   hat_colors?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -253,30 +253,30 @@ export type PERSONALISATIONOrderByWithRelationInput = {
   eyes?: Prisma.SortOrderInput | Prisma.SortOrder
   eyebrows?: Prisma.SortOrderInput | Prisma.SortOrder
   skin_colors?: Prisma.SortOrderInput | Prisma.SortOrder
-  user?: Prisma.USEROrderByWithRelationInput
-  _relevance?: Prisma.PERSONALISATIONOrderByRelevanceInput
+  user?: Prisma.userOrderByWithRelationInput
+  _relevance?: Prisma.personalisationOrderByRelevanceInput
 }
 
-export type PERSONALISATIONWhereUniqueInput = Prisma.AtLeast<{
+export type personalisationWhereUniqueInput = Prisma.AtLeast<{
   id_user?: string
-  AND?: Prisma.PERSONALISATIONWhereInput | Prisma.PERSONALISATIONWhereInput[]
-  OR?: Prisma.PERSONALISATIONWhereInput[]
-  NOT?: Prisma.PERSONALISATIONWhereInput | Prisma.PERSONALISATIONWhereInput[]
-  accessories?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  hat_colors?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  hair_colors?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  facial_hair_types?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  facial_hair_colors?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  clothes?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  clothes_colors?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  graphics?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  eyes?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  eyebrows?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  skin_colors?: Prisma.StringNullableFilter<"PERSONALISATION"> | string | null
-  user?: Prisma.XOR<Prisma.USERScalarRelationFilter, Prisma.USERWhereInput>
+  AND?: Prisma.personalisationWhereInput | Prisma.personalisationWhereInput[]
+  OR?: Prisma.personalisationWhereInput[]
+  NOT?: Prisma.personalisationWhereInput | Prisma.personalisationWhereInput[]
+  accessories?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  hat_colors?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  hair_colors?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  facial_hair_types?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  facial_hair_colors?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  clothes?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  clothes_colors?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  graphics?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  eyes?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  eyebrows?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  skin_colors?: Prisma.StringNullableFilter<"personalisation"> | string | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
 }, "id_user">
 
-export type PERSONALISATIONOrderByWithAggregationInput = {
+export type personalisationOrderByWithAggregationInput = {
   id_user?: Prisma.SortOrder
   accessories?: Prisma.SortOrderInput | Prisma.SortOrder
   hat_colors?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -289,30 +289,30 @@ export type PERSONALISATIONOrderByWithAggregationInput = {
   eyes?: Prisma.SortOrderInput | Prisma.SortOrder
   eyebrows?: Prisma.SortOrderInput | Prisma.SortOrder
   skin_colors?: Prisma.SortOrderInput | Prisma.SortOrder
-  _count?: Prisma.PERSONALISATIONCountOrderByAggregateInput
-  _max?: Prisma.PERSONALISATIONMaxOrderByAggregateInput
-  _min?: Prisma.PERSONALISATIONMinOrderByAggregateInput
+  _count?: Prisma.personalisationCountOrderByAggregateInput
+  _max?: Prisma.personalisationMaxOrderByAggregateInput
+  _min?: Prisma.personalisationMinOrderByAggregateInput
 }
 
-export type PERSONALISATIONScalarWhereWithAggregatesInput = {
-  AND?: Prisma.PERSONALISATIONScalarWhereWithAggregatesInput | Prisma.PERSONALISATIONScalarWhereWithAggregatesInput[]
-  OR?: Prisma.PERSONALISATIONScalarWhereWithAggregatesInput[]
-  NOT?: Prisma.PERSONALISATIONScalarWhereWithAggregatesInput | Prisma.PERSONALISATIONScalarWhereWithAggregatesInput[]
-  id_user?: Prisma.StringWithAggregatesFilter<"PERSONALISATION"> | string
-  accessories?: Prisma.StringNullableWithAggregatesFilter<"PERSONALISATION"> | string | null
-  hat_colors?: Prisma.StringNullableWithAggregatesFilter<"PERSONALISATION"> | string | null
-  hair_colors?: Prisma.StringNullableWithAggregatesFilter<"PERSONALISATION"> | string | null
-  facial_hair_types?: Prisma.StringNullableWithAggregatesFilter<"PERSONALISATION"> | string | null
-  facial_hair_colors?: Prisma.StringNullableWithAggregatesFilter<"PERSONALISATION"> | string | null
-  clothes?: Prisma.StringNullableWithAggregatesFilter<"PERSONALISATION"> | string | null
-  clothes_colors?: Prisma.StringNullableWithAggregatesFilter<"PERSONALISATION"> | string | null
-  graphics?: Prisma.StringNullableWithAggregatesFilter<"PERSONALISATION"> | string | null
-  eyes?: Prisma.StringNullableWithAggregatesFilter<"PERSONALISATION"> | string | null
-  eyebrows?: Prisma.StringNullableWithAggregatesFilter<"PERSONALISATION"> | string | null
-  skin_colors?: Prisma.StringNullableWithAggregatesFilter<"PERSONALISATION"> | string | null
+export type personalisationScalarWhereWithAggregatesInput = {
+  AND?: Prisma.personalisationScalarWhereWithAggregatesInput | Prisma.personalisationScalarWhereWithAggregatesInput[]
+  OR?: Prisma.personalisationScalarWhereWithAggregatesInput[]
+  NOT?: Prisma.personalisationScalarWhereWithAggregatesInput | Prisma.personalisationScalarWhereWithAggregatesInput[]
+  id_user?: Prisma.StringWithAggregatesFilter<"personalisation"> | string
+  accessories?: Prisma.StringNullableWithAggregatesFilter<"personalisation"> | string | null
+  hat_colors?: Prisma.StringNullableWithAggregatesFilter<"personalisation"> | string | null
+  hair_colors?: Prisma.StringNullableWithAggregatesFilter<"personalisation"> | string | null
+  facial_hair_types?: Prisma.StringNullableWithAggregatesFilter<"personalisation"> | string | null
+  facial_hair_colors?: Prisma.StringNullableWithAggregatesFilter<"personalisation"> | string | null
+  clothes?: Prisma.StringNullableWithAggregatesFilter<"personalisation"> | string | null
+  clothes_colors?: Prisma.StringNullableWithAggregatesFilter<"personalisation"> | string | null
+  graphics?: Prisma.StringNullableWithAggregatesFilter<"personalisation"> | string | null
+  eyes?: Prisma.StringNullableWithAggregatesFilter<"personalisation"> | string | null
+  eyebrows?: Prisma.StringNullableWithAggregatesFilter<"personalisation"> | string | null
+  skin_colors?: Prisma.StringNullableWithAggregatesFilter<"personalisation"> | string | null
 }
 
-export type PERSONALISATIONCreateInput = {
+export type personalisationCreateInput = {
   accessories?: string | null
   hat_colors?: string | null
   hair_colors?: string | null
@@ -324,10 +324,10 @@ export type PERSONALISATIONCreateInput = {
   eyes?: string | null
   eyebrows?: string | null
   skin_colors?: string | null
-  user: Prisma.USERCreateNestedOneWithoutPersonnalisationInput
+  user: Prisma.userCreateNestedOneWithoutPersonalisationInput
 }
 
-export type PERSONALISATIONUncheckedCreateInput = {
+export type personalisationUncheckedCreateInput = {
   id_user: string
   accessories?: string | null
   hat_colors?: string | null
@@ -342,7 +342,7 @@ export type PERSONALISATIONUncheckedCreateInput = {
   skin_colors?: string | null
 }
 
-export type PERSONALISATIONUpdateInput = {
+export type personalisationUpdateInput = {
   accessories?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hat_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hair_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -354,10 +354,10 @@ export type PERSONALISATIONUpdateInput = {
   eyes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eyebrows?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skin_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  user?: Prisma.USERUpdateOneRequiredWithoutPersonnalisationNestedInput
+  user?: Prisma.userUpdateOneRequiredWithoutPersonalisationNestedInput
 }
 
-export type PERSONALISATIONUncheckedUpdateInput = {
+export type personalisationUncheckedUpdateInput = {
   id_user?: Prisma.StringFieldUpdateOperationsInput | string
   accessories?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hat_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -372,7 +372,7 @@ export type PERSONALISATIONUncheckedUpdateInput = {
   skin_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type PERSONALISATIONCreateManyInput = {
+export type personalisationCreateManyInput = {
   id_user: string
   accessories?: string | null
   hat_colors?: string | null
@@ -387,7 +387,7 @@ export type PERSONALISATIONCreateManyInput = {
   skin_colors?: string | null
 }
 
-export type PERSONALISATIONUpdateManyMutationInput = {
+export type personalisationUpdateManyMutationInput = {
   accessories?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hat_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hair_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -401,7 +401,7 @@ export type PERSONALISATIONUpdateManyMutationInput = {
   skin_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type PERSONALISATIONUncheckedUpdateManyInput = {
+export type personalisationUncheckedUpdateManyInput = {
   id_user?: Prisma.StringFieldUpdateOperationsInput | string
   accessories?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hat_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -416,18 +416,13 @@ export type PERSONALISATIONUncheckedUpdateManyInput = {
   skin_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type PERSONALISATIONNullableScalarRelationFilter = {
-  is?: Prisma.PERSONALISATIONWhereInput | null
-  isNot?: Prisma.PERSONALISATIONWhereInput | null
-}
-
-export type PERSONALISATIONOrderByRelevanceInput = {
-  fields: Prisma.PERSONALISATIONOrderByRelevanceFieldEnum | Prisma.PERSONALISATIONOrderByRelevanceFieldEnum[]
+export type personalisationOrderByRelevanceInput = {
+  fields: Prisma.personalisationOrderByRelevanceFieldEnum | Prisma.personalisationOrderByRelevanceFieldEnum[]
   sort: Prisma.SortOrder
   search: string
 }
 
-export type PERSONALISATIONCountOrderByAggregateInput = {
+export type personalisationCountOrderByAggregateInput = {
   id_user?: Prisma.SortOrder
   accessories?: Prisma.SortOrder
   hat_colors?: Prisma.SortOrder
@@ -442,7 +437,7 @@ export type PERSONALISATIONCountOrderByAggregateInput = {
   skin_colors?: Prisma.SortOrder
 }
 
-export type PERSONALISATIONMaxOrderByAggregateInput = {
+export type personalisationMaxOrderByAggregateInput = {
   id_user?: Prisma.SortOrder
   accessories?: Prisma.SortOrder
   hat_colors?: Prisma.SortOrder
@@ -457,7 +452,7 @@ export type PERSONALISATIONMaxOrderByAggregateInput = {
   skin_colors?: Prisma.SortOrder
 }
 
-export type PERSONALISATIONMinOrderByAggregateInput = {
+export type personalisationMinOrderByAggregateInput = {
   id_user?: Prisma.SortOrder
   accessories?: Prisma.SortOrder
   hat_colors?: Prisma.SortOrder
@@ -472,43 +467,48 @@ export type PERSONALISATIONMinOrderByAggregateInput = {
   skin_colors?: Prisma.SortOrder
 }
 
-export type PERSONALISATIONCreateNestedOneWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.PERSONALISATIONCreateWithoutUserInput, Prisma.PERSONALISATIONUncheckedCreateWithoutUserInput>
-  connectOrCreate?: Prisma.PERSONALISATIONCreateOrConnectWithoutUserInput
-  connect?: Prisma.PERSONALISATIONWhereUniqueInput
-}
-
-export type PERSONALISATIONUncheckedCreateNestedOneWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.PERSONALISATIONCreateWithoutUserInput, Prisma.PERSONALISATIONUncheckedCreateWithoutUserInput>
-  connectOrCreate?: Prisma.PERSONALISATIONCreateOrConnectWithoutUserInput
-  connect?: Prisma.PERSONALISATIONWhereUniqueInput
-}
-
-export type PERSONALISATIONUpdateOneWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.PERSONALISATIONCreateWithoutUserInput, Prisma.PERSONALISATIONUncheckedCreateWithoutUserInput>
-  connectOrCreate?: Prisma.PERSONALISATIONCreateOrConnectWithoutUserInput
-  upsert?: Prisma.PERSONALISATIONUpsertWithoutUserInput
-  disconnect?: Prisma.PERSONALISATIONWhereInput | boolean
-  delete?: Prisma.PERSONALISATIONWhereInput | boolean
-  connect?: Prisma.PERSONALISATIONWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.PERSONALISATIONUpdateToOneWithWhereWithoutUserInput, Prisma.PERSONALISATIONUpdateWithoutUserInput>, Prisma.PERSONALISATIONUncheckedUpdateWithoutUserInput>
-}
-
-export type PERSONALISATIONUncheckedUpdateOneWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.PERSONALISATIONCreateWithoutUserInput, Prisma.PERSONALISATIONUncheckedCreateWithoutUserInput>
-  connectOrCreate?: Prisma.PERSONALISATIONCreateOrConnectWithoutUserInput
-  upsert?: Prisma.PERSONALISATIONUpsertWithoutUserInput
-  disconnect?: Prisma.PERSONALISATIONWhereInput | boolean
-  delete?: Prisma.PERSONALISATIONWhereInput | boolean
-  connect?: Prisma.PERSONALISATIONWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.PERSONALISATIONUpdateToOneWithWhereWithoutUserInput, Prisma.PERSONALISATIONUpdateWithoutUserInput>, Prisma.PERSONALISATIONUncheckedUpdateWithoutUserInput>
+export type PersonalisationNullableScalarRelationFilter = {
+  is?: Prisma.personalisationWhereInput | null
+  isNot?: Prisma.personalisationWhereInput | null
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
-export type PERSONALISATIONCreateWithoutUserInput = {
+export type personalisationCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.personalisationCreateWithoutUserInput, Prisma.personalisationUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.personalisationCreateOrConnectWithoutUserInput
+  connect?: Prisma.personalisationWhereUniqueInput
+}
+
+export type personalisationUncheckedCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.personalisationCreateWithoutUserInput, Prisma.personalisationUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.personalisationCreateOrConnectWithoutUserInput
+  connect?: Prisma.personalisationWhereUniqueInput
+}
+
+export type personalisationUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.personalisationCreateWithoutUserInput, Prisma.personalisationUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.personalisationCreateOrConnectWithoutUserInput
+  upsert?: Prisma.personalisationUpsertWithoutUserInput
+  disconnect?: Prisma.personalisationWhereInput | boolean
+  delete?: Prisma.personalisationWhereInput | boolean
+  connect?: Prisma.personalisationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.personalisationUpdateToOneWithWhereWithoutUserInput, Prisma.personalisationUpdateWithoutUserInput>, Prisma.personalisationUncheckedUpdateWithoutUserInput>
+}
+
+export type personalisationUncheckedUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.personalisationCreateWithoutUserInput, Prisma.personalisationUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.personalisationCreateOrConnectWithoutUserInput
+  upsert?: Prisma.personalisationUpsertWithoutUserInput
+  disconnect?: Prisma.personalisationWhereInput | boolean
+  delete?: Prisma.personalisationWhereInput | boolean
+  connect?: Prisma.personalisationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.personalisationUpdateToOneWithWhereWithoutUserInput, Prisma.personalisationUpdateWithoutUserInput>, Prisma.personalisationUncheckedUpdateWithoutUserInput>
+}
+
+export type personalisationCreateWithoutUserInput = {
   accessories?: string | null
   hat_colors?: string | null
   hair_colors?: string | null
@@ -522,7 +522,7 @@ export type PERSONALISATIONCreateWithoutUserInput = {
   skin_colors?: string | null
 }
 
-export type PERSONALISATIONUncheckedCreateWithoutUserInput = {
+export type personalisationUncheckedCreateWithoutUserInput = {
   accessories?: string | null
   hat_colors?: string | null
   hair_colors?: string | null
@@ -536,23 +536,23 @@ export type PERSONALISATIONUncheckedCreateWithoutUserInput = {
   skin_colors?: string | null
 }
 
-export type PERSONALISATIONCreateOrConnectWithoutUserInput = {
-  where: Prisma.PERSONALISATIONWhereUniqueInput
-  create: Prisma.XOR<Prisma.PERSONALISATIONCreateWithoutUserInput, Prisma.PERSONALISATIONUncheckedCreateWithoutUserInput>
+export type personalisationCreateOrConnectWithoutUserInput = {
+  where: Prisma.personalisationWhereUniqueInput
+  create: Prisma.XOR<Prisma.personalisationCreateWithoutUserInput, Prisma.personalisationUncheckedCreateWithoutUserInput>
 }
 
-export type PERSONALISATIONUpsertWithoutUserInput = {
-  update: Prisma.XOR<Prisma.PERSONALISATIONUpdateWithoutUserInput, Prisma.PERSONALISATIONUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.PERSONALISATIONCreateWithoutUserInput, Prisma.PERSONALISATIONUncheckedCreateWithoutUserInput>
-  where?: Prisma.PERSONALISATIONWhereInput
+export type personalisationUpsertWithoutUserInput = {
+  update: Prisma.XOR<Prisma.personalisationUpdateWithoutUserInput, Prisma.personalisationUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.personalisationCreateWithoutUserInput, Prisma.personalisationUncheckedCreateWithoutUserInput>
+  where?: Prisma.personalisationWhereInput
 }
 
-export type PERSONALISATIONUpdateToOneWithWhereWithoutUserInput = {
-  where?: Prisma.PERSONALISATIONWhereInput
-  data: Prisma.XOR<Prisma.PERSONALISATIONUpdateWithoutUserInput, Prisma.PERSONALISATIONUncheckedUpdateWithoutUserInput>
+export type personalisationUpdateToOneWithWhereWithoutUserInput = {
+  where?: Prisma.personalisationWhereInput
+  data: Prisma.XOR<Prisma.personalisationUpdateWithoutUserInput, Prisma.personalisationUncheckedUpdateWithoutUserInput>
 }
 
-export type PERSONALISATIONUpdateWithoutUserInput = {
+export type personalisationUpdateWithoutUserInput = {
   accessories?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hat_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hair_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -566,7 +566,7 @@ export type PERSONALISATIONUpdateWithoutUserInput = {
   skin_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type PERSONALISATIONUncheckedUpdateWithoutUserInput = {
+export type personalisationUncheckedUpdateWithoutUserInput = {
   accessories?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hat_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hair_colors?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -582,7 +582,7 @@ export type PERSONALISATIONUncheckedUpdateWithoutUserInput = {
 
 
 
-export type PERSONALISATIONSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+export type personalisationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id_user?: boolean
   accessories?: boolean
   hat_colors?: boolean
@@ -595,12 +595,12 @@ export type PERSONALISATIONSelect<ExtArgs extends runtime.Types.Extensions.Inter
   eyes?: boolean
   eyebrows?: boolean
   skin_colors?: boolean
-  user?: boolean | Prisma.USERDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["pERSONALISATION"]>
+  user?: boolean | Prisma.userDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["personalisation"]>
 
 
 
-export type PERSONALISATIONSelectScalar = {
+export type personalisationSelectScalar = {
   id_user?: boolean
   accessories?: boolean
   hat_colors?: boolean
@@ -615,15 +615,15 @@ export type PERSONALISATIONSelectScalar = {
   skin_colors?: boolean
 }
 
-export type PERSONALISATIONOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id_user" | "accessories" | "hat_colors" | "hair_colors" | "facial_hair_types" | "facial_hair_colors" | "clothes" | "clothes_colors" | "graphics" | "eyes" | "eyebrows" | "skin_colors", ExtArgs["result"]["pERSONALISATION"]>
-export type PERSONALISATIONInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.USERDefaultArgs<ExtArgs>
+export type personalisationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id_user" | "accessories" | "hat_colors" | "hair_colors" | "facial_hair_types" | "facial_hair_colors" | "clothes" | "clothes_colors" | "graphics" | "eyes" | "eyebrows" | "skin_colors", ExtArgs["result"]["personalisation"]>
+export type personalisationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.userDefaultArgs<ExtArgs>
 }
 
-export type $PERSONALISATIONPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  name: "PERSONALISATION"
+export type $personalisationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  name: "personalisation"
   objects: {
-    user: Prisma.$USERPayload<ExtArgs>
+    user: Prisma.$userPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id_user: string
@@ -638,143 +638,143 @@ export type $PERSONALISATIONPayload<ExtArgs extends runtime.Types.Extensions.Int
     eyes: string | null
     eyebrows: string | null
     skin_colors: string | null
-  }, ExtArgs["result"]["pERSONALISATION"]>
+  }, ExtArgs["result"]["personalisation"]>
   composites: {}
 }
 
-export type PERSONALISATIONGetPayload<S extends boolean | null | undefined | PERSONALISATIONDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$PERSONALISATIONPayload, S>
+export type personalisationGetPayload<S extends boolean | null | undefined | personalisationDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$personalisationPayload, S>
 
-export type PERSONALISATIONCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
-  Omit<PERSONALISATIONFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-    select?: PERSONALISATIONCountAggregateInputType | true
+export type personalisationCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> =
+  Omit<personalisationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: PersonalisationCountAggregateInputType | true
   }
 
-export interface PERSONALISATIONDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-  [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PERSONALISATION'], meta: { name: 'PERSONALISATION' } }
+export interface personalisationDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+  [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['personalisation'], meta: { name: 'personalisation' } }
   /**
-   * Find zero or one PERSONALISATION that matches the filter.
-   * @param {PERSONALISATIONFindUniqueArgs} args - Arguments to find a PERSONALISATION
+   * Find zero or one Personalisation that matches the filter.
+   * @param {personalisationFindUniqueArgs} args - Arguments to find a Personalisation
    * @example
-   * // Get one PERSONALISATION
-   * const pERSONALISATION = await prisma.pERSONALISATION.findUnique({
+   * // Get one Personalisation
+   * const personalisation = await prisma.personalisation.findUnique({
    *   where: {
    *     // ... provide filter here
    *   }
    * })
    */
-  findUnique<T extends PERSONALISATIONFindUniqueArgs>(args: Prisma.SelectSubset<T, PERSONALISATIONFindUniqueArgs<ExtArgs>>): Prisma.Prisma__PERSONALISATIONClient<runtime.Types.Result.GetResult<Prisma.$PERSONALISATIONPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  findUnique<T extends personalisationFindUniqueArgs>(args: Prisma.SelectSubset<T, personalisationFindUniqueArgs<ExtArgs>>): Prisma.Prisma__personalisationClient<runtime.Types.Result.GetResult<Prisma.$personalisationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Find one PERSONALISATION that matches the filter or throw an error with `error.code='P2025'`
+   * Find one Personalisation that matches the filter or throw an error with `error.code='P2025'`
    * if no matches were found.
-   * @param {PERSONALISATIONFindUniqueOrThrowArgs} args - Arguments to find a PERSONALISATION
+   * @param {personalisationFindUniqueOrThrowArgs} args - Arguments to find a Personalisation
    * @example
-   * // Get one PERSONALISATION
-   * const pERSONALISATION = await prisma.pERSONALISATION.findUniqueOrThrow({
+   * // Get one Personalisation
+   * const personalisation = await prisma.personalisation.findUniqueOrThrow({
    *   where: {
    *     // ... provide filter here
    *   }
    * })
    */
-  findUniqueOrThrow<T extends PERSONALISATIONFindUniqueOrThrowArgs>(args: Prisma.SelectSubset<T, PERSONALISATIONFindUniqueOrThrowArgs<ExtArgs>>): Prisma.Prisma__PERSONALISATIONClient<runtime.Types.Result.GetResult<Prisma.$PERSONALISATIONPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+  findUniqueOrThrow<T extends personalisationFindUniqueOrThrowArgs>(args: Prisma.SelectSubset<T, personalisationFindUniqueOrThrowArgs<ExtArgs>>): Prisma.Prisma__personalisationClient<runtime.Types.Result.GetResult<Prisma.$personalisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Find the first PERSONALISATION that matches the filter.
+   * Find the first Personalisation that matches the filter.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {PERSONALISATIONFindFirstArgs} args - Arguments to find a PERSONALISATION
+   * @param {personalisationFindFirstArgs} args - Arguments to find a Personalisation
    * @example
-   * // Get one PERSONALISATION
-   * const pERSONALISATION = await prisma.pERSONALISATION.findFirst({
+   * // Get one Personalisation
+   * const personalisation = await prisma.personalisation.findFirst({
    *   where: {
    *     // ... provide filter here
    *   }
    * })
    */
-  findFirst<T extends PERSONALISATIONFindFirstArgs>(args?: Prisma.SelectSubset<T, PERSONALISATIONFindFirstArgs<ExtArgs>>): Prisma.Prisma__PERSONALISATIONClient<runtime.Types.Result.GetResult<Prisma.$PERSONALISATIONPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  findFirst<T extends personalisationFindFirstArgs>(args?: Prisma.SelectSubset<T, personalisationFindFirstArgs<ExtArgs>>): Prisma.Prisma__personalisationClient<runtime.Types.Result.GetResult<Prisma.$personalisationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Find the first PERSONALISATION that matches the filter or
+   * Find the first Personalisation that matches the filter or
    * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {PERSONALISATIONFindFirstOrThrowArgs} args - Arguments to find a PERSONALISATION
+   * @param {personalisationFindFirstOrThrowArgs} args - Arguments to find a Personalisation
    * @example
-   * // Get one PERSONALISATION
-   * const pERSONALISATION = await prisma.pERSONALISATION.findFirstOrThrow({
+   * // Get one Personalisation
+   * const personalisation = await prisma.personalisation.findFirstOrThrow({
    *   where: {
    *     // ... provide filter here
    *   }
    * })
    */
-  findFirstOrThrow<T extends PERSONALISATIONFindFirstOrThrowArgs>(args?: Prisma.SelectSubset<T, PERSONALISATIONFindFirstOrThrowArgs<ExtArgs>>): Prisma.Prisma__PERSONALISATIONClient<runtime.Types.Result.GetResult<Prisma.$PERSONALISATIONPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+  findFirstOrThrow<T extends personalisationFindFirstOrThrowArgs>(args?: Prisma.SelectSubset<T, personalisationFindFirstOrThrowArgs<ExtArgs>>): Prisma.Prisma__personalisationClient<runtime.Types.Result.GetResult<Prisma.$personalisationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Find zero or more PERSONALISATIONS that matches the filter.
+   * Find zero or more Personalisations that matches the filter.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {PERSONALISATIONFindManyArgs} args - Arguments to filter and select certain fields only.
+   * @param {personalisationFindManyArgs} args - Arguments to filter and select certain fields only.
    * @example
-   * // Get all PERSONALISATIONS
-   * const pERSONALISATIONS = await prisma.pERSONALISATION.findMany()
+   * // Get all Personalisations
+   * const personalisations = await prisma.personalisation.findMany()
    * 
-   * // Get first 10 PERSONALISATIONS
-   * const pERSONALISATIONS = await prisma.pERSONALISATION.findMany({ take: 10 })
+   * // Get first 10 Personalisations
+   * const personalisations = await prisma.personalisation.findMany({ take: 10 })
    * 
    * // Only select the `id_user`
-   * const pERSONALISATIONWithId_userOnly = await prisma.pERSONALISATION.findMany({ select: { id_user: true } })
+   * const personalisationWithId_userOnly = await prisma.personalisation.findMany({ select: { id_user: true } })
    * 
    */
-  findMany<T extends PERSONALISATIONFindManyArgs>(args?: Prisma.SelectSubset<T, PERSONALISATIONFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PERSONALISATIONPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+  findMany<T extends personalisationFindManyArgs>(args?: Prisma.SelectSubset<T, personalisationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$personalisationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
   /**
-   * Create a PERSONALISATION.
-   * @param {PERSONALISATIONCreateArgs} args - Arguments to create a PERSONALISATION.
+   * Create a Personalisation.
+   * @param {personalisationCreateArgs} args - Arguments to create a Personalisation.
    * @example
-   * // Create one PERSONALISATION
-   * const PERSONALISATION = await prisma.pERSONALISATION.create({
+   * // Create one Personalisation
+   * const Personalisation = await prisma.personalisation.create({
    *   data: {
-   *     // ... data to create a PERSONALISATION
+   *     // ... data to create a Personalisation
    *   }
    * })
    * 
    */
-  create<T extends PERSONALISATIONCreateArgs>(args: Prisma.SelectSubset<T, PERSONALISATIONCreateArgs<ExtArgs>>): Prisma.Prisma__PERSONALISATIONClient<runtime.Types.Result.GetResult<Prisma.$PERSONALISATIONPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+  create<T extends personalisationCreateArgs>(args: Prisma.SelectSubset<T, personalisationCreateArgs<ExtArgs>>): Prisma.Prisma__personalisationClient<runtime.Types.Result.GetResult<Prisma.$personalisationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Create many PERSONALISATIONS.
-   * @param {PERSONALISATIONCreateManyArgs} args - Arguments to create many PERSONALISATIONS.
+   * Create many Personalisations.
+   * @param {personalisationCreateManyArgs} args - Arguments to create many Personalisations.
    * @example
-   * // Create many PERSONALISATIONS
-   * const pERSONALISATION = await prisma.pERSONALISATION.createMany({
+   * // Create many Personalisations
+   * const personalisation = await prisma.personalisation.createMany({
    *   data: [
    *     // ... provide data here
    *   ]
    * })
    *     
    */
-  createMany<T extends PERSONALISATIONCreateManyArgs>(args?: Prisma.SelectSubset<T, PERSONALISATIONCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+  createMany<T extends personalisationCreateManyArgs>(args?: Prisma.SelectSubset<T, personalisationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Delete a PERSONALISATION.
-   * @param {PERSONALISATIONDeleteArgs} args - Arguments to delete one PERSONALISATION.
+   * Delete a Personalisation.
+   * @param {personalisationDeleteArgs} args - Arguments to delete one Personalisation.
    * @example
-   * // Delete one PERSONALISATION
-   * const PERSONALISATION = await prisma.pERSONALISATION.delete({
+   * // Delete one Personalisation
+   * const Personalisation = await prisma.personalisation.delete({
    *   where: {
-   *     // ... filter to delete one PERSONALISATION
+   *     // ... filter to delete one Personalisation
    *   }
    * })
    * 
    */
-  delete<T extends PERSONALISATIONDeleteArgs>(args: Prisma.SelectSubset<T, PERSONALISATIONDeleteArgs<ExtArgs>>): Prisma.Prisma__PERSONALISATIONClient<runtime.Types.Result.GetResult<Prisma.$PERSONALISATIONPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+  delete<T extends personalisationDeleteArgs>(args: Prisma.SelectSubset<T, personalisationDeleteArgs<ExtArgs>>): Prisma.Prisma__personalisationClient<runtime.Types.Result.GetResult<Prisma.$personalisationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Update one PERSONALISATION.
-   * @param {PERSONALISATIONUpdateArgs} args - Arguments to update one PERSONALISATION.
+   * Update one Personalisation.
+   * @param {personalisationUpdateArgs} args - Arguments to update one Personalisation.
    * @example
-   * // Update one PERSONALISATION
-   * const pERSONALISATION = await prisma.pERSONALISATION.update({
+   * // Update one Personalisation
+   * const personalisation = await prisma.personalisation.update({
    *   where: {
    *     // ... provide filter here
    *   },
@@ -784,30 +784,30 @@ export interface PERSONALISATIONDelegate<ExtArgs extends runtime.Types.Extension
    * })
    * 
    */
-  update<T extends PERSONALISATIONUpdateArgs>(args: Prisma.SelectSubset<T, PERSONALISATIONUpdateArgs<ExtArgs>>): Prisma.Prisma__PERSONALISATIONClient<runtime.Types.Result.GetResult<Prisma.$PERSONALISATIONPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+  update<T extends personalisationUpdateArgs>(args: Prisma.SelectSubset<T, personalisationUpdateArgs<ExtArgs>>): Prisma.Prisma__personalisationClient<runtime.Types.Result.GetResult<Prisma.$personalisationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
   /**
-   * Delete zero or more PERSONALISATIONS.
-   * @param {PERSONALISATIONDeleteManyArgs} args - Arguments to filter PERSONALISATIONS to delete.
+   * Delete zero or more Personalisations.
+   * @param {personalisationDeleteManyArgs} args - Arguments to filter Personalisations to delete.
    * @example
-   * // Delete a few PERSONALISATIONS
-   * const { count } = await prisma.pERSONALISATION.deleteMany({
+   * // Delete a few Personalisations
+   * const { count } = await prisma.personalisation.deleteMany({
    *   where: {
    *     // ... provide filter here
    *   }
    * })
    * 
    */
-  deleteMany<T extends PERSONALISATIONDeleteManyArgs>(args?: Prisma.SelectSubset<T, PERSONALISATIONDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+  deleteMany<T extends personalisationDeleteManyArgs>(args?: Prisma.SelectSubset<T, personalisationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Update zero or more PERSONALISATIONS.
+   * Update zero or more Personalisations.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {PERSONALISATIONUpdateManyArgs} args - Arguments to update one or more rows.
+   * @param {personalisationUpdateManyArgs} args - Arguments to update one or more rows.
    * @example
-   * // Update many PERSONALISATIONS
-   * const pERSONALISATION = await prisma.pERSONALISATION.updateMany({
+   * // Update many Personalisations
+   * const personalisation = await prisma.personalisation.updateMany({
    *   where: {
    *     // ... provide filter here
    *   },
@@ -817,56 +817,56 @@ export interface PERSONALISATIONDelegate<ExtArgs extends runtime.Types.Extension
    * })
    * 
    */
-  updateMany<T extends PERSONALISATIONUpdateManyArgs>(args: Prisma.SelectSubset<T, PERSONALISATIONUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+  updateMany<T extends personalisationUpdateManyArgs>(args: Prisma.SelectSubset<T, personalisationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create or update one PERSONALISATION.
-   * @param {PERSONALISATIONUpsertArgs} args - Arguments to update or create a PERSONALISATION.
+   * Create or update one Personalisation.
+   * @param {personalisationUpsertArgs} args - Arguments to update or create a Personalisation.
    * @example
-   * // Update or create a PERSONALISATION
-   * const pERSONALISATION = await prisma.pERSONALISATION.upsert({
+   * // Update or create a Personalisation
+   * const personalisation = await prisma.personalisation.upsert({
    *   create: {
-   *     // ... data to create a PERSONALISATION
+   *     // ... data to create a Personalisation
    *   },
    *   update: {
    *     // ... in case it already exists, update
    *   },
    *   where: {
-   *     // ... the filter for the PERSONALISATION we want to update
+   *     // ... the filter for the Personalisation we want to update
    *   }
    * })
    */
-  upsert<T extends PERSONALISATIONUpsertArgs>(args: Prisma.SelectSubset<T, PERSONALISATIONUpsertArgs<ExtArgs>>): Prisma.Prisma__PERSONALISATIONClient<runtime.Types.Result.GetResult<Prisma.$PERSONALISATIONPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+  upsert<T extends personalisationUpsertArgs>(args: Prisma.SelectSubset<T, personalisationUpsertArgs<ExtArgs>>): Prisma.Prisma__personalisationClient<runtime.Types.Result.GetResult<Prisma.$personalisationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
   /**
-   * Count the number of PERSONALISATIONS.
+   * Count the number of Personalisations.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {PERSONALISATIONCountArgs} args - Arguments to filter PERSONALISATIONS to count.
+   * @param {personalisationCountArgs} args - Arguments to filter Personalisations to count.
    * @example
-   * // Count the number of PERSONALISATIONS
-   * const count = await prisma.pERSONALISATION.count({
+   * // Count the number of Personalisations
+   * const count = await prisma.personalisation.count({
    *   where: {
-   *     // ... the filter for the PERSONALISATIONS we want to count
+   *     // ... the filter for the Personalisations we want to count
    *   }
    * })
   **/
-  count<T extends PERSONALISATIONCountArgs>(
-    args?: Prisma.Subset<T, PERSONALISATIONCountArgs>,
+  count<T extends personalisationCountArgs>(
+    args?: Prisma.Subset<T, personalisationCountArgs>,
   ): Prisma.PrismaPromise<
     T extends runtime.Types.Utils.Record<'select', any>
       ? T['select'] extends true
         ? number
-        : Prisma.GetScalarType<T['select'], PERSONALISATIONCountAggregateOutputType>
+        : Prisma.GetScalarType<T['select'], PersonalisationCountAggregateOutputType>
       : number
   >
 
   /**
-   * Allows you to perform aggregations operations on a PERSONALISATION.
+   * Allows you to perform aggregations operations on a Personalisation.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {PERSONALISATIONAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+   * @param {PersonalisationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
    * @example
    * // Ordered by age ascending
    * // Where email contains prisma.io
@@ -886,13 +886,13 @@ export interface PERSONALISATIONDelegate<ExtArgs extends runtime.Types.Extension
    *   take: 10,
    * })
   **/
-  aggregate<T extends PERSONALISATIONAggregateArgs>(args: Prisma.Subset<T, PERSONALISATIONAggregateArgs>): Prisma.PrismaPromise<GetPERSONALISATIONAggregateType<T>>
+  aggregate<T extends PersonalisationAggregateArgs>(args: Prisma.Subset<T, PersonalisationAggregateArgs>): Prisma.PrismaPromise<GetPersonalisationAggregateType<T>>
 
   /**
-   * Group by PERSONALISATION.
+   * Group by Personalisation.
    * Note, that providing `undefined` is treated as the value not being there.
    * Read more here: https://pris.ly/d/null-undefined
-   * @param {PERSONALISATIONGroupByArgs} args - Group by arguments.
+   * @param {personalisationGroupByArgs} args - Group by arguments.
    * @example
    * // Group by city, order by createdAt, get count
    * const result = await prisma.user.groupBy({
@@ -907,14 +907,14 @@ export interface PERSONALISATIONDelegate<ExtArgs extends runtime.Types.Extension
    * 
   **/
   groupBy<
-    T extends PERSONALISATIONGroupByArgs,
+    T extends personalisationGroupByArgs,
     HasSelectOrTake extends Prisma.Or<
       Prisma.Extends<'skip', Prisma.Keys<T>>,
       Prisma.Extends<'take', Prisma.Keys<T>>
     >,
     OrderByArg extends Prisma.True extends HasSelectOrTake
-      ? { orderBy: PERSONALISATIONGroupByArgs['orderBy'] }
-      : { orderBy?: PERSONALISATIONGroupByArgs['orderBy'] },
+      ? { orderBy: personalisationGroupByArgs['orderBy'] }
+      : { orderBy?: personalisationGroupByArgs['orderBy'] },
     OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>>,
     ByFields extends Prisma.MaybeTupleToUnion<T['by']>,
     ByValid extends Prisma.Has<ByFields, OrderFields>,
@@ -963,22 +963,22 @@ export interface PERSONALISATIONDelegate<ExtArgs extends runtime.Types.Extension
           ? never
           : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
       }[OrderFields]
-  >(args: Prisma.SubsetIntersection<T, PERSONALISATIONGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPERSONALISATIONGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  >(args: Prisma.SubsetIntersection<T, personalisationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPersonalisationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
 /**
- * Fields of the PERSONALISATION model
+ * Fields of the personalisation model
  */
-readonly fields: PERSONALISATIONFieldRefs;
+readonly fields: personalisationFieldRefs;
 }
 
 /**
- * The delegate class that acts as a "Promise-like" for PERSONALISATION.
+ * The delegate class that acts as a "Promise-like" for personalisation.
  * Why is this prefixed with `Prisma__`?
  * Because we want to prevent naming conflicts as mentioned in
  * https://github.com/prisma/prisma-client-js/issues/707
  */
-export interface Prisma__PERSONALISATIONClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+export interface Prisma__personalisationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.USERDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.USERDefaultArgs<ExtArgs>>): Prisma.Prisma__USERClient<runtime.Types.Result.GetResult<Prisma.$USERPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.userDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.userDefaultArgs<ExtArgs>>): Prisma.Prisma__userClient<runtime.Types.Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1005,377 +1005,377 @@ export interface Prisma__PERSONALISATIONClient<T, Null = never, ExtArgs extends 
 
 
 /**
- * Fields of the PERSONALISATION model
+ * Fields of the personalisation model
  */
-export interface PERSONALISATIONFieldRefs {
-  readonly id_user: Prisma.FieldRef<"PERSONALISATION", 'String'>
-  readonly accessories: Prisma.FieldRef<"PERSONALISATION", 'String'>
-  readonly hat_colors: Prisma.FieldRef<"PERSONALISATION", 'String'>
-  readonly hair_colors: Prisma.FieldRef<"PERSONALISATION", 'String'>
-  readonly facial_hair_types: Prisma.FieldRef<"PERSONALISATION", 'String'>
-  readonly facial_hair_colors: Prisma.FieldRef<"PERSONALISATION", 'String'>
-  readonly clothes: Prisma.FieldRef<"PERSONALISATION", 'String'>
-  readonly clothes_colors: Prisma.FieldRef<"PERSONALISATION", 'String'>
-  readonly graphics: Prisma.FieldRef<"PERSONALISATION", 'String'>
-  readonly eyes: Prisma.FieldRef<"PERSONALISATION", 'String'>
-  readonly eyebrows: Prisma.FieldRef<"PERSONALISATION", 'String'>
-  readonly skin_colors: Prisma.FieldRef<"PERSONALISATION", 'String'>
+export interface personalisationFieldRefs {
+  readonly id_user: Prisma.FieldRef<"personalisation", 'String'>
+  readonly accessories: Prisma.FieldRef<"personalisation", 'String'>
+  readonly hat_colors: Prisma.FieldRef<"personalisation", 'String'>
+  readonly hair_colors: Prisma.FieldRef<"personalisation", 'String'>
+  readonly facial_hair_types: Prisma.FieldRef<"personalisation", 'String'>
+  readonly facial_hair_colors: Prisma.FieldRef<"personalisation", 'String'>
+  readonly clothes: Prisma.FieldRef<"personalisation", 'String'>
+  readonly clothes_colors: Prisma.FieldRef<"personalisation", 'String'>
+  readonly graphics: Prisma.FieldRef<"personalisation", 'String'>
+  readonly eyes: Prisma.FieldRef<"personalisation", 'String'>
+  readonly eyebrows: Prisma.FieldRef<"personalisation", 'String'>
+  readonly skin_colors: Prisma.FieldRef<"personalisation", 'String'>
 }
     
 
 // Custom InputTypes
 /**
- * PERSONALISATION findUnique
+ * personalisation findUnique
  */
-export type PERSONALISATIONFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the PERSONALISATION
+   * Select specific fields to fetch from the personalisation
    */
-  select?: Prisma.PERSONALISATIONSelect<ExtArgs> | null
+  select?: Prisma.personalisationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the PERSONALISATION
+   * Omit specific fields from the personalisation
    */
-  omit?: Prisma.PERSONALISATIONOmit<ExtArgs> | null
+  omit?: Prisma.personalisationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PERSONALISATIONInclude<ExtArgs> | null
+  include?: Prisma.personalisationInclude<ExtArgs> | null
   /**
-   * Filter, which PERSONALISATION to fetch.
+   * Filter, which personalisation to fetch.
    */
-  where: Prisma.PERSONALISATIONWhereUniqueInput
+  where: Prisma.personalisationWhereUniqueInput
 }
 
 /**
- * PERSONALISATION findUniqueOrThrow
+ * personalisation findUniqueOrThrow
  */
-export type PERSONALISATIONFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the PERSONALISATION
+   * Select specific fields to fetch from the personalisation
    */
-  select?: Prisma.PERSONALISATIONSelect<ExtArgs> | null
+  select?: Prisma.personalisationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the PERSONALISATION
+   * Omit specific fields from the personalisation
    */
-  omit?: Prisma.PERSONALISATIONOmit<ExtArgs> | null
+  omit?: Prisma.personalisationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PERSONALISATIONInclude<ExtArgs> | null
+  include?: Prisma.personalisationInclude<ExtArgs> | null
   /**
-   * Filter, which PERSONALISATION to fetch.
+   * Filter, which personalisation to fetch.
    */
-  where: Prisma.PERSONALISATIONWhereUniqueInput
+  where: Prisma.personalisationWhereUniqueInput
 }
 
 /**
- * PERSONALISATION findFirst
+ * personalisation findFirst
  */
-export type PERSONALISATIONFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the PERSONALISATION
+   * Select specific fields to fetch from the personalisation
    */
-  select?: Prisma.PERSONALISATIONSelect<ExtArgs> | null
+  select?: Prisma.personalisationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the PERSONALISATION
+   * Omit specific fields from the personalisation
    */
-  omit?: Prisma.PERSONALISATIONOmit<ExtArgs> | null
+  omit?: Prisma.personalisationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PERSONALISATIONInclude<ExtArgs> | null
+  include?: Prisma.personalisationInclude<ExtArgs> | null
   /**
-   * Filter, which PERSONALISATION to fetch.
+   * Filter, which personalisation to fetch.
    */
-  where?: Prisma.PERSONALISATIONWhereInput
+  where?: Prisma.personalisationWhereInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
    * 
-   * Determine the order of PERSONALISATIONS to fetch.
+   * Determine the order of personalisations to fetch.
    */
-  orderBy?: Prisma.PERSONALISATIONOrderByWithRelationInput | Prisma.PERSONALISATIONOrderByWithRelationInput[]
+  orderBy?: Prisma.personalisationOrderByWithRelationInput | Prisma.personalisationOrderByWithRelationInput[]
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    * 
-   * Sets the position for searching for PERSONALISATIONS.
+   * Sets the position for searching for personalisations.
    */
-  cursor?: Prisma.PERSONALISATIONWhereUniqueInput
+  cursor?: Prisma.personalisationWhereUniqueInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` PERSONALISATIONS from the position of the cursor.
+   * Take `±n` personalisations from the position of the cursor.
    */
   take?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Skip the first `n` PERSONALISATIONS.
+   * Skip the first `n` personalisations.
    */
   skip?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
    * 
-   * Filter by unique combinations of PERSONALISATIONS.
+   * Filter by unique combinations of personalisations.
    */
-  distinct?: Prisma.PERSONALISATIONScalarFieldEnum | Prisma.PERSONALISATIONScalarFieldEnum[]
+  distinct?: Prisma.PersonalisationScalarFieldEnum | Prisma.PersonalisationScalarFieldEnum[]
 }
 
 /**
- * PERSONALISATION findFirstOrThrow
+ * personalisation findFirstOrThrow
  */
-export type PERSONALISATIONFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the PERSONALISATION
+   * Select specific fields to fetch from the personalisation
    */
-  select?: Prisma.PERSONALISATIONSelect<ExtArgs> | null
+  select?: Prisma.personalisationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the PERSONALISATION
+   * Omit specific fields from the personalisation
    */
-  omit?: Prisma.PERSONALISATIONOmit<ExtArgs> | null
+  omit?: Prisma.personalisationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PERSONALISATIONInclude<ExtArgs> | null
+  include?: Prisma.personalisationInclude<ExtArgs> | null
   /**
-   * Filter, which PERSONALISATION to fetch.
+   * Filter, which personalisation to fetch.
    */
-  where?: Prisma.PERSONALISATIONWhereInput
+  where?: Prisma.personalisationWhereInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
    * 
-   * Determine the order of PERSONALISATIONS to fetch.
+   * Determine the order of personalisations to fetch.
    */
-  orderBy?: Prisma.PERSONALISATIONOrderByWithRelationInput | Prisma.PERSONALISATIONOrderByWithRelationInput[]
+  orderBy?: Prisma.personalisationOrderByWithRelationInput | Prisma.personalisationOrderByWithRelationInput[]
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    * 
-   * Sets the position for searching for PERSONALISATIONS.
+   * Sets the position for searching for personalisations.
    */
-  cursor?: Prisma.PERSONALISATIONWhereUniqueInput
+  cursor?: Prisma.personalisationWhereUniqueInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` PERSONALISATIONS from the position of the cursor.
+   * Take `±n` personalisations from the position of the cursor.
    */
   take?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Skip the first `n` PERSONALISATIONS.
+   * Skip the first `n` personalisations.
    */
   skip?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
    * 
-   * Filter by unique combinations of PERSONALISATIONS.
+   * Filter by unique combinations of personalisations.
    */
-  distinct?: Prisma.PERSONALISATIONScalarFieldEnum | Prisma.PERSONALISATIONScalarFieldEnum[]
+  distinct?: Prisma.PersonalisationScalarFieldEnum | Prisma.PersonalisationScalarFieldEnum[]
 }
 
 /**
- * PERSONALISATION findMany
+ * personalisation findMany
  */
-export type PERSONALISATIONFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the PERSONALISATION
+   * Select specific fields to fetch from the personalisation
    */
-  select?: Prisma.PERSONALISATIONSelect<ExtArgs> | null
+  select?: Prisma.personalisationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the PERSONALISATION
+   * Omit specific fields from the personalisation
    */
-  omit?: Prisma.PERSONALISATIONOmit<ExtArgs> | null
+  omit?: Prisma.personalisationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PERSONALISATIONInclude<ExtArgs> | null
+  include?: Prisma.personalisationInclude<ExtArgs> | null
   /**
-   * Filter, which PERSONALISATIONS to fetch.
+   * Filter, which personalisations to fetch.
    */
-  where?: Prisma.PERSONALISATIONWhereInput
+  where?: Prisma.personalisationWhereInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
    * 
-   * Determine the order of PERSONALISATIONS to fetch.
+   * Determine the order of personalisations to fetch.
    */
-  orderBy?: Prisma.PERSONALISATIONOrderByWithRelationInput | Prisma.PERSONALISATIONOrderByWithRelationInput[]
+  orderBy?: Prisma.personalisationOrderByWithRelationInput | Prisma.personalisationOrderByWithRelationInput[]
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
    * 
-   * Sets the position for listing PERSONALISATIONS.
+   * Sets the position for listing personalisations.
    */
-  cursor?: Prisma.PERSONALISATIONWhereUniqueInput
+  cursor?: Prisma.personalisationWhereUniqueInput
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` PERSONALISATIONS from the position of the cursor.
+   * Take `±n` personalisations from the position of the cursor.
    */
   take?: number
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Skip the first `n` PERSONALISATIONS.
+   * Skip the first `n` personalisations.
    */
   skip?: number
-  distinct?: Prisma.PERSONALISATIONScalarFieldEnum | Prisma.PERSONALISATIONScalarFieldEnum[]
+  distinct?: Prisma.PersonalisationScalarFieldEnum | Prisma.PersonalisationScalarFieldEnum[]
 }
 
 /**
- * PERSONALISATION create
+ * personalisation create
  */
-export type PERSONALISATIONCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the PERSONALISATION
+   * Select specific fields to fetch from the personalisation
    */
-  select?: Prisma.PERSONALISATIONSelect<ExtArgs> | null
+  select?: Prisma.personalisationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the PERSONALISATION
+   * Omit specific fields from the personalisation
    */
-  omit?: Prisma.PERSONALISATIONOmit<ExtArgs> | null
+  omit?: Prisma.personalisationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PERSONALISATIONInclude<ExtArgs> | null
+  include?: Prisma.personalisationInclude<ExtArgs> | null
   /**
-   * The data needed to create a PERSONALISATION.
+   * The data needed to create a personalisation.
    */
-  data: Prisma.XOR<Prisma.PERSONALISATIONCreateInput, Prisma.PERSONALISATIONUncheckedCreateInput>
+  data: Prisma.XOR<Prisma.personalisationCreateInput, Prisma.personalisationUncheckedCreateInput>
 }
 
 /**
- * PERSONALISATION createMany
+ * personalisation createMany
  */
-export type PERSONALISATIONCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * The data used to create many PERSONALISATIONS.
+   * The data used to create many personalisations.
    */
-  data: Prisma.PERSONALISATIONCreateManyInput | Prisma.PERSONALISATIONCreateManyInput[]
+  data: Prisma.personalisationCreateManyInput | Prisma.personalisationCreateManyInput[]
   skipDuplicates?: boolean
 }
 
 /**
- * PERSONALISATION update
+ * personalisation update
  */
-export type PERSONALISATIONUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the PERSONALISATION
+   * Select specific fields to fetch from the personalisation
    */
-  select?: Prisma.PERSONALISATIONSelect<ExtArgs> | null
+  select?: Prisma.personalisationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the PERSONALISATION
+   * Omit specific fields from the personalisation
    */
-  omit?: Prisma.PERSONALISATIONOmit<ExtArgs> | null
+  omit?: Prisma.personalisationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PERSONALISATIONInclude<ExtArgs> | null
+  include?: Prisma.personalisationInclude<ExtArgs> | null
   /**
-   * The data needed to update a PERSONALISATION.
+   * The data needed to update a personalisation.
    */
-  data: Prisma.XOR<Prisma.PERSONALISATIONUpdateInput, Prisma.PERSONALISATIONUncheckedUpdateInput>
+  data: Prisma.XOR<Prisma.personalisationUpdateInput, Prisma.personalisationUncheckedUpdateInput>
   /**
-   * Choose, which PERSONALISATION to update.
+   * Choose, which personalisation to update.
    */
-  where: Prisma.PERSONALISATIONWhereUniqueInput
+  where: Prisma.personalisationWhereUniqueInput
 }
 
 /**
- * PERSONALISATION updateMany
+ * personalisation updateMany
  */
-export type PERSONALISATIONUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * The data used to update PERSONALISATIONS.
+   * The data used to update personalisations.
    */
-  data: Prisma.XOR<Prisma.PERSONALISATIONUpdateManyMutationInput, Prisma.PERSONALISATIONUncheckedUpdateManyInput>
+  data: Prisma.XOR<Prisma.personalisationUpdateManyMutationInput, Prisma.personalisationUncheckedUpdateManyInput>
   /**
-   * Filter which PERSONALISATIONS to update
+   * Filter which personalisations to update
    */
-  where?: Prisma.PERSONALISATIONWhereInput
+  where?: Prisma.personalisationWhereInput
   /**
-   * Limit how many PERSONALISATIONS to update.
+   * Limit how many personalisations to update.
    */
   limit?: number
 }
 
 /**
- * PERSONALISATION upsert
+ * personalisation upsert
  */
-export type PERSONALISATIONUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the PERSONALISATION
+   * Select specific fields to fetch from the personalisation
    */
-  select?: Prisma.PERSONALISATIONSelect<ExtArgs> | null
+  select?: Prisma.personalisationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the PERSONALISATION
+   * Omit specific fields from the personalisation
    */
-  omit?: Prisma.PERSONALISATIONOmit<ExtArgs> | null
+  omit?: Prisma.personalisationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PERSONALISATIONInclude<ExtArgs> | null
+  include?: Prisma.personalisationInclude<ExtArgs> | null
   /**
-   * The filter to search for the PERSONALISATION to update in case it exists.
+   * The filter to search for the personalisation to update in case it exists.
    */
-  where: Prisma.PERSONALISATIONWhereUniqueInput
+  where: Prisma.personalisationWhereUniqueInput
   /**
-   * In case the PERSONALISATION found by the `where` argument doesn't exist, create a new PERSONALISATION with this data.
+   * In case the personalisation found by the `where` argument doesn't exist, create a new personalisation with this data.
    */
-  create: Prisma.XOR<Prisma.PERSONALISATIONCreateInput, Prisma.PERSONALISATIONUncheckedCreateInput>
+  create: Prisma.XOR<Prisma.personalisationCreateInput, Prisma.personalisationUncheckedCreateInput>
   /**
-   * In case the PERSONALISATION was found with the provided `where` argument, update it with this data.
+   * In case the personalisation was found with the provided `where` argument, update it with this data.
    */
-  update: Prisma.XOR<Prisma.PERSONALISATIONUpdateInput, Prisma.PERSONALISATIONUncheckedUpdateInput>
+  update: Prisma.XOR<Prisma.personalisationUpdateInput, Prisma.personalisationUncheckedUpdateInput>
 }
 
 /**
- * PERSONALISATION delete
+ * personalisation delete
  */
-export type PERSONALISATIONDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the PERSONALISATION
+   * Select specific fields to fetch from the personalisation
    */
-  select?: Prisma.PERSONALISATIONSelect<ExtArgs> | null
+  select?: Prisma.personalisationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the PERSONALISATION
+   * Omit specific fields from the personalisation
    */
-  omit?: Prisma.PERSONALISATIONOmit<ExtArgs> | null
+  omit?: Prisma.personalisationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PERSONALISATIONInclude<ExtArgs> | null
+  include?: Prisma.personalisationInclude<ExtArgs> | null
   /**
-   * Filter which PERSONALISATION to delete.
+   * Filter which personalisation to delete.
    */
-  where: Prisma.PERSONALISATIONWhereUniqueInput
+  where: Prisma.personalisationWhereUniqueInput
 }
 
 /**
- * PERSONALISATION deleteMany
+ * personalisation deleteMany
  */
-export type PERSONALISATIONDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Filter which PERSONALISATIONS to delete
+   * Filter which personalisations to delete
    */
-  where?: Prisma.PERSONALISATIONWhereInput
+  where?: Prisma.personalisationWhereInput
   /**
-   * Limit how many PERSONALISATIONS to delete.
+   * Limit how many personalisations to delete.
    */
   limit?: number
 }
 
 /**
- * PERSONALISATION without action
+ * personalisation without action
  */
-export type PERSONALISATIONDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type personalisationDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the PERSONALISATION
+   * Select specific fields to fetch from the personalisation
    */
-  select?: Prisma.PERSONALISATIONSelect<ExtArgs> | null
+  select?: Prisma.personalisationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the PERSONALISATION
+   * Omit specific fields from the personalisation
    */
-  omit?: Prisma.PERSONALISATIONOmit<ExtArgs> | null
+  omit?: Prisma.personalisationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.PERSONALISATIONInclude<ExtArgs> | null
+  include?: Prisma.personalisationInclude<ExtArgs> | null
 }
