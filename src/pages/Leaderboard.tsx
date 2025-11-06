@@ -77,11 +77,11 @@ const Leaderboard = () => {
                   )}
                 </div>
                 {/* Avatar */}
-                <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center overflow-hidden shrink-0">
+                <div className="w-12 h-12 rounded-full bg-gradient-hero flex items-center justify-center overflow-hidden shrink-0">
                   {player.avatarOptions ? (
                     <Avataaars
                       {...player.avatarOptions}
-                      avatarStyle="Circle"
+                      // avatarStyle="Circle"
                       style={{ width: "100%", height: "100%" }}
                     />
                   ) : (

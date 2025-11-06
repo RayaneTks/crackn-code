@@ -437,7 +437,7 @@ app.get("/api/leaderboard", async (req, res) => {
 				level,
 				xp: user.xp_global,
 				avatarOptions: pers ? {
-					avatarStyle: "Circle",
+					// avatarStyle: "Circle",
 					topType: pers.hair || "ShortHairShortFlat",
 					accessoriesType: pers.accessories || "Blank",
 					hatColor: pers.hat_colors || "Black",
@@ -617,7 +617,7 @@ async function checkAndAwardAchievements(userId, context) {
 function toAvatarOptionsFromDb(db) {
     if (!db) return null;
     return {
-        avatarStyle: "Circle",
+        // avatarStyle: "Circle",
         topType: db.hair || "ShortHairShortFlat", // hair stocke le topType en DB
         accessoriesType: db.accessories || "Blank",
         hatColor: db.hat_colors || "Black",

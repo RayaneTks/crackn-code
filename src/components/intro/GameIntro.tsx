@@ -150,7 +150,7 @@ export function GameIntro({ onComplete }: GameIntroProps) {
             <p className="text-muted-foreground">Chargement...</p>
           </div>
           <div className="w-64 h-1 bg-muted rounded-full overflow-hidden mx-auto animate-fade-in-delay-2">
-            <div className="h-full bg-gradient-primary rounded-full animate-progress-bar" />
+            <div className="h-full bg-gradient-hero rounded-full animate-progress-bar" />
           </div>
         </div>
       </div>
@@ -238,7 +238,7 @@ export function GameIntro({ onComplete }: GameIntroProps) {
             <Button
               size="lg"
               onClick={handlePlay}
-              className="bg-gradient-primary text-primary-foreground hover:opacity-90 px-8 py-6 text-lg font-bold shadow-lg hover:shadow-xl transition-all"
+              className="bg-gradient-hero text-primary-foreground hover:opacity-90 px-8 py-6 text-lg font-bold shadow-lg hover:shadow-xl transition-all"
             >
               <Play className="w-6 h-6 mr-2" />
               Embarquer pour l'aventure
