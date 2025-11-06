@@ -114,7 +114,35 @@ export type Minigame =
     | CodeFillMinigame
     | HtmlBuilderMinigame
     | CodeAssemblyMinigame
-    | BossBattleMinigame;
+    | BossBattleMinigame
+    | SyntaxInvadersMinigame;
+// Mini‑jeu Syntax Invaders (shoot them up éducatif)
+export interface SyntaxInvadersPrompt {
+  id: string;
+  text: string; // message affiché en haut (ex: "Vise les lignes incorrectes")
+}
+
+export interface SyntaxInvadersFallingItem {
+  id: string;
+  code: string;      // extrait de code affiché sur le vaisseau
+  isValid: boolean;  // true si correct (ne pas tirer), false si erroné (tirer)
+}
+
+export interface SyntaxInvadersMinigame {
+  type: "syntax-invaders";
+  language: string; // ex: "php"
+  prompts: SyntaxInvadersPrompt[]; // suite de messages / consignes
+  items: SyntaxInvadersFallingItem[]; // éléments qui descendent
+  timeLimitSeconds?: number; // limite de temps optionnelle
+  passingScorePercent?: number; // seuil de réussite
+  lesson?: {
+    title: string;
+    content: string; // texte ou HTML léger pour l’onglet Apprendre
+    resourceUrl?: string; // lien MDN ou doc
+  };
+}
+
+// Union extensible
 
 // Modèle Level
 export interface Level {
@@ -128,6 +156,12 @@ export interface Level {
   isCompleted: boolean;
   isLocked: boolean;
   prerequisites?: string[];
+  // Contenu de cours associé au niveau
+  lesson?: {
+    title: string;
+    content: string;
+    resourceUrl?: string;
+  };
   minigame?: Minigame;
 }
 
