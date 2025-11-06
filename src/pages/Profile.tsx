@@ -11,8 +11,10 @@ import { Avataaars } from "@/components/ui/Avataaars";
 import { toast } from "sonner";
 import { usePersonalisation } from "@/hooks/usePersonalisation";
 import { useActivities } from "@/hooks/useActivities";
+import { useSuccess } from "@/hooks/useSuccess";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { getSuccessDefinition } from "@/data/successDefinitions";
 
 const Profile = () => {
   const [open, setOpen] = useState(false);
@@ -26,6 +28,17 @@ const Profile = () => {
   // Utilise les hooks React Query pour récupérer les données avec actualisation automatique
   const { data: avatarOptions = null } = usePersonalisation(!!user);
   const { data: activities = [] } = useActivities(!!user);
+  const { data: successesFromAPI = [], isLoading: isLoadingSuccess, error: successError } = useSuccess(!!user);
+  
+  // Debug: afficher les erreurs si nécessaire
+  if (successError) {
+    console.error("Error loading successes:", successError);
+  }
+  
+  // Convertir les succès de l'API en format attendu, ou utiliser user.achievements comme fallback
+  const successes = successesFromAPI.length > 0 
+    ? successesFromAPI 
+    : (user?.achievements || []).map((img, index) => ({ id: index, image: img }));
 
   // Fonction pour formater le temps écoulé
   const getTimeAgo = (date: Date): string => {
@@ -204,7 +217,7 @@ const Profile = () => {
               </div>
               <div className="text-center p-4 rounded-lg bg-muted">
                 <Award className="w-8 h-8 text-secondary mx-auto mb-2" />
-                <p className="text-2xl font-bold text-foreground">{user.achievements.length}</p>
+                <p className="text-2xl font-bold text-foreground">{successes.length}</p>
                 <p className="text-sm text-muted-foreground">Succès</p>
               </div>
             </div>
@@ -216,15 +229,38 @@ const Profile = () => {
             <Award className="w-6 h-6 text-secondary" />
             <h2 className="text-2xl font-bold text-foreground">Succès débloqués</h2>
           </div>
-          {user.achievements && user.achievements.length > 0 ? (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {user.achievements.map((achievement, index) => (
-                <div key={index} className="p-5 rounded-lg bg-muted border border-border hover:border-primary transition-colors">
-                  <div className="text-4xl mb-3">{achievement || "🏆"}</div>
-                  <h3 className="font-bold text-foreground mb-2">Succès débloqué</h3>
-                  <p className="text-sm text-muted-foreground">Félicitations pour cet accomplissement !</p>
+          {isLoadingSuccess ? (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">Chargement des succès...</p>
             </div>
-              ))}
+          ) : successes.length > 0 ? (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {successes.map((success) => {
+                const definition = getSuccessDefinition(success.image);
+                if (!definition) {
+                  console.warn("No definition found for success image:", success.image);
+                  return null;
+                }
+                
+                return (
+                  <div 
+                    key={success.id} 
+                    className="p-5 rounded-lg bg-muted border border-border hover:border-primary transition-colors flex flex-col items-center text-center"
+                  >
+                    <img 
+                      src={definition.image_path} 
+                      alt={definition.titre}
+                      className="w-24 h-24 object-contain mb-3"
+                      onError={(e) => {
+                        console.error("Failed to load image:", definition.image_path);
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                    <h3 className="font-bold text-foreground mb-2">{definition.titre}</h3>
+                    <p className="text-sm text-muted-foreground">{definition.description}</p>
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <div className="text-center py-8">

@@ -516,6 +516,7 @@ app.get("/api/achievements", async (req, res) => {
 			},
 		});
 		
+		console.log(`[API] Found ${achievements.length} achievements for user ${req.user.googleId}:`, achievements);
 		return res.json({ achievements });
 	} catch (err) {
 		console.error("GET /api/achievements error:", err);
@@ -570,82 +571,58 @@ async function checkAndAwardAchievements(userId, context) {
 		const existingImages = new Set(existingAchievements.map(a => a.image));
 		
 		// Succès 1: Premier défi complété
-		if (totalCompleted >= 1 && !existingImages.has("🏆")) {
+		if (totalCompleted >= 1 && !existingImages.has("/success1.png")) {
 			await prisma.succes.create({
 				data: {
 					id_user: userId,
-					image: "🏆",
+					image: "/success1.png",
 				},
 			});
-			achievements.push("🏆");
+			achievements.push("/success1.png");
 		}
 		
 		// Succès 2: 10 défis complétés
-		if (totalCompleted >= 10 && !existingImages.has("⭐")) {
+		if (totalCompleted >= 10 && !existingImages.has("/success2.png")) {
 			await prisma.succes.create({
 				data: {
 					id_user: userId,
-					image: "⭐",
+					image: "/success2.png",
 				},
 			});
-			achievements.push("⭐");
+			achievements.push("/success2.png");
 		}
 		
 		// Succès 3: 25 défis complétés
-		if (totalCompleted >= 25 && !existingImages.has("💎")) {
+		if (totalCompleted >= 25 && !existingImages.has("/success3.png")) {
 			await prisma.succes.create({
 				data: {
 					id_user: userId,
-					image: "💎",
+					image: "/success3.png",
 				},
 			});
-			achievements.push("💎");
+			achievements.push("/success3.png");
 		}
 		
 		// Succès 4: 1000 XP atteints
-		if (user?.xp_global >= 1000 && !existingImages.has("⚡")) {
+		if (user?.xp_global >= 1000 && !existingImages.has("/success4.png")) {
 			await prisma.succes.create({
 				data: {
 					id_user: userId,
-					image: "⚡",
+					image: "/success4.png",
 				},
 			});
-			achievements.push("⚡");
+			achievements.push("/success4.png");
 		}
 		
 		// Succès 5: 5000 XP atteints
-		if (user?.xp_global >= 5000 && !existingImages.has("🔥")) {
+		if (user?.xp_global >= 5000 && !existingImages.has("/sucess5.png")) {
 			await prisma.succes.create({
 				data: {
 					id_user: userId,
-					image: "🔥",
+					image: "/sucess5.png",
 				},
 			});
-			achievements.push("🔥");
-		}
-		
-		// Succès 6: Premier niveau HTML complété
-		if (context?.languageId === "html" && context?.levelNumber === 1 && !existingImages.has("🧱")) {
-			await prisma.succes.create({
-				data: {
-					id_user: userId,
-					image: "🧱",
-				},
-			});
-			achievements.push("🧱");
-		}
-		
-		// Succès 7: Tous les langages démarrés (au moins 1 niveau dans chaque langage)
-		const languages = await prisma.language.findMany();
-		const startedLanguages = positions.filter(p => p.completed_level > 0).length;
-		if (startedLanguages >= languages.length && !existingImages.has("🌍")) {
-			await prisma.succes.create({
-				data: {
-					id_user: userId,
-					image: "🌍",
-				},
-			});
-			achievements.push("🌍");
+			achievements.push("/sucess5.png");
 		}
 		
 	} catch (err) {
