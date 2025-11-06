@@ -45,19 +45,6 @@ export const LevelModal = ({ level, isOpen, onClose, onPlay }: LevelModalProps) 
         </DialogHeader>
         
         <div className="space-y-4">
-          {/* Image placeholder */}
-          {level.imageUrl ? (
-            <img
-              src={level.imageUrl}
-              alt={level.title}
-              className="w-full h-48 object-cover rounded-lg"
-            />
-          ) : (
-            <div className="w-full h-48 bg-muted rounded-lg flex items-center justify-center">
-              <Trophy className="w-16 h-16 text-muted-foreground" />
-            </div>
-          )}
-          
           <DialogDescription className="text-base text-foreground">
             {level.description}
           </DialogDescription>
@@ -93,7 +80,7 @@ export const LevelModal = ({ level, isOpen, onClose, onPlay }: LevelModalProps) 
             ) : (
               <Button
                 onClick={onPlay}
-                className="flex-1 gap-2 bg-gradient-hero text-primary-foreground hover:opacity-90 dark:text-primary-foreground"
+                className="flex-1 gap-2 bg-gradient-primary text-primary-foreground hover:opacity-90"
                 size="lg"
               >
                 <Play className="w-5 h-5" />
