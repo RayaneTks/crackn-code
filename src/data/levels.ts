@@ -34,18 +34,9 @@ export const levels: Record<string, Level[]> = {
       isCompleted: false,
       isLocked: true,
       prerequisites: ["html-lvl-1"],
-      minigame: {
-        type: "code-assembly",
-        language: "html",
-        blocks: [
-          { id: "1", content: "<!DOCTYPE html>" },
-          { id: "2", content: "<html>" },
-          { id: "3", content: "<head><title>Layout Flexbox</title></head>" },
-          { id: "4", content: "<body><div class=\"container\"><header>Header</header><main>Main</main></div></body>" },
-          { id: "5", content: "</html>" },
-        ],
-        solutionOrder: ["1", "2", "3", "4", "5"],
-      },
+      // JEU À INTÉGRER : Mini-jeu où l'utilisateur doit créer un layout avec Flexbox
+      // Notions attendues : display: flex, flex-direction (row/column), justify-content, align-items, gap
+      // Exemple de défi : Créer une barre de navigation horizontale, un header avec logo à gauche et menu à droite, ou un card layout avec espacement uniforme
     },
     {
       id: "html-lvl-3",
@@ -58,16 +49,9 @@ export const levels: Record<string, Level[]> = {
       isCompleted: false,
       isLocked: true,
       prerequisites: ["html-lvl-2"],
-      minigame: {
-        type: "html-builder",
-        starter: "<!DOCTYPE html>\n<html>\n  <head>\n    <meta charset=\"utf-8\" />\n    <title>Layout Grid</title>\n    <style>\n      .container { display: grid; grid-template-columns: 200px 1fr; grid-template-rows: auto 1fr auto; gap: 10px; height: 100vh; }\n      .sidebar { background: #f0f0f0; padding: 20px; }\n      .header { background: #333; color: white; padding: 20px; grid-column: 1 / -1; }\n      .main { padding: 20px; }\n      .footer { background: #333; color: white; padding: 20px; grid-column: 1 / -1; }\n    </style>\n  </head>\n  <body>\n    <div class=\"container\">\n      <!-- TODO: Ajoute les sections header, sidebar, main et footer -->\n    </div>\n  </body>\n</html>",
-        goals: [
-          { id: "g1", description: "Un header avec du texte", selector: ".header", minTextLength: 3 },
-          { id: "g2", description: "Une sidebar avec du texte", selector: ".sidebar", minTextLength: 3 },
-          { id: "g3", description: "Une section main avec du texte", selector: ".main", minTextLength: 3 },
-          { id: "g4", description: "Un footer avec du texte", selector: ".footer", minTextLength: 3 },
-        ],
-      },
+      // JEU À INTÉGRER : Mini-jeu où l'utilisateur doit créer un layout avec CSS Grid
+      // Notions attendues : grid-template-columns, grid-template-rows, grid-area, grid-gap, repeat(), minmax()
+      // Exemple de défi : Créer un dashboard avec sidebar, header, main content et footer, ou une galerie d'images responsive
     },
     {
       id: "html-lvl-4",
@@ -127,17 +111,9 @@ export const levels: Record<string, Level[]> = {
       isCompleted: false,
       isLocked: true,
       prerequisites: ["js-lvl-1"],
-      minigame: {
-        type: "code-assembly",
-        language: "javascript",
-        blocks: [
-          { id: "1", content: "const button = document.querySelector('button');" },
-          { id: "2", content: "button.addEventListener('click', () => {" },
-          { id: "3", content: "  console.log('Button clicked!');" },
-          { id: "4", content: "});" },
-        ],
-        solutionOrder: ["1", "2", "3", "4"],
-      },
+      // JEU À INTÉGRER : Mini-jeu de gestion d'événements
+      // Notions attendues : addEventListener, types d'événements (click, submit, input, keydown), preventDefault(), stopPropagation(), event delegation
+      // Exemple de défi : Créer un formulaire interactif, gérer les clics sur des boutons, créer un système de validation en temps réel, implémenter un drag & drop basique
     },
     {
       id: "js-lvl-3",
