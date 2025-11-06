@@ -13,7 +13,7 @@ interface ProfileHeaderProps {
 export const ProfileHeader = ({ user, onEditAvatar }: ProfileHeaderProps) => {
   const xpPercentage = (user.currentXP / user.xpToNextLevel) * 100;
   const avatarProps = user.avatarOptions || {
-    avatarStyle: "Circle",
+    // avatarStyle: "Circle",
     topType: "ShortHairShortFlat",
     accessoriesType: "Blank",
     hairColor: "Brown",
@@ -31,7 +31,7 @@ export const ProfileHeader = ({ user, onEditAvatar }: ProfileHeaderProps) => {
       <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
         {/* Avatar */}
         <div className="relative">
-          <div className="w-24 h-24 rounded-full bg-gradient-primary flex items-center justify-center text-4xl font-bold glow-primary overflow-hidden">
+          <div className="w-24 h-24 rounded-full bg-gradient-hero flex items-center justify-center text-4xl font-bold glow-primary overflow-hidden">
             <Avataaars
               style={{ width: '100%', height: '100%' }}
               {...avatarProps}
