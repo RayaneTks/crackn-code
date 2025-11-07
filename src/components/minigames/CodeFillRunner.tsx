@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { useCountdown } from "@/hooks/useCountdown";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
 
 type CodeFillBlank = {
     id: string;
@@ -66,15 +71,24 @@ function formatSeconds(total: number) {
 }
 
 export function CodeFillRunner({
-                                   game,
-                                   languageId,
-                                   levelKey,
-                               }: {
-    game: CodeFillMinigame;
-    languageId: string;
-    levelKey: string;
+  game,
+  languageId,
+  levelKey,
+  onExit,
+  levelNumber,
+  xpReward,
+  levelTitle,
+}: {
+  game: CodeFillMinigame;
+  languageId: string;
+  levelKey: string;
+  onExit?: () => void;
+  levelNumber?: number;
+  xpReward?: number;
+  levelTitle?: string;
 }) {
     const passing = game.passingScorePercent ?? 100;
+    const [started, setStarted] = useState(false);
 
     const tokens = useMemo(() => tokenizeSnippet(game.snippet), [game.snippet]);
     const blankIds = useMemo(
@@ -91,12 +105,13 @@ export function CodeFillRunner({
     const [values, setValues] = useState<Record<string, string>>(initialValues);
     const [finished, setFinished] = useState(false);
 
-    const remaining = useCountdown(game.timeLimitSeconds, !finished);
+    const remaining = useCountdown(game.timeLimitSeconds, started && !finished);
 
     // reset si on change de level
     useEffect(() => {
         setValues(initialValues);
         setFinished(false);
+        setStarted(false);
     }, [languageId, levelKey, game, initialValues]);
 
     useEffect(() => {
@@ -134,128 +149,164 @@ export function CodeFillRunner({
     const handleRestart = () => {
         setValues(initialValues);
         setFinished(false);
+        setStarted(false);
+    };
+
+    const handleCompleteLevel = async () => {
+        const passedLocal = passed;
+        if (!passedLocal || !languageId || !levelNumber) {
+            toast.error("Impossible de valider le niveau");
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/api/languages/${languageId}/complete`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({
+                    levelNumber,
+                    xpReward: xpReward || 0,
+                    levelTitle: levelTitle || `${languageId.charAt(0).toUpperCase() + languageId.slice(1)} - Niveau ${levelNumber}`,
+                }),
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                toast.success(`Niveau complété ! +${xpReward || 0} XP`);
+                if (data.newAchievements && data.newAchievements.length > 0) {
+                    setTimeout(() => {
+                        data.newAchievements.forEach((achievement: string) => {
+                            toast.success(`🎉 Nouveau succès débloqué ! ${achievement}`);
+                        });
+                    }, 500);
+                }
+                if (onExit) {
+                    setTimeout(() => onExit(), 1500);
+                }
+            } else {
+                toast.error("Erreur lors de la validation du niveau");
+            }
+        } catch (err) {
+            console.error("Erreur lors de la complétion du niveau:", err);
+            toast.error("Erreur lors de la validation du niveau");
+        }
     };
 
     return (
         <div className="mt-4 space-y-4">
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
-                {!finished ? (
-                    <>
-            <span>
-              Blocs à compléter: {correctCount}/{total} corrects (provisoire)
-            </span>
-                        {typeof remaining === "number" && (
-                            <span className={remaining <= 10 ? "text-red-500" : ""}>
-                {formatSeconds(remaining)}
-              </span>
-                        )}
-                    </>
-                ) : (
-                    <span>Exercice terminé</span>
-                )}
-            </div>
+            <Tabs defaultValue="learn">
+                <TabsList>
+                    <TabsTrigger value="learn">Apprendre</TabsTrigger>
+                    <TabsTrigger value="play">Jouer</TabsTrigger>
+                </TabsList>
 
-            {/* Zone code */}
-            <div className="border rounded-md p-3 bg-muted">
-        <pre className="font-mono text-sm whitespace-pre-wrap break-words">
-          {tokens.map((tk, idx) =>
-              tk.type === "text" ? (
-                  <span key={idx}>{tk.text}</span>
-              ) : (
-                  <InlineBlank
-                      key={idx}
-                      id={tk.id}
-                      def={game.blanks.find((b) => b.id === tk.id)}
-                      value={values[tk.id] ?? ""}
-                      onChange={(v) => handleChange(tk.id, v)}
-                      onSelectChoice={(v) => handleSelectChoice(tk.id, v)}
-                      showResult={finished}
-                      correct={
-                          finished
-                              ? isAnswerCorrect(
-                                  values[tk.id] ?? "",
-                                  game.blanks.find((b) => b.id === tk.id)!
-                              )
-                              : undefined
-                      }
-                  />
-              )
-          )}
-        </pre>
-            </div>
-
-            {/* Actions */}
-            {!finished ? (
-                <div className="flex items-center gap-2">
-                    <Button onClick={handleFinish}>Terminer</Button>
-                    <Button variant="secondary" onClick={handleRestart}>
-                        Réinitialiser
-                    </Button>
-                </div>
-            ) : (
-                <div className="space-y-4">
-                    <div
-                        className={[
-                            "p-4 rounded-md border",
-                            passed
-                                ? "border-green-500 bg-green-50 text-green-700"
-                                : "border-amber-500 bg-amber-50 text-amber-700",
-                        ].join(" ")}
-                    >
-                        <div className="font-semibold">
-                            {passed ? "Bravo !" : "C'est presque bon !"}
+                <TabsContent value="learn">
+                    <Card className="p-4">
+                        <h2 className="text-xl font-bold text-foreground mb-2">
+                            {levelTitle ?? "Code Fill — Complète le code"}
+                        </h2>
+                        <div className="text-sm text-muted-foreground">
+                            <p>
+                                Complète les trous du code avec les bons mots‑clés et valeurs.
+                                Utilise l'onglet Jouer pour t'entraîner sous un timer.
+                            </p>
                         </div>
-                        <div className="text-sm mt-1">
-                            Score: {correctCount} / {total} ({scorePercent}%) — Seuil:{" "}
-                            {passing}%.
-                        </div>
-                    </div>
+                    </Card>
+                </TabsContent>
 
-                    {/* Détails des réponses avec explications */}
-                    <div className="space-y-2">
-                        {game.blanks.map((b) => {
-                            const ok = (resultPerBlank as any)[b.id];
-                            const expected = Array.isArray(b.answer)
-                                ? b.answer.join(" | ")
-                                : b.answer;
-                            return (
-                                <div
-                                    key={b.id}
-                                    className={[
-                                        "border rounded-md p-3 text-sm",
-                                        ok
-                                            ? "border-green-300 bg-green-50"
-                                            : "border-red-300 bg-red-50",
-                                    ].join(" ")}
-                                >
-                                    <div className="font-medium mb-1">
-                                        Trou n°{b.id}: {ok ? "Correct" : "Incorrect"}
-                                    </div>
-                                    {!ok && (
-                                        <div className="text-muted-foreground">
-                                            Votre réponse: “{values[b.id] ?? ""}”
-                                        </div>
+                <TabsContent value="play">
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between text-sm text-muted-foreground">
+                            {!finished ? (
+                                <>
+                                    <span>Blocs à compléter: {correctCount}/{total} corrects (provisoire)</span>
+                                    {typeof remaining === "number" && (
+                                        <span className={remaining <= 10 ? "text-red-500" : ""}>{formatSeconds(remaining)}</span>
                                     )}
-                                    <div className="text-muted-foreground">
-                                        Réponse attendue: {expected}
+                                </>
+                            ) : (
+                                <span>Exercice terminé</span>
+                            )}
+                        </div>
+
+                        {!finished ? (
+                            <div className="space-y-4">
+                                {!started ? (
+                                    <div className="flex items-center gap-2">
+                                        <Button onClick={() => setStarted(true)}>Lancer l'exercice</Button>
+                                        <Button variant="secondary" onClick={handleRestart}>Réinitialiser</Button>
                                     </div>
-                                    {b.explanation && (
-                                        <div className="text-muted-foreground mt-1">
-                                            {b.explanation}
+                                ) : (
+                                    <>
+                                        {/* Zone code */}
+                                        <div className="border rounded-md p-3 bg-muted">
+                                            <pre className="font-mono text-sm whitespace-pre-wrap break-words">
+                                                {tokens.map((tk, idx) =>
+                                                    tk.type === "text" ? (
+                                                        <span key={idx}>{tk.text}</span>
+                                                    ) : (
+                                                        <InlineBlank
+                                                            key={idx}
+                                                            id={tk.id}
+                                                            def={game.blanks.find((b) => b.id === tk.id)}
+                                                            value={values[tk.id] ?? ""}
+                                                            onChange={(v) => handleChange(tk.id, v)}
+                                                            onSelectChoice={(v) => handleSelectChoice(tk.id, v)}
+                                                            showResult={finished}
+                                                            correct={
+                                                                finished
+                                                                    ? isAnswerCorrect(
+                                                                        values[tk.id] ?? "",
+                                                                        game.blanks.find((b) => b.id === tk.id)!
+                                                                    )
+                                                                    : undefined
+                                                            }
+                                                        />
+                                                    )
+                                                )}
+                                            </pre>
                                         </div>
-                                    )}
+
+                                        {/* Actions */}
+                                        <div className="flex items-center gap-2">
+                                            <Button onClick={handleFinish}>Terminer</Button>
+                                            <Button variant="secondary" onClick={handleRestart}>Réinitialiser</Button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        ) : (
+                            <div className="space-y-4">
+                                <div className={["p-4 rounded-md border", passed ? "border-green-500 bg-green-50 text-green-700" : "border-amber-500 bg-amber-50 text-amber-700"].join(" ")}>
+                                    <div className="font-semibold">{passed ? "Bravo !" : "C'est presque bon !"}</div>
+                                    <div className="text-sm mt-1">Score: {correctCount} / {total} ({scorePercent}%) — Seuil: {passing}%.</div>
                                 </div>
-                            );
-                        })}
+                                {/* Détails des réponses */}
+                                <div className="space-y-2">
+                                    {game.blanks.map((b) => {
+                                        const ok = (resultPerBlank as any)[b.id];
+                                        const expected = Array.isArray(b.answer) ? b.answer.join(" | ") : b.answer;
+                                        return (
+                                            <div key={b.id} className={["border rounded-md p-3 text-sm", ok ? "border-green-300 bg-green-50" : "border-red-300 bg-red-50"].join(" ")}>
+                                                <div className="font-medium mb-1">Trou n°{b.id}: {ok ? "Correct" : "Incorrect"}</div>
+                                                {!ok && <div className="text-muted-foreground">Votre réponse: “{values[b.id] ?? ""}”</div>}
+                                                <div className="text-muted-foreground">Réponse attendue: {expected}</div>
+                                                {b.explanation && <div className="text-muted-foreground mt-1">{b.explanation}</div>}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    {onExit && <Button variant="ghost" onClick={onExit}>Quitter</Button>}
+                                    <Button disabled={!passed} onClick={handleCompleteLevel}>Valider le niveau</Button>
+                                    <Button variant="secondary" onClick={handleRestart}>Recommencer</Button>
+                                </div>
+                            </div>
+                        )}
                     </div>
-
-                    <div className="flex items-center gap-2">
-                        <Button variant="secondary" onClick={handleRestart}>
-                            Recommencer
-                        </Button>
-                    </div>
-                </div>
-            )}
+                </TabsContent>
+            </Tabs>
         </div>
     );
 }

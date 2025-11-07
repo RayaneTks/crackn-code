@@ -10,6 +10,7 @@ import { HtmlBuilderRunner } from "@/components/minigames/HtmlBuilderRunner";
 import { CodeAssemblyRunner } from "@/components/minigames/CodeAssemblyRunner";
 import { BossBattleMinigame } from "@/components/minigames/BossBattleMinigame.tsx";
 import { useUserData } from "@/hooks/useUserData";
+import { SyntaxInvadersRunner } from "@/components/minigames/SyntaxInvadersRunner";
 
 type RouteParams = {
     id?: string; // language id (e.g., "python")
@@ -105,18 +106,47 @@ const Level = () => {
                                 {level.description}
                             </p>
 
+                            {/* Partie Cours (affichée si disponible et si le mini‑jeu n'intègre pas déjà un onglet Apprendre) */}
+                            {level.lesson && !(minigame?.type === "html-builder" || minigame?.type === "syntax-invaders") && (
+                                <Card className="p-4 mb-4">
+                                    <h5 className="text-base font-bold text-foreground mb-2">
+                                        {level.lesson.title}
+                                    </h5>
+                                    <div className="text-sm whitespace-pre-wrap text-muted-foreground">
+                                        {level.lesson.content}
+                                    </div>
+                                    {level.lesson.resourceUrl && (
+                                        <div className="mt-3">
+                                            <Button variant="ghost" asChild>
+                                                <a href={level.lesson.resourceUrl} target="_blank" rel="noreferrer">
+                                                    Consulter la documentation
+                                                </a>
+                                            </Button>
+                                        </div>
+                                    )}
+                                </Card>
+                            )}
+
                             {/* Zone mini-jeu */}
                             {minigame?.type === "quiz" ? (
                                 <QuizRunner
                                     quiz={minigame}
                                     languageId={id}
                                     levelKey={level.id}
+                                    onExit={() => navigate(`/language/${id}`)}
+                                    levelNumber={level.levelNumber}
+                                    xpReward={level.xpReward}
+                                    levelTitle={level.title}
                                 />
                             ) : minigame?.type === "code-fill" ? (
                                 <CodeFillRunner
                                     game={minigame}
                                     languageId={id}
                                     levelKey={level.id}
+                                    onExit={() => navigate(`/language/${id}`)}
+                                    levelNumber={level.levelNumber}
+                                    xpReward={level.xpReward}
+                                    levelTitle={level.title}
                                 />
                             ) : minigame?.type === "html-builder" ? (
                                 <HtmlBuilderRunner
@@ -130,23 +160,32 @@ const Level = () => {
                             ) : minigame?.type === "code-assembly" ? (
                                 <CodeAssemblyRunner
                                     game={minigame}
-                                    onComplete={(success) => {
-                                        if (success) {
-                                            // TODO: Ajouter la gestion XP et completion comme les autres runners
-                                            navigate(`/language/${id}`);
-                                        }
-                                    }}
+                                    languageId={id}
+                                    levelNumber={level.levelNumber}
+                                    xpReward={level.xpReward}
+                                    levelTitle={level.title}
+                                    onExit={() => navigate(`/language/${id}`)}
                                 />
                             ) : minigame?.type === "boss-battle" ? (
                                 <BossBattleMinigame
                                     game={minigame}
-                                    onComplete={(success) => {
-                                        if (success) {
-                                            alert("Félicitations ! Vous avez vaincu le boss.");
-                                        } else {
-                                            alert("Le boss vous a vaincu. Réessayez !");
-                                        }
-                                    }}
+                                    languageId={id}
+                                    levelKey={level.id}
+                                    onExit={() => navigate(`/language/${id}`)}
+                                    levelNumber={level.levelNumber}
+                                    xpReward={level.xpReward}
+                                    levelTitle={level.title}
+                                />
+                            ) : minigame?.type === "syntax-invaders" ? (
+                                <SyntaxInvadersRunner
+                                    // @ts-expect-error: typage simplifié
+                                  game={minigame}
+                                  languageId={id}
+                                  levelKey={level.id}
+                                  onExit={() => navigate(`/language/${id}`)}
+                                  levelNumber={level.levelNumber}
+                                  xpReward={level.xpReward}
+                                  levelTitle={level.title}
                                 />
                             ) : (
                                 <div className="text-sm text-muted-foreground">
