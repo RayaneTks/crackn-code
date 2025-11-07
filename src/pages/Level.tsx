@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { ArrowLeft, Zap } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout.tsx";
 import { Card } from "@/components/ui/card.tsx";
+import { LessonCard } from "@/components/lesson/LessonCard";
 import { QuizRunner } from "@/components/minigames/QuizRunner";
 import { CodeFillRunner } from "@/components/minigames/CodeFillRunner";
 import { HtmlBuilderRunner } from "@/components/minigames/HtmlBuilderRunner";
@@ -108,23 +109,13 @@ const Level = () => {
 
                             {/* Partie Cours (affichée si disponible et si le mini‑jeu n'intègre pas déjà un onglet Apprendre) */}
                             {level.lesson && !(minigame?.type === "html-builder" || minigame?.type === "syntax-invaders") && (
-                                <Card className="p-4 mb-4">
-                                    <h5 className="text-base font-bold text-foreground mb-2">
-                                        {level.lesson.title}
-                                    </h5>
-                                    <div className="text-sm whitespace-pre-wrap text-muted-foreground">
-                                        {level.lesson.content}
-                                    </div>
-                                    {level.lesson.resourceUrl && (
-                                        <div className="mt-3">
-                                            <Button variant="ghost" asChild>
-                                                <a href={level.lesson.resourceUrl} target="_blank" rel="noreferrer">
-                                                    Consulter la documentation
-                                                </a>
-                                            </Button>
-                                        </div>
-                                    )}
-                                </Card>
+                                <div className="mb-4">
+                                    <LessonCard
+                                        title={level.lesson.title}
+                                        html={level.lesson.content}
+                                        resourceUrl={level.lesson.resourceUrl}
+                                    />
+                                </div>
                             )}
 
                             {/* Zone mini-jeu */}

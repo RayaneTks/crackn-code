@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
+import { LessonCard } from "@/components/lesson/LessonCard";
 import { useCountdown } from "@/hooks/useCountdown";
 import type { SyntaxInvadersMinigame } from "@/types";
 import { toast } from "sonner";
@@ -255,38 +256,11 @@ export function SyntaxInvadersRunner({
         </TabsList>
 
         <TabsContent value="learn">
-          <Card className="p-4">
-            <h2 className="text-xl font-bold text-foreground mb-2">
-              {game.lesson?.title ?? `PHP — Identifier la syntaxe correcte`}
-            </h2>
-            <div className="text-sm whitespace-pre-wrap leading-relaxed text-muted-foreground">
-              {game.lesson?.content ?? (
-                <>
-                  <p>
-                    En PHP, chaque instruction se termine par un point‑virgule <code>;</code>, les
-                    chaînes s&apos;écrivent entre guillemets, et les variables commencent par <code>$</code>.
-                  </p>
-                  <p className="mt-2">
-                    Exemples valides:
-                  </p>
-                  <pre className="p-3 rounded bg-muted overflow-auto text-xs">
-{`<?php
-$name = "World";
-echo "Hello, $name";
-?>`}
-                  </pre>
-                  <p className="mt-2">Exemples invalides typiques: oubli de <code>;</code>, mauvaise ouverture/fermeture de balises, variable sans <code>$</code>.</p>
-                </>
-              )}
-            </div>
-            <div className="mt-3">
-              {game.lesson?.resourceUrl && (
-                <Button variant="ghost" asChild>
-                  <a href={game.lesson.resourceUrl} target="_blank" rel="noreferrer">Consulter la documentation</a>
-                </Button>
-              )}
-            </div>
-          </Card>
+          <LessonCard
+            title={game.lesson?.title ?? `PHP — Identifier la syntaxe correcte`}
+            html={game.lesson?.content}
+            resourceUrl={game.lesson?.resourceUrl}
+          />
         </TabsContent>
 
         <TabsContent value="play">

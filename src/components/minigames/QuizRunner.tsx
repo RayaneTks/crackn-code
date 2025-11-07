@@ -7,7 +7,11 @@ import { toast } from "sonner";
 import { HelpCircle, Clock, CheckCircle2, XCircle, Zap, Trophy, Target, Lightbulb, Sparkles, ArrowRight, Wand2 } from "lucide-react";
 import { LevelCompleteCinematic } from "@/components/storytelling/LevelCompleteCinematic";
 import { isCheatModeEnabled } from "@/utils/cheatMode";
+<<<<<<< Updated upstream
 import { getSuccessDefinition } from "@/data/achievements";
+=======
+import { LessonCard } from "@/components/lesson/LessonCard";
+>>>>>>> Stashed changes
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
 
@@ -376,62 +380,11 @@ export function QuizRunner({
                     </TabsList>
 
                 <TabsContent value="learn" className="mt-4">
-                    <Card className="p-6 bg-gradient-to-br from-slate-900/50 via-blue-900/30 to-slate-800/50 border-blue-500/20 shadow-xl">
-                        <div className="flex items-center justify-between mb-6">
-                            <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-lg bg-gradient-to-br from-blue-500/30 to-indigo-500/30 border border-blue-400/50">
-                                    <Sparkles className="w-6 h-6 text-blue-400 animate-pulse" />
-                                </div>
-                                <div>
-                                    <h2 className="text-xl font-bold text-foreground">
-                                        {quiz.lesson?.title ?? levelTitle ?? "Quiz — Rappels et astuces"}
-                                    </h2>
-                                    <p className="text-xs text-muted-foreground">Leçon interactive</p>
-                                </div>
-                            </div>
-                            <div className="px-3 py-1 rounded-full bg-gradient-to-r from-blue-500/20 to-indigo-500/20 border border-blue-400/30">
-                                <span className="text-xs font-bold text-blue-300">📚 Théorie</span>
-                            </div>
-                        </div>
-                        <div className="space-y-4">
-                            <div className="p-4 rounded-lg bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border border-blue-500/20">
-                                <div className="flex items-start gap-3">
-                                    <div className="w-1 h-full bg-gradient-to-b from-blue-500 to-indigo-500 rounded-full min-h-[40px]" />
-                                    <div className="flex-1 space-y-2">
-                                        {quiz.lesson?.content ? (
-                                            <div className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
-                                                {quiz.lesson.content}
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <p className="text-sm text-foreground leading-relaxed font-medium">
-                                                    Révisez les concepts clés du niveau avant de jouer.
-                                                </p>
-                                                <div className="flex items-center gap-2 mt-3 p-2 rounded-md bg-background/50 border border-blue-500/20">
-                                                    <Lightbulb className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                                                    <p className="text-xs text-muted-foreground">
-                                                        Astuce: lisez attentivement chaque énoncé et éliminez les réponses impossibles.
-                                                    </p>
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                            {quiz.lesson?.resourceUrl && (
-                                <Button 
-                                    variant="secondary" 
-                                    asChild
-                                    className="w-full bg-gradient-to-r from-blue-500/20 to-indigo-500/20 hover:from-blue-500/30 hover:to-indigo-500/30 border border-blue-400/30"
-                                >
-                                    <a href={quiz.lesson.resourceUrl} target="_blank" rel="noreferrer">
-                                        <Lightbulb className="w-4 h-4 mr-2" />
-                                        Consulter la documentation
-                                    </a>
-                                </Button>
-                            )}
-                        </div>
-                    </Card>
+                    <LessonCard
+                        title={quiz.lesson?.title ?? levelTitle ?? "Quiz — Rappels et astuces"}
+                        html={quiz.lesson?.content}
+                        resourceUrl={quiz.lesson?.resourceUrl}
+                    />
                 </TabsContent>
 
                 <TabsContent value="play" className="mt-4">
