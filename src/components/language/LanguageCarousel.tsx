@@ -224,7 +224,7 @@ export const LanguageCarousel = ({ languages, onLanguageSelect }: LanguageCarous
 
               <Button
                 onClick={() => onLanguageSelect(selectedLanguage)}
-                className="w-full bg-gradient-hero text-primary-foreground hover:opacity-90 text-sm md:text-base"
+                className="w-full bg-gradient-hero text-primary-foreground hover:opacity-90 text-sm md:text-base text-muted-foreground"
                 size="lg"
               >
                 Commencer l'aventure
