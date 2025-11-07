@@ -6,19 +6,48 @@ import { Code2, Sparkles, Skull } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LoginPrompt } from "@/components/auth/LoginPrompt";
 import { useLanguagesData } from "@/hooks/useLanguagesData";
 import { getLanguageLevelsCount } from "@/data/languages";
+import { CracknChat, addMessageToHistory } from "@/components/storytelling/CracknChat";
+import { CRACKN_DIALOGUES } from "@/data/storytelling";
+import { CracknMessage } from "@/components/storytelling/CracknCompanion";
 
 const Home = () => {
   const navigate = useNavigate();
   const { user, loginWithGoogle } = useAuth();
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [cracknMessages, setCracknMessages] = useState<CracknMessage[]>([]);
   
   // Utilise le hook React Query pour récupérer les langages avec actualisation automatique
   // Toujours activé pour afficher les langages même si pas connecté
   const { data: languages = [], isLoading } = useLanguagesData(true);
+
+  // Affiche Crack'n au chargement de la page
+  useEffect(() => {
+    if (user) {
+      // Message de bienvenue pour les utilisateurs connectés
+      const welcomeMsg: CracknMessage = {
+        id: "welcome-back",
+        text: CRACKN_DIALOGUES.welcome?.text || "Bienvenue à bord, jeune codeur ! Prêt pour de nouvelles aventures ?",
+        emotion: CRACKN_DIALOGUES.welcome?.emotion || "happy",
+        duration: 5000,
+      };
+      addMessageToHistory(welcomeMsg);
+      setCracknMessages(prev => [...prev, welcomeMsg]);
+    } else {
+      // Message pour les visiteurs
+      const visitorMsg: CracknMessage = {
+        id: "welcome-visitor",
+        text: "Salut ! Je suis Crack'n ! 🐙 Connecte-toi pour commencer l'aventure et libérer les mers du code du Kraken !",
+        emotion: "excited",
+        duration: 6000,
+      };
+      addMessageToHistory(visitorMsg);
+      setCracknMessages(prev => [...prev, visitorMsg]);
+    }
+  }, [user]);
 
   return (
     <AppLayout>
@@ -41,7 +70,14 @@ const Home = () => {
           </div>
           {/* Right: Logo */}
           <div className="flex-1 flex justify-end items-center">
-            <img src="/logo.png" alt="Logo Crack'n Code" className="w-48 h-48 object-contain drop-shadow-xl" />
+            <img 
+              src="/logo.png" 
+              alt="Logo Crack'n Code" 
+              className="w-48 h-48 object-contain drop-shadow-xl"
+              style={{
+                filter: 'hue-rotate(-20deg) saturate(1.2) brightness(1.1)',
+              }}
+            />
           </div>
 
           {/* Decorative elements */}
@@ -143,6 +179,11 @@ const Home = () => {
         )}
       </div>
       <LoginPrompt open={showLoginPrompt} onOpenChange={setShowLoginPrompt} />
+      {/* Crack'n Chat */}
+      <CracknChat 
+        messages={cracknMessages}
+        position="bottom-right"
+      />
     </AppLayout>
   );
 };

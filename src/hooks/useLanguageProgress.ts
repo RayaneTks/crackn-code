@@ -24,13 +24,66 @@ export const useLanguageProgress = (languageId: string | undefined, enabled: boo
         };
       }
 
-      const res = await fetch(`${API_BASE}/api/languages/${languageId}/levels`, {
-        credentials: "include",
-      });
+      // Vérifie d'abord si le langage existe dans les données statiques
+      const staticLang = staticLanguages.find((lang) => lang.id === languageId);
+      if (!staticLang) {
+        // Si le langage n'existe pas, retourne undefined
+        return {
+          language: undefined,
+          levels: [],
+          completedLevel: 0,
+        };
+      }
 
-      if (!res.ok) {
-        // Si pas connecté, retourne les données statiques
-        const staticLang = staticLanguages.find((lang) => lang.id === languageId);
+      try {
+        const res = await fetch(`${API_BASE}/api/languages/${languageId}/levels`, {
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          // Si pas connecté ou erreur, retourne les données statiques
+          const staticLevelsForLang = staticLevels[languageId] || [];
+          return {
+            language: staticLang,
+            levels: staticLevelsForLang,
+            completedLevel: 0,
+          };
+        }
+
+        const data = await res.json();
+        const completed = data.completedLevel || 0;
+
+        // Calcule l'XP gagné depuis les niveaux complétés
+        const XP_PER_LEVEL = [100, 150, 200, 200, 250];
+        const earnedXP = completed > 0 
+          ? XP_PER_LEVEL.slice(0, completed).reduce((sum, xp) => sum + xp, 0)
+          : 0;
+        const totalXP = 900; // 100 + 150 + 200 + 200 + 250
+        
+        const updatedLanguage = {
+          ...staticLang,
+          completedLevels: completed,
+          currentLevel: data.currentLevel || completed + 1,
+          earnedXP: data.earnedXP !== undefined ? data.earnedXP : earnedXP,
+          totalXP: data.totalXP !== undefined ? data.totalXP : totalXP,
+        };
+
+        // Met à jour les niveaux avec leur statut
+        const staticLevelsForLang = staticLevels[languageId] || [];
+        const updatedLevels = staticLevelsForLang.map((level) => ({
+          ...level,
+          isCompleted: level.levelNumber <= completed,
+          isLocked: level.levelNumber > completed + 1,
+        }));
+
+        return {
+          language: updatedLanguage,
+          levels: updatedLevels,
+          completedLevel: completed,
+        };
+      } catch (error) {
+        // En cas d'erreur réseau, retourne les données statiques
+        console.error("Erreur lors de la récupération de la progression:", error);
         const staticLevelsForLang = staticLevels[languageId] || [];
         return {
           language: staticLang,
@@ -38,47 +91,10 @@ export const useLanguageProgress = (languageId: string | undefined, enabled: boo
           completedLevel: 0,
         };
       }
-
-      const data = await res.json();
-      const completed = data.completedLevel || 0;
-
-      // Met à jour le langage avec la progression
-      const staticLang = staticLanguages.find((lang) => lang.id === languageId);
-      
-      // Calcule l'XP gagné depuis les niveaux complétés
-      const XP_PER_LEVEL = [100, 150, 200, 200, 250];
-      const earnedXP = completed > 0 
-        ? XP_PER_LEVEL.slice(0, completed).reduce((sum, xp) => sum + xp, 0)
-        : 0;
-      const totalXP = 900; // 100 + 150 + 200 + 200 + 250
-      
-      const updatedLanguage = staticLang
-        ? {
-            ...staticLang,
-            completedLevels: completed,
-            currentLevel: data.currentLevel || completed + 1,
-            earnedXP: data.earnedXP !== undefined ? data.earnedXP : earnedXP,
-            totalXP: data.totalXP !== undefined ? data.totalXP : totalXP,
-          }
-        : undefined;
-
-      // Met à jour les niveaux avec leur statut
-      const staticLevelsForLang = staticLevels[languageId] || [];
-      const updatedLevels = staticLevelsForLang.map((level) => ({
-        ...level,
-        isCompleted: level.levelNumber <= completed,
-        isLocked: level.levelNumber > completed + 1,
-      }));
-
-      return {
-        language: updatedLanguage,
-        levels: updatedLevels,
-        completedLevel: completed,
-      };
     },
     enabled: enabled && !!languageId,
-    refetchInterval: 5000, // Actualise toutes les 5 secondes
-    refetchIntervalInBackground: true,
+    refetchInterval: enabled ? 5000 : false, // Actualise seulement si activé
+    refetchIntervalInBackground: enabled,
     refetchOnWindowFocus: true,
     staleTime: 0,
     retry: 1,

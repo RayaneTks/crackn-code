@@ -156,7 +156,21 @@ export const LanguageCarousel = ({ languages, onLanguageSelect }: LanguageCarous
             <div className="space-y-3 md:space-y-4">
               <div>
                 <h3 className="text-xl md:text-2xl font-bold text-foreground mb-1 md:mb-2 flex items-center gap-2 md:gap-3">
-                  <span className="text-2xl md:text-3xl">{selectedLanguage.icon}</span>
+                  <img 
+                    src={`/${selectedLanguage.id}.png`} 
+                    alt={selectedLanguage.name}
+                    className="w-8 h-8 md:w-10 md:h-10 object-contain"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      if (target) {
+                        target.style.display = "none";
+                        const fallback = document.createElement("span");
+                        fallback.className = "text-2xl md:text-3xl";
+                        fallback.textContent = selectedLanguage.icon;
+                        target.parentNode?.appendChild(fallback);
+                      }
+                    }}
+                  />
                   {selectedLanguage.name}
                 </h3>
                 <p className="text-muted-foreground text-xs md:text-sm">{selectedLanguage.description}</p>

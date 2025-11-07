@@ -6,33 +6,33 @@
 
 @layer base {
   :root {
-    /* Default (dark) theme — deep sea and gold accents */
+    /* Default (dark) theme — deep sea and coral accents */
   --background: 53 10% 13%; /* #35302d noir pirate */
-  --foreground: 210 40% 98%;
-  --card: 53 10% 16%; /* #3b4245 grisbleu foncé */
+  --foreground: 210 40% 98%; /* Texte principal très clair pour meilleur contraste */
+  --card: 53 10% 18%; /* #3b4245 grisbleu foncé - légèrement plus clair */
   --card-foreground: 210 40% 98%;
-  --popover: 53 10% 16%;
+  --popover: 53 10% 18%;
   --popover-foreground: 210 40% 98%;
-  --primary: 338 40% 35%; /* #7d3437 rouge foncé */
-  --primary-foreground: 210 40% 98%;
-  --secondary: 320 20% 38%; /* #784c51 violet pirate */
+  --primary: 357 55% 60%; /* #d65f63 nouveau rose/coral clair */
+  --primary-foreground: 53 10% 13%; /* Texte sombre sur fond clair pour meilleur contraste */
+  --secondary: 357 50% 55%; /* #d65f63 légèrement plus foncé pour variante */
   --secondary-foreground: 210 40% 98%;
-  --accent: 320 20% 38%; /* #784c51 violet pirate */
-  --accent-foreground: 210 40% 98%;
-  --destructive: 338 40% 35%; /* #7d3437 rouge foncé */
+  --accent: 357 55% 60%; /* #d65f63 nouveau rose/coral clair */
+  --accent-foreground: 53 10% 13%; /* Texte sombre pour meilleur contraste */
+  --destructive: 0 70% 55%; /* Rouge plus vif pour erreurs */
   --destructive-foreground: 210 40% 98%;
-  --muted: 53 10% 18%; /* #3b4245 grisbleu foncé */
-  --muted-foreground: 210 40% 80%;
-  --border: 53 10% 20%;
-  --input: 53 10% 20%;
-  --ring: 320 20% 38%; /* violet pirate */
+  --muted: 53 10% 20%; /* Légèrement plus clair pour meilleure visibilité */
+  --muted-foreground: 210 40% 85%; /* Plus clair pour meilleur contraste */
+  --border: 53 10% 25%; /* Plus clair pour meilleure visibilité */
+  --input: 53 10% 22%; /* Plus clair pour meilleure visibilité */
+  --ring: 357 55% 60%; /* Nouveau rose/coral pour focus */
     --radius: 0.75rem;
 
     /* Gradients and effects used by Tailwind extensions */
-  --gradient-primary: linear-gradient(135deg, hsl(338 40% 35%), hsl(320 20% 38%));
-  --gradient-accent: linear-gradient(135deg, hsl(320 20% 38%), hsl(338 40% 35%));
-  --gradient-success: linear-gradient(135deg, hsl(320 20% 38%), hsl(53 10% 13%));
-  --gradient-hero: linear-gradient(135deg, hsl(338 40% 35% / 0.15), hsl(320 20% 38% / 0.15));
+  --gradient-primary: linear-gradient(135deg, hsl(357 55% 60%), hsl(357 50% 55%));
+  --gradient-accent: linear-gradient(135deg, hsl(357 50% 55%), hsl(357 55% 60%));
+  --gradient-success: linear-gradient(135deg, hsl(142 60% 50%), hsl(142 70% 45%));
+  --gradient-hero: linear-gradient(135deg, hsl(357 55% 60% / 0.20), hsl(357 50% 55% / 0.20));
 
     --shadow-sm: 0 1px 2px 0 hsl(222 40% 2% / 0.06);
     --shadow-md: 0 4px 12px -2px hsl(222 40% 2% / 0.2);
@@ -46,49 +46,49 @@
 @layer base {
   .dark {
   --background: 53 10% 13%; /* #35302d noir pirate */
-  --foreground: 210 40% 98%; /* bleu clair pour texte principal */
-  --card: 53 10% 16%; /* #3b4245 grisbleu foncé */
-  --card-foreground: 210 60% 92%; /* bleu-gris éclairci pour texte sur card */
-  --popover: 53 10% 16%;
-  --popover-foreground: 210 60% 92%;
-  --primary: 210 60% 62%; /* bleu clair pour éléments principaux */
-  --primary-foreground: 53 10% 13%;
-  --secondary: 210 40% 80%; /* gris-bleu éclairci pour éléments secondaires */
-  --secondary-foreground: 53 10% 13%;
-  --accent: 210 60% 62%; /* bleu clair accent pirate */
-  --accent-foreground: 53 10% 13%;
-  --destructive: 338 40% 35%; /* #7d3437 rouge foncé */
-  --destructive-foreground: 210 60% 92%;
-  --muted: 210 40% 30%; /* gris-bleu foncé pour muted */
-  --muted-foreground: 210 60% 92%;
-  --border: 210 40% 30%;
-  --input: 210 40% 30%;
-  --ring: 210 60% 62%; /* bleu clair pour ring */
+  --foreground: 210 40% 98%; /* Texte très clair pour meilleur contraste */
+  --card: 53 10% 18%; /* Légèrement plus clair pour meilleure visibilité */
+  --card-foreground: 210 40% 98%; /* Texte très clair */
+  --popover: 53 10% 18%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 357 55% 60%; /* #d65f63 nouveau rose/coral clair */
+  --primary-foreground: 53 10% 13%; /* Texte sombre pour meilleur contraste */
+  --secondary: 357 50% 55%; /* Variante légèrement plus foncée */
+  --secondary-foreground: 210 40% 98%;
+  --accent: 357 55% 60%; /* #d65f63 nouveau rose/coral clair */
+  --accent-foreground: 53 10% 13%; /* Texte sombre pour meilleur contraste */
+  --destructive: 0 70% 55%; /* Rouge plus vif pour erreurs */
+  --destructive-foreground: 210 40% 98%;
+  --muted: 53 10% 22%; /* Plus clair pour meilleure visibilité */
+  --muted-foreground: 210 40% 85%; /* Plus clair pour meilleur contraste */
+  --border: 53 10% 28%; /* Plus clair pour meilleure visibilité */
+  --input: 53 10% 24%; /* Plus clair pour meilleure visibilité */
+  --ring: 357 55% 60%; /* Nouveau rose/coral pour focus */
   --radius: 0.75rem;
-  --gradient-hero: linear-gradient(135deg, hsl(210 60% 62% / 0.12), hsl(210 40% 80% / 0.12));
+  --gradient-hero: linear-gradient(135deg, hsl(357 55% 60% / 0.20), hsl(357 50% 55% / 0.20));
   }
   .light {
-    --background: 320 20% 98%; /* #f7f3f6 violet très pâle */
-    --foreground: 53 10% 13%; /* #35302d noir pirate */
-    --card: 320 20% 96%; /* #ede3ea gris-violet pâle */
-    --card-foreground: 53 10% 13%;
-    --popover: 320 20% 96%;
-    --popover-foreground: 53 10% 13%;
-    --primary: 338 40% 35%; /* #7d3437 rouge foncé */
-    --primary-foreground: 320 20% 98%;
-    --secondary: 320 20% 38%; /* #784c51 violet pirate */
-    --secondary-foreground: 320 20% 98%;
-    --accent: 320 20% 38%; /* #784c51 violet pirate */
-    --accent-foreground: 320 20% 98%;
-    --destructive: 338 40% 35%; /* #7d3437 rouge foncé */
-    --destructive-foreground: 320 20% 98%;
-    --muted: 320 20% 94%; /* #e6dbe2 gris-violet pâle */
-    --muted-foreground: 53 10% 35%;
-    --border: 320 20% 90%;
-    --input: 320 20% 90%;
-    --ring: 320 20% 38%;
+    --background: 0 0% 98%; /* Blanc presque pur pour meilleur contraste */
+    --foreground: 53 10% 15%; /* Noir plus foncé pour meilleur contraste */
+    --card: 0 0% 96%; /* Gris très clair */
+    --card-foreground: 53 10% 15%; /* Texte foncé pour meilleur contraste */
+    --popover: 0 0% 96%;
+    --popover-foreground: 53 10% 15%;
+    --primary: 357 55% 50%; /* #d65f63 légèrement plus foncé pour mode clair */
+    --primary-foreground: 0 0% 98%; /* Texte blanc pour meilleur contraste */
+    --secondary: 357 50% 48%; /* Variante pour mode clair */
+    --secondary-foreground: 0 0% 98%;
+    --accent: 357 55% 50%; /* #d65f63 pour mode clair */
+    --accent-foreground: 0 0% 98%; /* Texte blanc pour meilleur contraste */
+    --destructive: 0 70% 50%; /* Rouge vif pour erreurs */
+    --destructive-foreground: 0 0% 98%;
+    --muted: 0 0% 92%; /* Gris clair */
+    --muted-foreground: 53 10% 40%; /* Texte plus foncé pour meilleur contraste */
+    --border: 0 0% 85%; /* Bordure plus visible */
+    --input: 0 0% 90%; /* Input plus visible */
+    --ring: 357 55% 50%; /* Nouveau rose/coral pour focus */
     --radius: 0.75rem;
-    --gradient-hero: linear-gradient(135deg, hsl(338 40% 35% / 0.10), hsl(320 20% 38% / 0.10));
+    --gradient-hero: linear-gradient(135deg, hsl(357 55% 50% / 0.15), hsl(357 50% 48% / 0.15));
   }
 }
 
@@ -108,12 +108,62 @@
 }
 
 @layer components {
-  .gradient-text { @apply bg-clip-text text-transparent; background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent))); }
-  .card-hover { transition: all 0.3s ease; }
-  .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 40px -10px hsl(0 0% 0% / 0.5); }
-  .xp-bar { @apply relative h-3 w-full overflow-hidden rounded-full bg-muted; }
-  .xp-bar-fill { @apply h-full rounded-full transition-all duration-500; background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary))); }
-  .level-badge { @apply inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm font-bold; background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent))); }
+  .gradient-text { 
+    @apply bg-clip-text text-transparent font-bold; 
+    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent))); 
+  }
+  
+  /* Scrollbar personnalisée pour le chat */
+  .crackn-chat-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+  .crackn-chat-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .crackn-chat-scroll::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 4px;
+  }
+  .crackn-chat-scroll::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+  .card-hover { 
+    transition: all 0.3s ease; 
+  }
+  .card-hover:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 10px 40px -10px hsl(0 0% 0% / 0.5); 
+  }
+  .xp-bar { 
+    @apply relative h-3 w-full overflow-hidden rounded-full; 
+    background-color: hsl(var(--muted)); 
+    border: 1px solid hsl(var(--border)); 
+  }
+  .xp-bar-fill { 
+    @apply h-full rounded-full transition-all duration-500; 
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent))); 
+  }
+  .level-badge { 
+    @apply inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm font-bold text-primary-foreground; 
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent))); 
+    border: 1px solid hsl(var(--primary) / 0.3);
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.2);
+  }
+  
+  /* Amélioration de la visibilité des textes */
+  .text-foreground {
+    color: hsl(var(--foreground));
+  }
+  .text-muted-foreground {
+    color: hsl(var(--muted-foreground));
+    opacity: 0.9;
+  }
+  
+  /* Amélioration des boutons pour meilleur contraste */
+  button, .btn {
+    font-weight: 500;
+    letter-spacing: 0.025em;
+  }
 }
 
 @layer utilities {
@@ -213,5 +263,29 @@
   @keyframes fade-in {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.5s ease-out;
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(50px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  
+  .animate-scale-in {
+    animation: scale-in 0.5s ease-out;
+  }
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+    to { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+  
+  .animate-shimmer {
+    animation: shimmer 2s infinite;
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
   }
 }

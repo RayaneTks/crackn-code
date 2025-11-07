@@ -5,17 +5,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-accent/20 bg-card/80 text-base font-medium tracking-wide ring-offset-background transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30 focus-visible:ring-offset-2 hover:bg-accent/10 hover:text-accent disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-5 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl border text-base font-medium tracking-wide ring-offset-background transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-5 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-card/80 text-accent border-accent/20 hover:bg-accent/10 hover:text-accent",
-        destructive: "bg-destructive/10 text-destructive border-destructive/30 hover:bg-destructive/20 hover:text-destructive",
-        outline: "bg-transparent text-accent border-accent/30 hover:bg-accent/5",
-        secondary: "bg-accent/10 text-accent border-accent/20 hover:bg-accent/20",
-        ghost: "bg-transparent text-accent border-none hover:bg-accent/10",
-        link: "text-accent underline underline-offset-4 hover:text-accent/80",
-        pirate: "bg-accent/10 text-accent border-accent/40 hover:bg-accent/20 hover:text-accent/80 font-semibold tracking-wider",
+        default: "bg-primary text-primary-foreground border-primary/30 hover:bg-primary/90 hover:border-primary/50 shadow-md hover:shadow-lg",
+        destructive: "bg-destructive text-destructive-foreground border-destructive/30 hover:bg-destructive/90 hover:border-destructive/50 shadow-md",
+        outline: "bg-transparent text-primary border-primary/40 hover:bg-primary/10 hover:text-primary/90",
+        secondary: "bg-secondary text-secondary-foreground border-secondary/30 hover:bg-secondary/90 hover:border-secondary/50",
+        ghost: "bg-transparent text-foreground border-none hover:bg-muted hover:text-foreground",
+        link: "text-primary underline underline-offset-4 hover:text-primary/80 bg-transparent border-none",
+        pirate: "bg-accent/20 text-accent-foreground border-accent/40 hover:bg-accent/30 hover:text-accent-foreground font-semibold tracking-wider shadow-md",
       },
       size: {
         default: "h-10 px-4 py-2 text-base",

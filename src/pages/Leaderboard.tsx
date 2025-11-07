@@ -53,7 +53,7 @@ const Leaderboard = () => {
             <Trophy className="w-8 h-8 text-primary animate-pulse-glow" />
           </div>
           <h1 className="text-3xl font-bold text-foreground">Classement</h1>
-          <p className="text-muted-foreground">Les meilleurs développeurs du Game of Code</p>
+          <p className="text-muted-foreground">Les meilleurs développeurs de Crack'n Code</p>
         </div>
         {/* PirateDivider sous le header */}
         <div className="px-8 pb-2">

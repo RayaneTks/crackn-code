@@ -53,8 +53,14 @@ const storySteps: StoryStep[] = [
     duration: 7000,
   },
   {
+    id: 6.5,
+    text: "Dans les profondeurs, un petit poulpe bienveillant t'attend : Crack'n, dernier gardien du code. Il sera ton guide et ton compagnon dans cette quête.",
+    icon: <span className="text-8xl animate-bounce">🐙</span>,
+    duration: 8000,
+  },
+  {
     id: 7,
-    text: "HTML, JavaScript, PHP, SQL, Python, Java, C# et C++... Chaque langage maîtrisé affaiblit le Kraken.",
+    text: "HTML, JavaScript, PHP, SQL, Python, Java, C# et C++... Chaque langage maîtrisé affaiblit le Kraken. Avec Crack'n à tes côtés, tu n'es pas seul.",
     icon: <Zap className="w-20 h-20 text-accent animate-pulse" />,
     duration: 8000,
   },

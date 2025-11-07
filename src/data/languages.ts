@@ -9,7 +9,7 @@ export const languages: Language[] = [
   {
     id: "html",
     name: "HTML/CSS",
-    icon: "🧱",
+    icon: "🧱", // Garde l'emoji comme fallback, mais on utilisera l'image
     color: "hsl(14 85% 57%)",
     description: "Structure et styles: démarre avec un mini‑jeu interactif",
     currentLevel: 1,

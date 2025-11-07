@@ -4,6 +4,8 @@ import { useCountdown } from "@/hooks/useCountdown";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
+import { Code2, Clock, CheckCircle2, XCircle, Zap, Trophy, Target, Lightbulb, Sparkles } from "lucide-react";
+import { LevelCompleteCinematic } from "@/components/storytelling/LevelCompleteCinematic";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
 
@@ -89,6 +91,8 @@ export function CodeFillRunner({
 }) {
     const passing = game.passingScorePercent ?? 100;
     const [started, setStarted] = useState(false);
+    const [showCinematic, setShowCinematic] = useState(false);
+    const [completedData, setCompletedData] = useState<{isFirst: boolean; isLanguageComplete: boolean} | null>(null);
 
     const tokens = useMemo(() => tokenizeSnippet(game.snippet), [game.snippet]);
     const blankIds = useMemo(
@@ -173,16 +177,37 @@ export function CodeFillRunner({
 
             if (res.ok) {
                 const data = await res.json();
-                toast.success(`Niveau complété ! +${xpReward || 0} XP`);
-                if (data.newAchievements && data.newAchievements.length > 0) {
-                    setTimeout(() => {
-                        data.newAchievements.forEach((achievement: string) => {
-                            toast.success(`🎉 Nouveau succès débloqué ! ${achievement}`);
-                        });
-                    }, 500);
-                }
-                if (onExit) {
-                    setTimeout(() => onExit(), 1500);
+                const wasAlreadyCompleted = data.wasAlreadyCompleted || false;
+                
+                if (wasAlreadyCompleted) {
+                    toast.success("Niveau complété ! (Déjà complété précédemment - pas de gain d'XP)");
+                    if (onExit) {
+                        setTimeout(() => onExit(), 1500);
+                    }
+                } else {
+                    const languagesResponse = await fetch(`${API_BASE}/api/languages`, {
+                        credentials: "include",
+                    });
+                    let currentLang = null;
+                    if (languagesResponse.ok) {
+                        const languagesData = await languagesResponse.json();
+                        currentLang = languagesData.languages?.find((l: any) => l.id === languageId);
+                    }
+                    
+                    const isFirstLevel = currentLang?.completedLevels === 0 && levelNumber === 1;
+                    const totalLevels = 5;
+                    const isLanguageComplete = currentLang ? (currentLang.completedLevels + 1) >= totalLevels : false;
+                    
+                    setCompletedData({ isFirst: isFirstLevel, isLanguageComplete });
+                    setShowCinematic(true);
+                    
+                    if (data.newAchievements && data.newAchievements.length > 0) {
+                        setTimeout(() => {
+                            data.newAchievements.forEach((achievement: string) => {
+                                toast.success(`🎉 Nouveau succès débloqué ! ${achievement}`);
+                            });
+                        }, 500);
+                    }
                 }
             } else {
                 toast.error("Erreur lors de la validation du niveau");
@@ -193,114 +218,286 @@ export function CodeFillRunner({
         }
     };
 
-    return (
-        <div className="mt-4 space-y-4">
-            <Tabs defaultValue="learn">
-                <TabsList>
-                    <TabsTrigger value="learn">Apprendre</TabsTrigger>
-                    <TabsTrigger value="play">Jouer</TabsTrigger>
-                </TabsList>
+    const getLanguageName = () => {
+        const langMap: Record<string, string> = {
+            html: "HTML/CSS", javascript: "JavaScript", php: "PHP", sql: "SQL",
+            python: "Python", java: "Java", csharp: "C#", cpp: "C++",
+        };
+        return langMap[languageId || ""] || languageId || "Ce langage";
+    };
 
-                <TabsContent value="learn">
-                    <Card className="p-4">
-                        <h2 className="text-xl font-bold text-foreground mb-2">
-                            {levelTitle ?? "Code Fill — Complète le code"}
-                        </h2>
-                        <div className="text-sm text-muted-foreground">
-                            <p>
-                                Complète les trous du code avec les bons mots‑clés et valeurs.
-                                Utilise l'onglet Jouer pour t'entraîner sous un timer.
-                            </p>
+    const handleCinematicComplete = () => {
+        setShowCinematic(false);
+        setCompletedData(null);
+        if (onExit) {
+            setTimeout(() => onExit(), 500);
+        }
+    };
+
+    return (
+        <>
+            {showCinematic && completedData && (
+                <LevelCompleteCinematic
+                    levelTitle={levelTitle || `Niveau ${levelNumber}`}
+                    languageName={getLanguageName()}
+                    xpEarned={xpReward || 0}
+                    isFirstLevel={completedData.isFirst}
+                    isLanguageComplete={completedData.isLanguageComplete}
+                    onContinue={handleCinematicComplete}
+                />
+            )}
+            
+            <div className="space-y-6">
+                {/* Header immersif */}
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-900/20 via-pink-900/20 to-red-900/20 border-2 border-purple-500/30 p-6">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.1),transparent_70%)] animate-pulse" />
+                    <div className="relative z-10">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-3">
+                                <div className="p-3 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-400/30">
+                                    <Code2 className="w-6 h-6 text-purple-400" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-foreground">Code Fill Challenge</h3>
+                                    <p className="text-sm text-muted-foreground">Complète les trous du code</p>
+                                </div>
+                            </div>
+                            {xpReward && (
+                                <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-400/30">
+                                    <Zap className="w-5 h-5 text-yellow-400" />
+                                    <span className="font-bold text-yellow-400">+{xpReward} XP</span>
+                                </div>
+                            )}
+                        </div>
+                        
+                        {/* Timer et progression */}
+                        {started && !finished && typeof remaining === "number" && (
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2 text-sm">
+                                    <Clock className={`w-4 h-4 ${remaining <= 10 ? 'text-red-400 animate-pulse' : 'text-purple-400'}`} />
+                                    <span className={`font-bold ${remaining <= 10 ? 'text-red-400' : 'text-foreground'}`}>
+                                        {formatSeconds(remaining)}
+                                    </span>
+                                </div>
+                                <div className="text-sm text-muted-foreground">
+                                    {correctCount}/{total} corrects
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <Tabs defaultValue="learn">
+                    <TabsList className="grid w-full grid-cols-2 bg-muted/50">
+                        <TabsTrigger value="learn" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500">
+                            <Lightbulb className="w-4 h-4 mr-2" />
+                            Apprendre
+                        </TabsTrigger>
+                        <TabsTrigger value="play" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-500 data-[state=active]:to-red-500">
+                            <Target className="w-4 h-4 mr-2" />
+                            Jouer
+                        </TabsTrigger>
+                    </TabsList>
+
+                <TabsContent value="learn" className="mt-4">
+                    <Card className="p-6 bg-gradient-to-br from-slate-900/50 via-purple-900/30 to-slate-800/50 border-purple-500/20 shadow-xl">
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500/30 to-pink-500/30 border border-purple-400/50">
+                                    <Sparkles className="w-6 h-6 text-purple-400 animate-pulse" />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-bold text-foreground">
+                                        {levelTitle ?? "Code Fill — Complète le code"}
+                                    </h2>
+                                    <p className="text-xs text-muted-foreground">Leçon interactive</p>
+                                </div>
+                            </div>
+                            <div className="px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-400/30">
+                                <span className="text-xs font-bold text-purple-300">📚 Théorie</span>
+                            </div>
+                        </div>
+                        <div className="p-4 rounded-lg bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
+                            <div className="flex items-start gap-3">
+                                <div className="w-1 h-full bg-gradient-to-b from-purple-500 to-pink-500 rounded-full min-h-[40px]" />
+                                <div className="flex-1 space-y-2">
+                                    <p className="text-sm text-foreground leading-relaxed font-medium">
+                                        Complète les trous du code avec les bons mots‑clés et valeurs.
+                                    </p>
+                                    <div className="flex items-center gap-2 mt-3">
+                                        <div className="px-2 py-1 rounded-md bg-background/50 border border-purple-500/20">
+                                            <span className="text-xs font-mono text-purple-300">💡 Astuce</span>
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">
+                                            Utilise l'onglet Jouer pour t'entraîner sous un timer.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </Card>
                 </TabsContent>
 
-                <TabsContent value="play">
+                <TabsContent value="play" className="mt-4">
                     <div className="space-y-4">
-                        <div className="flex items-center justify-between text-sm text-muted-foreground">
-                            {!finished ? (
-                                <>
-                                    <span>Blocs à compléter: {correctCount}/{total} corrects (provisoire)</span>
-                                    {typeof remaining === "number" && (
-                                        <span className={remaining <= 10 ? "text-red-500" : ""}>{formatSeconds(remaining)}</span>
-                                    )}
-                                </>
-                            ) : (
-                                <span>Exercice terminé</span>
-                            )}
-                        </div>
-
                         {!finished ? (
                             <div className="space-y-4">
                                 {!started ? (
-                                    <div className="flex items-center gap-2">
-                                        <Button onClick={() => setStarted(true)}>Lancer l'exercice</Button>
-                                        <Button variant="secondary" onClick={handleRestart}>Réinitialiser</Button>
-                                    </div>
+                                    <Card className="p-6 bg-gradient-to-br from-purple-900/30 to-pink-900/30 border-purple-500/20 text-center">
+                                        <div className="space-y-4">
+                                            <div className="text-6xl mb-4">🎯</div>
+                                            <h3 className="text-xl font-bold text-foreground">Prêt pour le défi ?</h3>
+                                            <p className="text-sm text-muted-foreground">
+                                                {game.timeLimitSeconds ? `Tu as ${formatSeconds(game.timeLimitSeconds)} pour compléter le code` : "Complète tous les trous du code"}
+                                            </p>
+                                            <div className="flex items-center justify-center gap-3 pt-4">
+                                                <Button 
+                                                    onClick={() => setStarted(true)}
+                                                    size="lg"
+                                                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                                                >
+                                                    <Sparkles className="w-5 h-5 mr-2" />
+                                                    Commencer
+                                                </Button>
+                                                <Button variant="secondary" onClick={handleRestart} size="lg">
+                                                    Réinitialiser
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </Card>
                                 ) : (
                                     <>
-                                        {/* Zone code */}
-                                        <div className="border rounded-md p-3 bg-muted">
-                                            <pre className="font-mono text-sm whitespace-pre-wrap break-words">
-                                                {tokens.map((tk, idx) =>
-                                                    tk.type === "text" ? (
-                                                        <span key={idx}>{tk.text}</span>
-                                                    ) : (
-                                                        <InlineBlank
-                                                            key={idx}
-                                                            id={tk.id}
-                                                            def={game.blanks.find((b) => b.id === tk.id)}
-                                                            value={values[tk.id] ?? ""}
-                                                            onChange={(v) => handleChange(tk.id, v)}
-                                                            onSelectChoice={(v) => handleSelectChoice(tk.id, v)}
-                                                            showResult={finished}
-                                                            correct={
-                                                                finished
-                                                                    ? isAnswerCorrect(
-                                                                        values[tk.id] ?? "",
-                                                                        game.blanks.find((b) => b.id === tk.id)!
-                                                                    )
-                                                                    : undefined
-                                                            }
-                                                        />
-                                                    )
+                                        {/* Zone code avec style immersif */}
+                                        <Card className="p-0 overflow-hidden border-purple-500/30 bg-gradient-to-br from-slate-900/80 to-slate-800/80">
+                                            <div className="border-b border-purple-500/30 px-4 py-3 bg-gradient-to-r from-purple-900/30 to-pink-900/30 flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <Code2 className="w-4 h-4 text-purple-400" />
+                                                    <span className="text-xs font-medium text-purple-300">Code à compléter</span>
+                                                </div>
+                                                {typeof remaining === "number" && (
+                                                    <div className={`flex items-center gap-2 ${remaining <= 10 ? 'text-red-400 animate-pulse' : 'text-muted-foreground'}`}>
+                                                        <Clock className="w-4 h-4" />
+                                                        <span className="text-xs font-bold">{formatSeconds(remaining)}</span>
+                                                    </div>
                                                 )}
-                                            </pre>
-                                        </div>
+                                            </div>
+                                            <div className="p-6 bg-background/50">
+                                                <pre className="font-mono text-sm whitespace-pre-wrap break-words text-foreground leading-relaxed">
+                                                    {tokens.map((tk, idx) =>
+                                                        tk.type === "text" ? (
+                                                            <span key={idx} className="text-foreground">{tk.text}</span>
+                                                        ) : (
+                                                            <InlineBlank
+                                                                key={idx}
+                                                                id={tk.id}
+                                                                def={game.blanks.find((b) => b.id === tk.id)}
+                                                                value={values[tk.id] ?? ""}
+                                                                onChange={(v) => handleChange(tk.id, v)}
+                                                                onSelectChoice={(v) => handleSelectChoice(tk.id, v)}
+                                                                showResult={finished}
+                                                                correct={
+                                                                    finished
+                                                                        ? isAnswerCorrect(
+                                                                            values[tk.id] ?? "",
+                                                                            game.blanks.find((b) => b.id === tk.id)!
+                                                                        )
+                                                                        : undefined
+                                                                }
+                                                            />
+                                                        )
+                                                    )}
+                                                </pre>
+                                            </div>
+                                        </Card>
 
                                         {/* Actions */}
-                                        <div className="flex items-center gap-2">
-                                            <Button onClick={handleFinish}>Terminer</Button>
-                                            <Button variant="secondary" onClick={handleRestart}>Réinitialiser</Button>
+                                        <div className="flex items-center justify-center gap-3">
+                                            <Button 
+                                                onClick={handleFinish}
+                                                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                                            >
+                                                <Trophy className="w-4 h-4 mr-2" />
+                                                Terminer
+                                            </Button>
+                                            <Button variant="secondary" onClick={handleRestart}>
+                                                Réinitialiser
+                                            </Button>
                                         </div>
                                     </>
                                 )}
                             </div>
                         ) : (
                             <div className="space-y-4">
-                                <div className={["p-4 rounded-md border", passed ? "border-green-500 bg-green-50 text-green-700" : "border-amber-500 bg-amber-50 text-amber-700"].join(" ")}>
-                                    <div className="font-semibold">{passed ? "Bravo !" : "C'est presque bon !"}</div>
-                                    <div className="text-sm mt-1">Score: {correctCount} / {total} ({scorePercent}%) — Seuil: {passing}%.</div>
-                                </div>
-                                {/* Détails des réponses */}
-                                <div className="space-y-2">
+                                <Card className={`p-6 border-2 ${passed ? "border-green-500/50 bg-gradient-to-br from-green-900/30 to-emerald-900/30" : "border-amber-500/50 bg-gradient-to-br from-amber-900/30 to-orange-900/30"}`}>
+                                    <div className="flex items-center gap-3 mb-3">
+                                        {passed ? (
+                                            <CheckCircle2 className="w-8 h-8 text-green-400" />
+                                        ) : (
+                                            <XCircle className="w-8 h-8 text-amber-400" />
+                                        )}
+                                        <div>
+                                            <div className="font-bold text-lg text-foreground">{passed ? "Bravo ! 🎉" : "C'est presque bon ! 💪"}</div>
+                                            <div className="text-sm text-muted-foreground mt-1">
+                                                Score: {correctCount} / {total} ({scorePercent}%) — Seuil: {passing}%
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Card>
+                                
+                                {/* Détails des réponses avec style amélioré */}
+                                <div className="space-y-3">
                                     {game.blanks.map((b) => {
                                         const ok = (resultPerBlank as any)[b.id];
                                         const expected = Array.isArray(b.answer) ? b.answer.join(" | ") : b.answer;
                                         return (
-                                            <div key={b.id} className={["border rounded-md p-3 text-sm", ok ? "border-green-300 bg-green-50" : "border-red-300 bg-red-50"].join(" ")}>
-                                                <div className="font-medium mb-1">Trou n°{b.id}: {ok ? "Correct" : "Incorrect"}</div>
-                                                {!ok && <div className="text-muted-foreground">Votre réponse: “{values[b.id] ?? ""}”</div>}
-                                                <div className="text-muted-foreground">Réponse attendue: {expected}</div>
-                                                {b.explanation && <div className="text-muted-foreground mt-1">{b.explanation}</div>}
-                                            </div>
+                                            <Card key={b.id} className={`p-4 border ${ok ? "border-green-500/30 bg-green-900/20" : "border-red-500/30 bg-red-900/20"}`}>
+                                                <div className="flex items-start gap-3">
+                                                    {ok ? (
+                                                        <CheckCircle2 className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                                                    ) : (
+                                                        <XCircle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
+                                                    )}
+                                                    <div className="flex-1 space-y-1">
+                                                        <div className="font-medium text-sm text-foreground">
+                                                            Trou n°{b.id}: {ok ? "Correct ✅" : "Incorrect ❌"}
+                                                        </div>
+                                                        {!ok && (
+                                                            <div className="text-xs text-muted-foreground">
+                                                                Votre réponse: <span className="font-mono bg-background/50 px-1.5 py-0.5 rounded">"{values[b.id] ?? ""}"</span>
+                                                            </div>
+                                                        )}
+                                                        <div className="text-xs text-muted-foreground">
+                                                            Réponse attendue: <span className="font-mono bg-background/50 px-1.5 py-0.5 rounded">{expected}</span>
+                                                        </div>
+                                                        {b.explanation && (
+                                                            <div className="text-xs text-muted-foreground mt-2 p-2 rounded bg-background/30 border border-border/50">
+                                                                💡 {b.explanation}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </Card>
                                         );
                                     })}
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    {onExit && <Button variant="ghost" onClick={onExit}>Quitter</Button>}
-                                    <Button disabled={!passed} onClick={handleCompleteLevel}>Valider le niveau</Button>
-                                    <Button variant="secondary" onClick={handleRestart}>Recommencer</Button>
+                                
+                                <div className="flex items-center justify-center gap-3 pt-2">
+                                    {onExit && (
+                                        <Button variant="ghost" onClick={onExit}>
+                                            Quitter
+                                        </Button>
+                                    )}
+                                    <Button 
+                                        disabled={!passed} 
+                                        onClick={handleCompleteLevel}
+                                        className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 disabled:opacity-50"
+                                    >
+                                        <Trophy className="w-4 h-4 mr-2" />
+                                        Valider le niveau
+                                    </Button>
+                                    <Button variant="secondary" onClick={handleRestart}>
+                                        Recommencer
+                                    </Button>
                                 </div>
                             </div>
                         )}
@@ -308,6 +505,7 @@ export function CodeFillRunner({
                 </TabsContent>
             </Tabs>
         </div>
+        </>
     );
 }
 
@@ -329,14 +527,14 @@ function InlineBlank({
     correct?: boolean;
 }) {
     const baseClass =
-        "align-baseline inline-flex items-center mx-1 px-1 rounded-sm";
+        "align-baseline inline-flex items-center mx-1 px-2 py-1 rounded transition-all";
     const borderClass = showResult
         ? correct
-            ? "outline outline-2 outline-green-500"
-            : "outline outline-2 outline-red-500"
-        : "outline outline-1 outline-border";
+            ? "outline outline-2 outline-green-500 bg-green-500/20"
+            : "outline outline-2 outline-red-500 bg-red-500/20"
+        : "outline outline-1 outline-purple-500/50 bg-purple-500/10 hover:bg-purple-500/20 focus-within:outline-purple-400";
     const commonStyle = [
-        "font-mono text-sm bg-background",
+        "font-mono text-sm font-medium",
         baseClass,
         borderClass,
     ].join(" ");
