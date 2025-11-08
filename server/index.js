@@ -7,13 +7,24 @@ import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { randomUUID } from "crypto";
 import { PrismaClient } from "@prisma/client";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const DEFAULT_PORT = Number(process.env.PORT) || 4000;
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "http://localhost:8080";
 const prisma = new PrismaClient();
+const isProduction = process.env.NODE_ENV === "production";
+
+// Trust proxy pour Alwaysdata (si reverse proxy)
+if (isProduction) {
+	app.set("trust proxy", 1);
+}
 
 // In-memory user store (squelette). À remplacer par une vraie base plus tard
 const usersByGoogleId = new Map();
@@ -935,10 +946,28 @@ app.post("/api/admin/add-xp", async (req, res) => {
 // FIN ADMIN
 // ============================================
 
+// Servir les fichiers statiques du frontend en production
+// IMPORTANT: Cette route doit être la dernière, après toutes les routes API
+if (isProduction) {
+	const distPath = path.join(__dirname, "..", "dist");
+	app.use(express.static(distPath));
+	
+	// Route catch-all: renvoie index.html pour toutes les routes qui ne sont pas des API
+	// Cela permet au routing côté client (React Router) de fonctionner
+	app.get("*", (req, res) => {
+		res.sendFile(path.join(distPath, "index.html"));
+	});
+}
+
 // Dev-friendly startup: if port is busy and no explicit PORT is set, try the next port.
 function startServer(port) {
-    const server = app.listen(port, () => {
-        console.log(`Auth server running on http://localhost:${port}`);
+    // En production, écouter sur toutes les interfaces (0.0.0.0) pour Alwaysdata
+    const host = isProduction ? "0.0.0.0" : "localhost";
+    const server = app.listen(port, host, () => {
+        console.log(`Server running on http://${host}:${port}`);
+        if (isProduction) {
+            console.log(`Production mode: serving static files from dist/`);
+        }
         if (hasGoogleCreds && !process.env.GOOGLE_CALLBACK_URL && port !== DEFAULT_PORT) {
             console.warn(
                 `[Auth] Attention: port modifié (${port}) mais GOOGLE_CALLBACK_URL n'est pas défini. Le callback Google par défaut vise le port ${DEFAULT_PORT}. Définissez GOOGLE_CALLBACK_URL pour OAuth.`,
