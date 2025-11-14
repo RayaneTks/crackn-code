@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model language {
+  id       String     @id
+  position position[]
+}
+
+model personalisation {
+  id_user            String  @id
+  accessories        String?
+  hat_colors         String?
+  hair_colors        String?
+  facial_hair_types  String?
+  facial_hair_colors String?
+  clothes            String?
+  clothes_colors     String?
+  graphics           String?
+  eyes               String?
+  eyebrows           String?
+  skin_colors        String?
+  mouth_types        String?
+  hair               String?
+  user               user    @relation(fields: [id_user], references: [id_google], onDelete: Cascade, map: "PERSONALISATION_id_user_fkey")
+}
+
+model position {
+  id              Int      @id @default(autoincrement())
+  id_user         String
+  id_level        String
+  completed_level Int      @default(0)
+  language        language @relation(fields: [id_level], references: [id], onDelete: Cascade, map: "position_ibfk_1")
+  user            user     @relation(fields: [id_user], references: [id_google], onDelete: Cascade, map: "position_ibfk_2")
+
+  @@unique([id_user, id_level])
+  @@index([id_level], map: "id_level")
+  @@index([id_user], map: "id_user")
+}
+
+model succes {
+  id      Int    @id @default(autoincrement())
+  image   String @db.VarChar(255)
+  id_user String
+  user    user   @relation(fields: [id_user], references: [id_google], onDelete: Cascade, map: "succes_ibfk_1")
+
+  @@index([id_user], map: "id_user")
+}
+
+model activity {
+  id          Int      @id @default(autoincrement())
+  id_user     String
+  language_id String
+  level_title String   @db.VarChar(255)
+  xp_earned   Int
+  created_at  DateTime @default(now())
+  user        user     @relation(fields: [id_user], references: [id_google], onDelete: Cascade)
+
+  @@index([id_user], map: "activity_id_user_idx")
+  @@index([created_at], map: "activity_created_at_idx")
+}
+
+model user {
+  id_google       String           @id
+  nom             String
+  prenom          String
+  xp_global       Int
+  personalisation personalisation?
+  position        position[]
+  succes          succes[]
+  activity        activity[]
+}
