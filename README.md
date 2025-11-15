@@ -2,7 +2,7 @@
 
 **Apprends à coder en jouant !**
 
-Crack'N Code est une plateforme d'apprentissage interactive qui te permet de maîtriser 8 langages de programmation à travers des défis captivants et des mini-jeux.
+Crack'N Code est une plateforme d'apprentissage interactive qui te permet de découvrir et explorer 8 langages de programmation à travers des mini-jeux captivants, des défis de code et une aventure épique contre le Kraken du Code !
 
 🌐 **Application en ligne** : [https://crackn-code.alwaysdata.net/](https://crackn-code.alwaysdata.net/)
 
@@ -12,12 +12,22 @@ Crack'N Code est une plateforme d'apprentissage interactive qui te permet de ma�
 
 ## ✨ Fonctionnalités
 
-- 🎮 **Apprentissage gamifié** : Progresse à travers différents niveaux de difficulté
-- 💻 **8 langages de programmation** : HTML/CSS, JavaScript, Python, Java, C++, PHP, SQL, et plus
+- 🎮 **Apprentissage gamifié** : Progresse à travers différents niveaux de difficulté (débutant, intermédiaire, avancé)
+- 💻 **8 langages de programmation** : HTML/CSS, JavaScript, Python, Java, C++, C#, PHP, SQL
+- 🎯 **Mini-jeux interactifs** :
+  - **HTML Builder** : Construis des pages web en manipulant du code HTML
+  - **Quiz** : Teste tes connaissances avec des questions à choix multiples
+  - **Code Assembly** : Assemble des blocs de code dans le bon ordre
+  - **Code Fill** : Complète du code en remplissant les trous
+  - **Syntax Invaders** : Jeu de tir spatial pour apprendre la syntaxe
+- 📚 **Leçons éducatives** : Accède à du contenu pédagogique avant chaque défi
 - 👤 **Authentification Google OAuth** : Connexion sécurisée avec ton compte Google
-- 📊 **Système de progression** : Suis ton avancement et débloque de nouveaux niveaux
-- 🎯 **Défis interactifs** : Résous des problèmes de code en temps réel
-- 🤖 **Assistant Crack'n** : Un chatbot pirate pour t'aider dans ton aventure
+- 📊 **Système de progression** : Gagne de l'XP, débloque de nouveaux niveaux et suis ton avancement
+- 🏆 **Système de succès** : Débloque des achievements en progressant
+- 🥇 **Classement** : Compare tes résultats avec ceux des autres joueurs
+- 🤖 **Assistant Crack'n** : Un compagnon pirate qui t'accompagne dans ton aventure
+- 🦑 **Combat de boss** : Affronte le Kraken du Code dans un combat épique en complétant des défis spéciaux
+- 🎨 **Personnalisation** : Crée et personnalise ton avatar de pirate
 
 ---
 
@@ -27,15 +37,15 @@ Crack'N Code est une plateforme d'apprentissage interactive qui te permet de ma�
 - **React** avec Vite
 - **TypeScript**
 - **Tailwind CSS** pour le styling
-- **Socket.io Client** pour la communication temps réel
+- **React Router** pour la navigation
+- **TanStack Query** pour la gestion des données
 
 ### Backend
 - **Node.js** avec Express
-- **TypeScript**
 - **Prisma ORM** pour la gestion de base de données
 - **MySQL** comme base de données
-- **Socket.io** pour le temps réel
 - **Passport.js** avec Google OAuth 2.0
+- **Express Session** pour la gestion des sessions
 
 ### Déploiement
 - Hébergement : **AlwaysData**
@@ -249,9 +259,13 @@ Cette commande va lancer :
 Votre application Crack'N Code est maintenant installée et fonctionne en local ! 
 
 **Prochaines étapes :**
-- Explorez les différents langages de programmation
-- Complétez les défis pour progresser
-- Personnalisez votre avatar de pirate
+- Explorez les 8 langages de programmation disponibles
+- Commencez par les niveaux débutants pour apprendre les bases
+- Complétez les mini-jeux pour gagner de l'XP et débloquer de nouveaux niveaux
+- Consultez les leçons avant chaque défi pour mieux comprendre les concepts
+- Personnalisez votre avatar de pirate dans votre profil
+- Comparez vos résultats avec les autres joueurs dans le classement
+- Affrontez le Kraken du Code une fois que vous avez progressé dans tous les langages !
 
 ---
 
